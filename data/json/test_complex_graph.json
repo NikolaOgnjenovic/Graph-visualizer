@@ -1,0 +1,43 @@
+{
+  "id": "proj_root",
+  "project": "Alpha",
+  "metadata": {
+    "owner": {"id": "u10", "name": "Eve"},
+    "tags": ["experimental", "v1"],
+    "links": [
+      {"reference": "srv-db"},
+      {"reference": "srv-api"}
+    ]
+  },
+  "services": [
+    {
+      "id": "srv-api",
+      "name": "API",
+      "depends_on": [
+        {"ref": "srv-db"},
+        {"ref": "srv-cache"}
+      ],
+      "endpoints": [
+        {"id": "ep1", "path": "/v1/users"},
+        {"id": "ep2", "path": "/v1/orders"}
+      ]
+    },
+    {
+      "id": "srv-db",
+      "name": "Database",
+      "replicas": [
+        {"id": "db1"},
+        {"id": "db2"}
+      ]
+    },
+    {
+      "id": "srv-cache",
+      "name": "Cache",
+      "parent_ref": "srv-api",
+      "nodes": [
+        {"id": "cache1", "zone": "A"},
+        {"id": "cache2", "zone": "B"}
+      ]
+    }
+  ]
+}

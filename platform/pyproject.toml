@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-platform"
+version = "0.1"
+description = "Core component of graph visualizer."
+dependencies = [
+    "graph-api==0.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools]
+provides = ["graph"]

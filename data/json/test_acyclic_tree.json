@@ -1,0 +1,40 @@
+{
+  "id": "root",
+  "name": "Company",
+  "departments": [
+    {
+      "id": "dep1",
+      "name": "Engineering",
+      "teams": [
+        {
+          "id": "team1",
+          "name": "Platform",
+          "members": [
+            {"id": "u1", "first": "Alice", "last": "Anderson"},
+            {"id": "u2", "first": "Bob", "last": "Baker"}
+          ]
+        },
+        {
+          "id": "team2",
+          "name": "Infra",
+          "members": [
+            {"id": "u3", "first": "Cara", "last": "Clark"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dep2",
+      "name": "HR",
+      "teams": [
+        {
+          "id": "team3",
+          "name": "PeopleOps",
+          "members": [
+            {"id": "u4", "first": "Dan", "last": "Daniels"}
+          ]
+        }
+      ]
+    }
+  ]
+}

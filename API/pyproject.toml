@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-api"
+version = "0.1"
+description = "Graph API."
+dependencies = []
+
+[tool.setuptools]
+provides = ["graph"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+

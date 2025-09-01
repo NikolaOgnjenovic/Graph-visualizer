@@ -1,4 +1,20 @@
 .idea
 venv
-__pycache__
+# Python build artifacts
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+# Caches
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+# Packaging helper
+pip-wheel-metadata/
+# Django
 webapp/db.sqlite3
+# OS files
+.DS_Store
+Thumbs.db

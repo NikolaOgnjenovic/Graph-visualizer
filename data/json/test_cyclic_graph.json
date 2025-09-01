@@ -1,0 +1,9 @@
+{
+  "id": "n1",
+  "name": "Node1",
+  "ref": "n2",
+  "children": [
+    {"id": "n2", "name": "Node2", "ref": "n3"},
+    {"id": "n3", "name": "Node3", "ref": "n1"}
+  ]
+}
