@@ -1,0 +1,195 @@
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  (function () {
+      const nodes = {{ nodes | tojson}};
+      const links = {{ edges | tojson}};
+
+      const svg = d3.select("#main-view");
+      const defs = svg.append("defs")
+      svg.append("defs").append("marker")
+              .attr("id", "main_arrow_highlight")
+              .attr("viewBox", "0 -5 10 10")
+              .attr("refX", 35)
+              .attr("refY", 0)
+              .attr("markerWidth", 6)
+              .attr("markerHeight", 6)
+              .attr("orient", "auto")
+              .append("path")
+              .attr("stroke-width",2)
+              .attr("d", "M0,-5L10,0L0,5")
+              .attr("fill", "#f39c12");
+      defs.append("marker")
+              .attr("id", "main_arrow")
+              .attr("viewBox", "0 -5 10 10")
+              .attr("refX", 35)
+              .attr("refY", 0)
+              .attr("markerWidth", 6)
+              .attr("markerHeight", 6)
+              .attr("orient", "auto")
+              .attr("stroke-width",2)
+              .append("path")
+              .attr("d", "M0,-5L10,0L0,5")
+              .attr("fill", "#000");
+      const gradient = defs.append("linearGradient")
+              .attr("id", "nodeGradient")
+              .attr("x1", "0%").attr("y1", "0%")
+              .attr("x2", "0%").attr("y2", "100%");
+
+      gradient.append("stop")
+              .attr("offset", "0%")
+              .attr("stop-color", "#6baed6");
+
+      gradient.append("stop")
+              .attr("offset", "100%")
+              .attr("stop-color", "#2171b5");
+
+      const shadowFilter = defs.append("filter")
+              .attr("id", "shadow")
+              .attr("x", "-20%").attr("y", "-20%")
+              .attr("width", "140%").attr("height", "140%");
+      shadowFilter.append("feDropShadow")
+              .attr("dx", "0")
+              .attr("dy", "2")
+              .attr("stdDeviation", "3")
+              .attr("flood-color", "#000")
+              .attr("flood-opacity", "0.3");
+      const width = svg.node().clientWidth;
+      const height = svg.node().clientHeight;
+      const container = svg.append("g");
+      let selectedNode = null;
+
+
+      const nodeMap = new Map(nodes.map(n => [n.node_id, n]));
+      links.forEach(link => {
+          link.source = nodeMap.get(link.source?.node_id || link.source);
+          link.target = nodeMap.get(link.target?.node_id || link.target);
+      });
+      const linkGroup = container.append("g").attr("class", "links");
+      const nodeGroup = container.append("g").attr("class", "nodes");
+
+      let linkElems = linkGroup.selectAll("line.link")
+              .data(links, d => `${d.source.node_id || d.source}->${d.target.node_id || d.target}`);
+
+      linkElems.exit().remove();
+
+      linkElems = linkElems.enter()
+              .append("line")
+              .attr("class", "link")
+              .attr("stroke-width",2)
+              .attr("stroke", "#000")
+              .attr("marker-end", d => d.direction === "DIRECTED" ? "url(#main_arrow)" : null)
+              .merge(linkElems);
+      let hitArea = linkGroup.selectAll("line.link-hit")
+              .data(links, d => `${d.source.node_id || d.source}->${d.target.node_id || d.target}`);
+
+      hitArea.exit().remove();
+      let newHitArea = hitArea.enter()
+              .append("line")
+              .attr("class", "link-hit")
+              .attr("stroke-width", 10)
+              .attr("stroke", "transparent")
+              .style("cursor", "pointer")
+              .on("click", (event, d) => {
+                  selectedEdge = d;
+                  window.GraphMain.selectEdge(d);
+              });
+
+      hitArea = newHitArea.merge(hitArea);
+      const nodeElems = nodeGroup.selectAll("circle")
+              .data(nodes)
+              .enter()
+              .append("circle")
+              .attr("class", 'node')
+              .attr("r", 30)
+              .attr("fill", d => d === selectedNode ? "#f39c12" : "#4a90e2")
+              .attr("stroke", "#fff")
+              .attr("stroke-width", 2)
+
+              .on("click", (event, d) => {
+                  selectedNode = d;
+                  window.GraphMain.selectNode(d)
+              });
+
+      function updateNodeStyles(node) {
+          nodeElems.attr("fill", d => {
+              return d.node_id === node?.node_id ? "#f39c12" : "#4a90e2"
+          });
+      }
+
+      function updateEdgeStyles(edge) {
+          const selection = d3.select("#main-view g.links").selectAll("line.link");
+
+          selection
+                  .attr("stroke", d =>
+                          d.source.node_id === edge.source.node_id &&
+                          d.target.node_id === edge.target.node_id
+                                  ? "#f39c12"
+                                  : "#000"
+                  )
+                  .attr("marker-end", d => {
+                      if (d.direction === 'UNDIRECTED')
+                          return null
+                      else {
+                          return d.source.node_id === edge.source.node_id
+                          && d.target.node_id === edge.target.node_id
+                                  ? "url(#main_arrow_highlight)"
+                                  :
+                                  "url(#main_arrow)"
+
+                      }
+                  });
+      }
+
+
+      const textElems = nodeGroup.selectAll("text")
+              .data(nodes)
+              .enter()
+              .append("text")
+              .text(d => `ID: ${d.node_id}`)
+              .attr("text-anchor", "middle")
+              .attr("alignment-baseline", "middle")
+              .style("font", "16px 'Segoe UI', sans-serif")
+              .style("fill", "#fff")
+              .style("pointer-events", "none");
+      const nodeCount = nodes.length;
+
+      const cappedScale = (nodeCount, scaleFactor, maxValue) => {
+          return Math.min(maxValue, scaleFactor * Math.log(nodeCount + 1));
+      }
+
+      const simulation = d3.forceSimulation(nodes)
+              .force("charge", d3.forceManyBody()
+                      .strength(() => -cappedScale(nodeCount, 500, 3000))
+                      .distanceMin(30 + cappedScale(nodeCount, 10, 300))
+                      .distanceMax(250 + cappedScale(nodeCount, 25, 800))
+              )
+              .force("center", d3.forceCenter(width / 2, height / 2))
+              .force("collision", d3.forceCollide()
+                      .radius(d => (Math.max(d.width || 100, d.height || 60) / 2) + 10 + cappedScale(nodeCount, 1, 50))
+              )
+              .alphaDecay(0.03)
+              .velocityDecay(0.6)
+              .on("tick", ticked);
+      function ticked() {
+          [linkElems, hitArea].forEach(selection => {
+              selection
+                      .attr("x1", d => d.source.x)
+                      .attr("y1", d => d.source.y)
+                      .attr("x2", d => d.target.x)
+                      .attr("y2", d => d.target.y);
+          });
+
+          nodeElems
+                  .attr("cx", d => d.x)
+                  .attr("cy", d => d.y);
+
+          textElems
+                  .attr("x", d => d.x)
+                  .attr("y", d => d.y);
+
+      }
+
+      window.GraphMain = {simulation, updateNodeStyles,updateEdgeStyles};
+      setTimeout(() => document.dispatchEvent(new Event("GraphReady")), 100)
+  }());
+</script>

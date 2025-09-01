@@ -2,13 +2,28 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}"/>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Graph Visualizer</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
 </head>
 <body>
-<div class="header">
-    <span class="header-title">Graph Visualizer</span>
-</div>
+    <div class="header">
+        <span class="header-title">Graph Visualizer</span>
+        <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'visualize' %}">
+            {% csrf_token %}
+            <input type="file" name="graph_file" accept=".json" />
+            <button type="submit">Load JSON</button>
+        </form>
+    </div>
+
+    <main class="content">
+        <svg id="main-view"></svg>
+        {% if graph_html %}
+            <div id="graph-html">{{ graph_html|safe }}</div>
+        {% else %}
+            <div class="placeholder">Upload a JSON file to visualize the graph.</div>
+        {% endif %}
+    </main>
 </body>
 </html>

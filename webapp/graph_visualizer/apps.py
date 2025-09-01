@@ -1,10 +1,11 @@
 from django.apps import AppConfig
 
-from platform.graph.use_cases.plugin_recognition import PluginService
-from platform.graph.use_cases.const import DATASOURCE_GROUP, VISUALIZER_GROUP
+from visualizer_platform.graph.use_cases.plugin_recognition import PluginService
+from visualizer_platform.graph.use_cases.const import DATASOURCE_GROUP, VISUALIZER_GROUP
 
 
 class GraphVisualizerConfig(AppConfig):
+    name = "graph_visualizer"
     plugin_service = PluginService()
 
     def ready(self):
