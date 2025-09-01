@@ -1,0 +1,195 @@
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    (function () {
+        const radius = 18;
+
+        const birdSvg = d3.select("#miniMapSvg");
+        const miniWidth = birdSvg.node().clientWidth;
+        const miniHeight = birdSvg.node().clientHeight;
+
+        birdSvg
+                .append("defs")
+                .append("marker")
+                .attr("id", "arrow")
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", radius)
+                .attr("refY", 0)
+                .attr("markerWidth", 16)
+                .attr("markerHeight", 16)
+                .attr("orient", "auto")
+                .append("path")
+                .attr("d", "M0,-5L10,0L0,5")
+                .attr("fill", "#000");
+        birdSvg
+                .append("defs")
+                .append("marker")
+                .attr("id", "highlight_arrow")
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", radius)
+                .attr("refY", 0)
+                .attr("markerWidth", 16)
+                .attr("markerHeight", 16)
+                .attr("orient", "auto")
+                .append("path")
+                .attr("d", "M0,-5L10,0L0,5")
+                .attr("fill", "#f39c12");
+        const drawMiniMap = (
+                graphData,
+                selectedNodeId,
+                selectedEdgeId,
+                offsetX,
+                offsetY,
+                scale,
+                canvasWidth,
+                canvasHeight
+        ) => {
+            const {nodes, links} = graphData;
+            if (!nodes?.length) return;
+
+            offsetX = typeof offsetX === "number" ? offsetX : 0;
+            offsetY = typeof offsetY === "number" ? offsetY : 0;
+            scale = typeof scale === "number" && scale !== 0 ? scale : 1;
+            canvasWidth = typeof canvasWidth === "number" ? canvasWidth : miniWidth;
+            canvasHeight =
+                    typeof canvasHeight === "number" ? canvasHeight : miniHeight;
+
+            const nodeMap = new Map(nodes.map((n) => [n.node_id, n]));
+
+            const minX = d3.min(nodes, (d) => d.x);
+            const minY = d3.min(nodes, (d) => d.y);
+            const maxX = d3.max(nodes, (d) => d.x);
+            const maxY = d3.max(nodes, (d) => d.y);
+
+            const graphWidth = maxX - minX || 1;
+            const graphHeight = maxY - minY || 1;
+
+            const scaleX = miniWidth / graphWidth;
+            const scaleY = miniHeight / graphHeight;
+            const miniScale = Math.min(scaleX, scaleY) * 0.95;
+
+            const translateX = (miniWidth - graphWidth * miniScale) / 2;
+            const translateY = (miniHeight - graphHeight * miniScale) / 2;
+
+            let g = birdSvg.select("g#miniMapGroup");
+            if (g.empty()) {
+                g = birdSvg.append("g").attr("id", "miniMapGroup");
+            }
+
+            g.attr(
+                    "transform",
+                    `translate(${translateX}, ${translateY}) scale(${miniScale}) translate(${-minX}, ${-minY})`
+            );
+
+            const linkSelection = g
+                    .selectAll("line.link")
+                    .data(
+                            links,
+                            (d) =>
+                                    `${d.source.node_id || d.source}->${d.target.node_id || d.target}`
+                    );
+
+            linkSelection
+                    .enter()
+                    .append("line")
+                    .attr("class", "link")
+                    .attr("stroke-width", 1.5)
+                    .merge(linkSelection)
+                    .attr("x1", (d) => nodeMap.get(d.source?.node_id || d.source)?.x ?? 0)
+                    .attr("y1", (d) => nodeMap.get(d.source?.node_id || d.source)?.y ?? 0)
+                    .attr("x2", (d) => nodeMap.get(d.target?.node_id || d.target)?.x ?? 0)
+                    .attr("y2", (d) => nodeMap.get(d.target?.node_id || d.target)?.y ?? 0)
+                    .attr("stroke", "#000")
+                    .attr("stroke", (d) => {
+                        return selectedEdgeId &&
+                        d.target.node_id === selectedEdgeId.target.node_id &&
+                        d.source.node_id === selectedEdgeId.source.node_id
+                                ? "#f39c12"
+                                : "#4a90e2";
+                    })
+                    .attr("marker-end", (d) => {
+                                if (d.direction === 'UNDIRECTED') return null;
+                                return selectedEdgeId &&
+                                d.target.node_id === selectedEdgeId.target.node_id &&
+                                d.source.node_id === selectedEdgeId.source.node_id
+                                        ? "url(#highlight_arrow)"
+                                        : "url(#arrow)"
+
+                            }
+                    )
+                    .on("click", (event, d) => {
+                        if (window.GraphMain?.selectEdge) {
+                            window.GraphMain.selectEdge(d, true);
+                        }
+                    });
+
+            linkSelection.exit().remove();
+
+            const nodeSelection = g
+                    .selectAll("circle.node")
+                    .data(nodes, (d) => d.node_id);
+
+            nodeSelection
+                    .enter()
+                    .append("circle")
+                    .attr("class", "node")
+                    .attr("r", radius)
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 2)
+                    .merge(nodeSelection)
+                    .attr("cx", (d) => d.x)
+                    .attr("cy", (d) => d.y)
+                    .attr("fill", (d) =>
+                            d.node_id === selectedNodeId ? "#f39c12" : "#4a90e2"
+                    )
+                    .on("click", (event, d) => {
+                        if (window.GraphMain?.selectNode) {
+                            window.GraphMain.selectNode(d, true);
+                        }
+                    });
+
+            nodeSelection.exit().remove();
+
+            g.selectAll("rect.viewport").remove();
+
+            const viewX = -offsetX / scale;
+            const viewY = -offsetY / scale;
+            const viewWidth = canvasWidth / scale;
+            const viewHeight = canvasHeight / scale;
+
+            g.append("rect")
+                    .attr("class", "viewport")
+                    .attr("x", viewX)
+                    .attr("y", viewY)
+                    .attr("width", viewWidth)
+                    .attr("height", viewHeight)
+                    .attr("fill", "rgba(243, 156, 18, 0.3)")
+                    .attr("stroke", "#f39c12")
+                    .attr("stroke-width", 2)
+                    .attr("pointer-events", "none");
+        };
+
+        document.addEventListener("GraphMainReady", () => {
+            if (window.GraphMain?.subscribe) {
+                window.GraphMain.subscribe(
+                        ({offsetX, offsetY, scale, selectedNode, selectedEdge}) => {
+                            const canvas = document.getElementById("main-view");
+
+                            const {width: canvasWidth, height: canvasHeight} = canvas
+                                    ? canvas.getBoundingClientRect()
+                                    : {width: 800, height: 600};
+                            drawMiniMap(
+                                    {nodes: window.GraphMain.nodes, links: window.GraphMain.links},
+                                    selectedNode,
+                                    selectedEdge,
+                                    offsetX,
+                                    offsetY,
+                                    scale,
+                                    canvasWidth,
+                                    canvasHeight
+                            );
+                        }
+                );
+            }
+        });
+    })();
+</script>

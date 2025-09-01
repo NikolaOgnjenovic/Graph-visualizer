@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from visualizer_platform.graph.use_cases.const import DATASOURCE_GROUP, VISUALIZER_GROUP
 from visualizer_platform.graph.use_cases.plugin_recognition import PluginService
 from visualizer_platform.graph.use_cases.views.graph_main_view import MainView
+from visualizer_platform.graph.use_cases.views.graph_bird_view import BirdView
 from django.apps import apps
 
 def index(request):
@@ -49,12 +50,14 @@ def visualize(request):
         graph = ds_plugin.load(file_contents)
         # Wrap the simple visualizer output with the new main view (adds pan/zoom/drag, tooltips)
         main_graph_view = MainView.render(graph, simple_visualizer)
+        bird_view = BirdView.render(graph, simple_visualizer)
 
         return render(request, 'index.html', {
             'title': 'Graph visualizer',
             'datasource_plugins': datasource_plugins,
             'visualizer_plugins': visualizer_plugins,
             'main_graph_view': main_graph_view,
+            'bird_view': bird_view,
         })
     else:
         page_data = {
@@ -62,5 +65,6 @@ def visualize(request):
             'datasource_plugins': datasource_plugins,
             'visualizer_plugins': visualizer_plugins,
             'main_graph_view': None,
+            'bird_view': None,
         }
         return render(request, 'index.html', page_data)
