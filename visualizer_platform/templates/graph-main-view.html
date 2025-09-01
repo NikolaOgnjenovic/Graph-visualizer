@@ -169,6 +169,9 @@
         },
         selectNode: (node, doCenter = false) => {
           selectedNode = node;
+          // Clear any selected edge styles when a node is selected
+          selectedEdge = null;
+          updateEdgeStylesFn({ source: { node_id: null }, target: { node_id: null }, direction: 'UNDIRECTED' });
           updateNodeStylesFn(node);
           showNodeTooltip(node);
           if (doCenter) centerOnNode(node);
@@ -180,6 +183,9 @@
         },
         selectEdge: (edge, doCenter = false) => {
           selectedEdge = edge;
+          // Deselect any previously selected node visually
+          selectedNode = null;
+          updateNodeStylesFn(null);
           updateEdgeStylesFn(edge);
           showEdgeTooltip(edge);
           if (doCenter) centerOnEdge(edge);
