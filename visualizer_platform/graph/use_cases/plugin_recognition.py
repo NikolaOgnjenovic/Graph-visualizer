@@ -1,7 +1,11 @@
 from importlib.metadata import entry_points
-from typing import List
+from typing import List, TYPE_CHECKING, Any
 
-from API.graph.services import DataSourcePlugin, VisualizerPlugin
+if TYPE_CHECKING:
+    from API.graph.services import DataSourcePlugin, VisualizerPlugin  # type: ignore
+else:
+    DataSourcePlugin = Any  # type: ignore
+    VisualizerPlugin = Any  # type: ignore
 
 
 class PluginService(object):

@@ -33,7 +33,7 @@ To get started on project development, do the following after cloning the reposi
 4. Install requirements
 ```shell
   pip install -r requirements.txt
-  pip install ./API ./platform ./webapp ./plugins/datasources/json
+  pip install ./API ./visualizer_platform ./plugins/datasources/json ./plugins/visualizers/simple
 ```
 
 5. Run webapp
@@ -49,9 +49,9 @@ After installing packages (step 4), you can test the JSON graph loader without t
 
 ```shell
   # uses data/json/test_simple_graph.json by default
-  python platform/graph/use_cases/print_json_graph.py
+  python visualizer_platform/graph/use_cases/print_json_graph.py
   # or specify a custom file
-  python platform/graph/use_cases/print_json_graph.py data/json/test_simple_graph.json
+  python visualizer_platform/graph/use_cases/print_json_graph.py data/json/test_simple_graph.json
 ```
 
 This will output a list of nodes and edges parsed from the JSON file.

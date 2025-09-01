@@ -10,11 +10,46 @@ body {
 .header {
     background: #5E5694;
     color: white;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .header-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    margin-right: auto;
+}
+
+.upload-form input[type="file"] {
+    color: white;
+}
+
+.upload-form button {
+    margin-left: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    border: none;
+}
+
+.content {
+    flex: 1 1 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-view {
+    width: 100%;
+    height: calc(100vh - 64px);
+    background: #f7f7fb;
+}
+
+.placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
 }
