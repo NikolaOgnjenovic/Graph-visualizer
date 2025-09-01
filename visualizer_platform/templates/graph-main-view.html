@@ -1,0 +1,206 @@
+{{body|safe}}
+<script>
+  (function () {
+    document.addEventListener("GraphReady", () => {
+      let scale = 1;
+      let offsetX = 0,
+        offsetY = 0;
+      const tooltip = document.getElementById("tooltip");
+
+      let selectedNode = null;
+      let selectedEdge = null;
+      const simulation = window.GraphMain.simulation;
+      const updateNodeStylesFn = window.GraphMain.updateNodeStyles;
+      const updateEdgeStylesFn = window.GraphMain.updateEdgeStyles;
+
+      const mainSvg = d3.select("#main-view");
+      const container = mainSvg.select("g");
+      const width = mainSvg.node().clientWidth;
+      const height = mainSvg.node().clientHeight;
+      const drag = d3
+        .drag()
+        .on("start", (event, d) => {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+          window.GraphMain.selectNode(d);
+        })
+        .on("drag", (event, d) => {
+          d.fx = event.x;
+          d.fy = event.y;
+          notifySubscribers();
+        })
+        .on("end", (event, d) => {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        });
+      d3.selectAll(".node").call(drag);
+      const zoom = d3
+        .zoom()
+        .scaleExtent([0.3, 3])
+        .on("zoom", (event) => {
+          scale = event.transform.k;
+          offsetX = event.transform.x;
+          offsetY = event.transform.y;
+          container.attr("transform", event.transform);
+          notifySubscribers();
+        });
+
+      mainSvg.call(zoom);
+
+      const subscribers = [];
+
+      const showEdgeTooltip = (edge) => {
+        tooltip.style.left = event.pageX + 10 + "px";
+        tooltip.style.top = event.pageY + 10 + "px";
+        tooltip.innerHTML = `
+            <strong>Source: ${edge.source.node_id}</strong><br>
+            <strong>Target: ${edge.target.node_id}</strong><br>
+
+            ${Object.entries(edge.attributes || {})
+              .map(
+                ([k, v]) => `${k}:
+                ${v}`
+              )
+              .join("<br>")}`;
+        tooltip.style.visibility = "visible";
+      };
+      const showNodeTooltip = (node) => {
+        tooltip.style.left = event.pageX + 10 + "px";
+        tooltip.style.top = event.pageY + 10 + "px";
+        tooltip.innerHTML = `
+            <strong>Node ID: ${node.node_id}</strong><br>
+            ${Object.entries(node.attributes || {})
+              .map(
+                ([k, v]) => `${k}:
+                ${v}`
+              )
+              .join("<br>")}`;
+        tooltip.style.visibility = "visible";
+      };
+
+      const notifySubscribers = () => {
+        const panZoom = window.GraphMain.getPanZoom();
+        subscribers.forEach((fn) =>
+          fn({
+            ...panZoom,
+            selectedNode: selectedNode ? selectedNode.node_id : null,
+            selectedEdge: selectedEdge ? selectedEdge : null,
+          })
+        );
+      };
+      const centerOnEdge = (edge) => {
+        const source = edge.source;
+        const target = edge.target;
+
+        const midX = (source.x + target.x) / 2;
+        const midY = (source.y + target.y) / 2;
+
+        const targetX = width / 2 - midX * scale;
+        const targetY = height / 2 - midY * scale;
+
+        mainSvg
+          .transition()
+          .duration(500)
+          .call(
+            zoom.transform,
+            d3.zoomIdentity.translate(targetX, targetY).scale(scale)
+          );
+      };
+      const centerOnNode = (node) => {
+        const targetX = width / 2 - node.x * scale;
+        const targetY = height / 2 - node.y * scale;
+
+        mainSvg
+          .transition()
+          .duration(500)
+          .call(
+            zoom.transform,
+            d3.zoomIdentity.translate(targetX, targetY).scale(scale)
+          );
+      };
+
+      const zoomBy = (factor) => {
+        const newScale = Math.min(Math.max(scale * factor, 0.3), 3);
+        const centerScreenX = width / 2;
+        const centerScreenY = height / 2;
+
+        const centerGraphX = (centerScreenX - offsetX) / scale;
+        const centerGraphY = (centerScreenY - offsetY) / scale;
+
+        const newOffsetX = centerScreenX - centerGraphX * newScale;
+        const newOffsetY = centerScreenY - centerGraphY * newScale;
+
+        scale = newScale;
+        offsetX = newOffsetX;
+        offsetY = newOffsetY;
+
+        mainSvg
+          .transition()
+          .duration(300)
+          .call(
+            zoom.transform,
+            d3.zoomIdentity.translate(newOffsetX, newOffsetY).scale(newScale)
+          );
+      };
+
+      document
+        .getElementById("zoom-in")
+        .addEventListener("click", () => zoomBy(1.5));
+      document
+        .getElementById("zoom-out")
+        .addEventListener("click", () => zoomBy(1 / 1.5));
+
+      window.GraphMain = {
+        updateStylesFn: updateNodeStylesFn,
+        simulation,
+        nodes: mainSvg.selectAll(".node").data(),
+        links: mainSvg.selectAll(".link").data(),
+        getPanZoom: () => ({ offsetX, offsetY, scale }),
+        setPanZoom: (x, y, s) => {
+          offsetX = x;
+          offsetY = y;
+          scale = s;
+          mainSvg
+            .transition()
+            .duration(300)
+            .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(s));
+        },
+        selectNode: (node, doCenter = false) => {
+          selectedNode = node;
+          // Clear any selected edge styles when a node is selected
+          selectedEdge = null;
+          updateEdgeStylesFn({ source: { node_id: null }, target: { node_id: null }, direction: 'UNDIRECTED' });
+          updateNodeStylesFn(node);
+          showNodeTooltip(node);
+          if (doCenter) centerOnNode(node);
+          const event = new CustomEvent("GraphNodeSelected", {
+            detail: { selectedNode: node },
+          });
+          notifySubscribers();
+          window.dispatchEvent(event);
+        },
+        selectEdge: (edge, doCenter = false) => {
+          selectedEdge = edge;
+          // Deselect any previously selected node visually
+          selectedNode = null;
+          updateNodeStylesFn(null);
+          updateEdgeStylesFn(edge);
+          showEdgeTooltip(edge);
+          if (doCenter) centerOnEdge(edge);
+          const event = new CustomEvent("GraphEdgeSelected", {
+            detail: { selectedEdge: edge },
+          });
+          notifySubscribers();
+          window.dispatchEvent(event);
+        },
+        subscribe: (fn) => {
+          subscribers.push(fn);
+          notifySubscribers();
+        },
+      };
+      document.dispatchEvent(new Event("GraphMainReady"));
+    });
+  })();
+</script>

@@ -13,14 +13,68 @@
         <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'visualize' %}">
             {% csrf_token %}
             <input type="file" name="graph_file" accept=".json" />
-            <button type="submit">Load JSON</button>
+            <button type="submit" class="btn btn-primary">Load JSON</button>
         </form>
     </div>
 
     <main class="content">
-        <svg id="main-view"></svg>
-        {% if graph_html %}
-            <div id="graph-html">{{ graph_html|safe }}</div>
+        <div style="position: relative; width: 100%; height: 100%;">
+            <svg id="main-view" style="width: 100%;height: 100%"></svg>
+
+            <div id="zoom-controls" style="
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+                z-index: 20;">
+                <button id="zoom-in" style="
+                    width: 40px;
+                    height: 40px;
+                    background: #357ABD;
+                    color: white;
+                    font-size: 24px;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    user-select: none;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    transition: background-color 0.2s ease;">+
+                </button>
+                <button id="zoom-out" style="
+                    width: 40px;
+                    height: 40px;
+                    background: #357ABD;
+                    color: white;
+                    font-size: 24px;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    user-select: none;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    transition: background-color 0.2s ease;">−
+                </button>
+                <div id="tooltip" style="
+                    top:120px;
+                    right: 20px;
+                    padding: 8px 14px;
+                    background: rgba(0,0,0,0.85);
+                    color: white;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    pointer-events: none;
+                    visibility: hidden;
+                    white-space: nowrap;
+                    z-index: 100;
+                    min-width: 120px;
+                    max-width: 280px;"></div>
+            </div>
+        </div>
+
+        {% if main_graph_view %}
+            {{ main_graph_view|safe }}
         {% else %}
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}

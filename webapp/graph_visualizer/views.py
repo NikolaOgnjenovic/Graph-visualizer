@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from visualizer_platform.graph.use_cases.const import DATASOURCE_GROUP, VISUALIZER_GROUP
 from visualizer_platform.graph.use_cases.plugin_recognition import PluginService
+from visualizer_platform.graph.use_cases.views.graph_main_view import MainView
 from django.apps import apps
 
 def index(request):
@@ -36,7 +37,7 @@ def visualize(request):
             'title': 'Graph visualizer',
             'datasource_plugins': datasource_plugins,
             'visualizer_plugins': visualizer_plugins,
-            'graph_html': None,
+            'main_graph_view': None,
         })
 
     ds_plugin = next((p for p in datasource_plugins if p.identifier() == 'json_to_graph_loader' or 'json' in p.identifier()), datasource_plugins[0])
@@ -46,15 +47,20 @@ def visualize(request):
         uploaded_file = request.FILES['graph_file']
         file_contents = uploaded_file.read().decode('utf-8')
         graph = ds_plugin.load(file_contents)
-        graph_html = simple_visualizer.visualize(graph)
+        # Wrap the simple visualizer output with the new main view (adds pan/zoom/drag, tooltips)
+        main_graph_view = MainView.render(graph, simple_visualizer)
+
+        return render(request, 'index.html', {
+            'title': 'Graph visualizer',
+            'datasource_plugins': datasource_plugins,
+            'visualizer_plugins': visualizer_plugins,
+            'main_graph_view': main_graph_view,
+        })
     else:
-        graph_html = None
-
-    page_data = {
-        'title': 'Graph visualizer',
-        'datasource_plugins': datasource_plugins,
-        'visualizer_plugins': visualizer_plugins,
-        'graph_html': graph_html,
-    }
-
-    return render(request, 'index.html', page_data)
+        page_data = {
+            'title': 'Graph visualizer',
+            'datasource_plugins': datasource_plugins,
+            'visualizer_plugins': visualizer_plugins,
+            'main_graph_view': None,
+        }
+        return render(request, 'index.html', page_data)
