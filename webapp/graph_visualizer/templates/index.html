@@ -75,6 +75,9 @@
 
         {% if main_graph_view %}
             {{ main_graph_view|safe }}
+            <div style="margin-top: 10px;">
+                {% include 'graph-bird-view.html' %}
+            </div>
         {% else %}
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}

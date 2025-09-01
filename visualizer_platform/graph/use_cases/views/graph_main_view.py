@@ -8,11 +8,11 @@ class MainView(object):
     @staticmethod
     def render(graph: Graph, visualizer_plugin: VisualizerPlugin) -> str:
         """
-        Returns the required body html content that needs to be included in page
-        in order to provide main view layout.
+        Returns the required body HTML content that needs to be included in the page
+        to provide the main view layout.
         :param graph: Graph data to be rendered.
         :param visualizer_plugin: Visualizer plugin to be used.
-        :return: html body string that should be included in page.
+        :return: HTML body string that should be included in the page.
         """
         main_view = visualizer_plugin.visualize(graph)
         current_dir = os.path.dirname(__file__)

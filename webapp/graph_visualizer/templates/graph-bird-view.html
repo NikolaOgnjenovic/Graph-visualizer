@@ -1,0 +1,9 @@
+<aside class="fixed-minimap-sidebar">
+  <div class="minimap-container">
+    <svg id="miniMapSvg"></svg>
+  </div>
+</aside>
+{% if bird_view %}
+  {{ bird_view|safe }}
+{% else %}
+{% endif %}
