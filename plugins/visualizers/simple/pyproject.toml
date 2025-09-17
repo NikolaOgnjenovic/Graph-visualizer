@@ -15,9 +15,11 @@ dependencies = [
 [project.entry-points."graph.visualizer"]
 visualizer = "graph.simple.visualizer:SimpleVisualizer"
 
+[tool.setuptools.package-data]
+"graph.simple" = ["templates/*.html"]
+
 [tool.setuptools]
 provides = ["graph.simple.visualizer"]
-package-data = {"graph.simple" = ["templates/*.html"]}
 
 [tool.setuptools.packages.find]
 where = ["."]
