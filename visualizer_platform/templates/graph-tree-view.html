@@ -1,0 +1,233 @@
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    (function () {
+        let nodeArray = [];
+        let nodeListItems = new Map();
+        let selectedNode = null;
+        let expandedNodes = new Set();
+
+        const buildTree = (nodes, links) => {
+            nodeArray = nodes.map((n) => ({
+                ...n,
+                children: n.children ? [...n.children] : [],
+                expanded: false,
+            }));
+
+            links.forEach((link) => {
+                const parent = nodeArray.find((node) => node.node_id === link.source.node_id);
+                const child = nodeArray.find((node) => node.node_id === link.target.node_id);
+                if (parent && child) parent.children.push(child);
+            });
+            const targets = new Set(links.map(l => l.target.node_id));
+            let roots = nodeArray.filter(n => !targets.has(n.node_id))
+            if(roots.length == 0){
+                roots = [nodeArray[0]]
+            }
+            console.log(roots)
+            return roots;
+            return nodeArray.find(n => !targets.has(n.node_id)) || nodeArray[0];
+        };
+
+        const findNodePath = (root, targetId, path = [], visited = new Set()) => {
+            if (!root || visited.has(root.node_id)) return null;
+            visited.add(root.node_id);
+
+            if (root.node_id === targetId) return [...path, root];
+            if (!root.children || root.children.length === 0) return null;
+            for (const child of root.children) {
+                const result = findNodePath(child, targetId, [...path, root], visited);
+                if (result) return result;
+            }
+            return null;
+        };
+
+        const renderTree = (container, node, visited = new Set()) => {
+            if (!node) return;
+
+            if (visited.has(node.node_id)) {
+                container.append("li")
+                        .text(`↺ Cycle to ID: ${node.node_id}`)
+                        .style("color", "red")
+                        .style("font-style", "italic");
+                return;
+            }
+
+            const li = container
+                    .append("li")
+                    .style("margin", "8px 0")
+                    .style("padding", "8px 16px")
+                    .style("border-radius", "8px")
+                    .style(
+                            "background-color",
+                            selectedNode === node.node_id ? "#ffe0b2" : "#f9fafb"
+                    )
+                    .style(
+                            "box-shadow",
+                            selectedNode === node.node_id
+                                    ? "0 4px 12px rgba(255,138,0,0.3)"
+                                    : "0 2px 6px rgba(0,0,0,0.08)"
+                    )
+                    .style("user-select", "none")
+                    .style("cursor", node.children.length > 0 ? "pointer" : "default");
+
+            if (!nodeListItems.has(node.node_id)) {
+                nodeListItems.set(node.node_id, new Set());
+            }
+            nodeListItems.get(node.node_id).add(li);
+
+            li.append("span")
+                    .text(
+                            node.children.length > 0
+                                    ? expandedNodes.has(node.node_id)
+                                            ? "− 📂 "
+                                            : "+ 📁 "
+                                    : "  📄 "
+                    )
+                    .style("margin-right", "8px")
+                    .style("user-select", "none")
+                    .style("color", node.children.length > 0 ? "#1976d2" : "#757575")
+                    .style("font-weight", "700");
+
+            li.append("span")
+                    .text(`ID: ${node.node_id}`)
+                    .style("font-size", "15px")
+                    .style("color", "#33475b")
+                    .style("font-weight", "600");
+
+            if (node.children.length > 0) {
+                const ul = container
+                        .append("ul")
+                        .style("list-style", "none")
+                        .style("padding-left", "2rem")
+                        .style("margin-left", "0.4rem")
+                        .style("border-left", "3px solid #d0d7de")
+                        .style("display", expandedNodes.has(node.node_id) ? "block" : "none");
+
+                li.on("click", (event) => {
+                    event.stopPropagation();
+
+                    const isExpanded = expandedNodes.has(node.node_id);
+                    if (isExpanded) {
+                        expandedNodes.delete(node.node_id);
+                    } else {
+                        expandedNodes.add(node.node_id);
+                    }
+
+                    d3.select("#tree-container").html("");
+                    nodeListItems.clear();
+                    const roots = buildTree(
+                            window.GraphMain.nodes,
+                            window.GraphMain.links
+                    );
+                    const ulRoot = d3
+                            .select("#tree-container")
+                            .append("ul")
+                            .style("list-style", "none")
+                            .style("padding", "0")
+                            .style("margin", "0");
+                    roots.forEach(root => {
+                        console.log(root)
+                        renderTree(ulRoot, root)
+                    });
+
+                    emitTreeElementSelect(node);
+                });
+
+                const newVisited = new Set(visited);
+                newVisited.add(node.node_id);
+                node.children.forEach((child) =>
+                        renderTree(
+                                ul,
+                                nodeArray.find((n) => n.node_id === child.node_id),
+                                newVisited
+                        )
+                );
+            } else {
+                li.on("click", (event) => {
+                    event.stopPropagation();
+                    emitTreeElementSelect(node);
+                });
+            }
+        };
+
+        const emitTreeElementSelect = (node) => {
+            if (selectedNode !== node.node_id)
+                window.GraphMain.selectNode(node, true);
+        };
+
+        window.addEventListener("GraphNodeSelected", (e) => {
+            const selected = e.detail.selectedNode;
+            if (!selected) return;
+
+            const isSameNode = selectedNode === selected.node_id;
+            selectedNode = selected.node_id;
+
+            if (isSameNode) {
+                if (expandedNodes.has(selected.node_id)) {
+                    expandedNodes.delete(selected.node_id);
+                } else {
+                    expandedNodes.add(selected.node_id);
+                }
+            } else {
+                const treeRoots = buildTree(
+                        window.GraphMain.nodes,
+                        window.GraphMain.links
+                );
+                treeRoots.forEach(treeRoot => {
+
+                    console.log(treeRoot)
+                    const path = findNodePath(treeRoot, selected.node_id) || [];
+                    path.forEach((n) => {
+                        if (n.children.length > 0) {
+                            expandedNodes.add(n.node_id);
+                        }
+                    });
+                });
+            }
+
+            d3.select("#tree-container").html("");
+            nodeListItems.clear();
+            const treeRoots = buildTree(
+                    window.GraphMain.nodes,
+                    window.GraphMain.links
+            );
+            const container = d3
+                    .select("#tree-container")
+                    .append("ul")
+                    .style("list-style", "none")
+                    .style("padding", "0")
+                    .style("margin", "0");
+            treeRoots.forEach(treeRoot => {
+
+                console.log(treeRoot)
+                renderTree(container, treeRoot);
+            })
+
+            setTimeout(() => {
+                if (nodeListItems.has(selected.node_id)) {
+                    for (const li of nodeListItems.get(selected.node_id)) {
+                        li.node().scrollIntoView({behavior: "smooth", block: "center"});
+                    }
+                }
+            }, 50);
+        });
+
+        document.addEventListener("GraphMainReady", () => {
+            const treeRoots = buildTree(
+                    window.GraphMain.nodes,
+                    window.GraphMain.links
+            );
+            const container = d3
+                    .select("#tree-container")
+                    .append("ul")
+                    .style("list-style", "none")
+                    .style("padding", "0")
+                    .style("margin", "0");
+            treeRoots.forEach(treeRoot => {
+                console.log(treeRoot)
+                renderTree(container, treeRoot);
+            })
+
+        });
+    })();
+</script>

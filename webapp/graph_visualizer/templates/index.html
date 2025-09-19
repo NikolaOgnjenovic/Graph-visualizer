@@ -75,9 +75,31 @@
 
         {% if main_graph_view %}
             {{ main_graph_view|safe }}
-            <div style="margin-top: 10px;">
-                {% include 'graph-bird-view.html' %}
+        <aside class="fixed-minimap-sidebar">
+          <div class="sidebar-content">
+            <!-- Tree View -->
+            <div class="view-box tree-box" id="tree-container">
+              {% if tree_view %}
+                {{ tree_view|safe }}
+              {% else %}
+                <div class="placeholder">Tree view will appear here</div>
+              {% endif %}
             </div>
+
+            <!-- Bird View -->
+            <div class="view-box bird-box">
+              <div class="minimap-container">
+                <svg id="miniMapSvg"></svg>
+              </div>
+              {% if bird_view %}
+                {{ bird_view|safe }}
+              {% else %}
+                <div class="placeholder">Bird view will appear here</div>
+              {% endif %}
+            </div>
+          </div>
+        </aside>
+
         {% else %}
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}
