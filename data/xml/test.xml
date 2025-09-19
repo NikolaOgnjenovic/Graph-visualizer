@@ -1,0 +1,13 @@
+<network id="GN001" name="network">
+    <system id="SS001" name="system">
+        <planet id="PL001" name="planet" link="moon" reference="fleet"/>
+        <moon id="MN001" name="moon" ref="planet" link="galaxy"/>
+        <asteroid id="AS001" name="asteroid"/>
+    </system>
+
+    <fleet id="IF001" name="fleet">
+        <ship id="CS001" name="ship" link="moon"/>
+    </fleet>
+
+    <galaxy id="ML001" name="galaxy" href="system"/>
+</network>

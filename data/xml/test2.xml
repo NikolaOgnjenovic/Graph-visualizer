@@ -1,0 +1,34 @@
+<galacticNetwork id="GN001" name="galacticNetwork">
+    <starSystem id="SSYS001" name="starSystem" ref="planetaryHub">
+        <planetaryHub id="PH001" name="planetaryHub">
+            <planet id="PL001" name="planet" reference="spaceStationAlpha">
+                <moon id="MN001" name="moon" ref="orbitalRing" href="cometTail"/>
+                <orbitalRing id="OR001" name="orbitalRing" reference="planet"/>
+                <cometTail id="CT001" name="cometTail" refs="nebulaCluster"/>
+            </planet>
+            <spaceStationAlpha id="SSA001" name="spaceStationAlpha" link="planet"/>
+        </planetaryHub>
+        <asteroidBelt id="AB001" name="asteroidBelt">
+            <asteroid id="A001" name="asteroid" reference="planetaryHub"/>
+            <asteroid id="A002" name="asteroid" ref="orbitalRing"/>
+            <asteroid id="A003" name="asteroid" link="spaceStationAlpha"/>
+        </asteroidBelt>
+    </starSystem>
+
+    <nebulaCluster id="NC001" name="nebulaCluster" ref="starSystem">
+        <gasCloud id="GC001" name="gasCloud" reference="quasarNode"/>
+        <quasarNode id="QN001" name="quasarNode" ref="gasCloud" link="blackHoleX"/>
+        <blackHoleX id="BHX001" name="blackHoleX" reference="starSystem"/>
+    </nebulaCluster>
+
+    <interstellarFleet id="IF001" name="interstellarFleet">
+        <commandShip id="CSH001" name="commandShip" refs="spaceStationAlpha" link="blackHoleX"/>
+        <explorerVessel id="EV001" name="explorerVessel" reference="quasarNode"/>
+        <cargoShip id="CG001" name="cargoShip" ref="planet" href="cometTail"/>
+    </interstellarFleet>
+
+    <wormholeNetwork id="WN001" name="wormholeNetwork" reference="nebulaCluster">
+        <wormhole id="WH001" name="wormhole" refs="blackHoleX" reference="orbitalRing"/>
+        <gatewayNode id="GN002" name="gatewayNode" link="wormhole"/>
+    </wormholeNetwork>
+</galacticNetwork>
