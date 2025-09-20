@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-datasource-xml"
+version = "0.1"
+description = "This is a plugin which loads graph data from XML files."
+dependencies = [
+    "graph-api==0.1",
+    "Django>=5.1"
+]
+
+[project.entry-points."graph.datasource"]
+datasource_db = "graph.xml.datasource:XmlTreeLoader"
+
+[tool.setuptools]
+provides = ["graph.xml.datasource"]
