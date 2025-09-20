@@ -9,7 +9,7 @@ class TreeView(object):
     def render(graph: Graph, visualizer_plugin: VisualizerPlugin) -> str:
         """
         Returns the required body HTML content (the minimap JS) that needs to be included
-        in the page to provide the bird/minimap view. The implementation does not require
+        in the page to provide the tree/directorium view. The implementation does not require
         the visualizer output directly, as it subscribes to GraphMain events.
         :param graph: Graph data to be rendered (unused here).
         :param visualizer_plugin: Visualizer plugin to be used (unused here).
