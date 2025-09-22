@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-visualizer-block"
+version = "0.1"
+description = "This component visualizes graph data in a block format."
+dependencies = [
+    "graph-api==0.1",
+    "Django>=5.1",
+    "Jinja2>=3.0"
+]
+
+[project.entry-points."graph.visualizer"]
+visualizer = "graph.block.visualizer:BlockVisualizer"
+
+[tool.setuptools]
+provides = ["graph.block.visualizer"]
+package-data = {"graph.block" = ["templates/*.html"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["graph*"]
