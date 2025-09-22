@@ -54,11 +54,13 @@ def visualize(request):
                          datasource_plugins[0])
         simple_visualizer = next((p for p in visualizer_plugins if p.identifier() == 'simple_graph_visualizer'),
                                  visualizer_plugins[0])
+        block_visualizer = next((p for p in visualizer_plugins if p.identifier() == 'block_graph_visualizer'),
+                                 visualizer_plugins[0])
         graph = ds_plugin.load(file_contents)
         # Wrap the simple visualizer output with the new main view (adds pan/zoom/drag, tooltips)
-        main_graph_view = MainView.render(graph, simple_visualizer)
-        bird_view = BirdView.render(graph, simple_visualizer)
-        tree_view = TreeView.render(graph, simple_visualizer)
+        main_graph_view = MainView.render(graph, block_visualizer)
+        bird_view = BirdView.render(graph, block_visualizer)
+        tree_view = TreeView.render(graph, block_visualizer)
 
         return render(request, 'index.html', {
             'title': 'Graph visualizer',

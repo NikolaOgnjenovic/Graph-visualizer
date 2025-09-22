@@ -1,0 +1,273 @@
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+  (function () {
+      const nodes = {{ nodes | tojson}};
+      const links = {{ edges | tojson}};
+
+      const svg = d3.select("#main-view");
+      const defs = svg.append("defs")
+      svg.append("defs").append("marker")
+              .attr("id", "main_arrow_highlight")
+              .attr("viewBox", "0 -5 10 10")
+              .attr("refX", 35)
+              .attr("refY", 0)
+              .attr("markerWidth", 6)
+              .attr("markerHeight", 6)
+              .attr("orient", "auto")
+              .append("path")
+              .attr("stroke-width",2)
+              .attr("d", "M0,-5L10,0L0,5")
+              .attr("fill", "#f39c12");
+      defs.append("marker")
+              .attr("id", "main_arrow")
+              .attr("viewBox", "0 -5 10 10")
+              .attr("refX", 35)
+              .attr("refY", 0)
+              .attr("markerWidth", 6)
+              .attr("markerHeight", 6)
+              .attr("orient", "auto")
+              .attr("stroke-width",2)
+              .append("path")
+              .attr("d", "M0,-5L10,0L0,5")
+              .attr("fill", "#000");
+      const gradient = defs.append("linearGradient")
+              .attr("id", "nodeGradient")
+              .attr("x1", "0%").attr("y1", "0%")
+              .attr("x2", "0%").attr("y2", "100%");
+
+      gradient.append("stop")
+              .attr("offset", "0%")
+              .attr("stop-color", "#6baed6");
+
+      gradient.append("stop")
+              .attr("offset", "100%")
+              .attr("stop-color", "#2171b5");
+
+      const shadowFilter = defs.append("filter")
+              .attr("id", "shadow")
+              .attr("x", "-20%").attr("y", "-20%")
+              .attr("width", "140%").attr("height", "140%");
+      shadowFilter.append("feDropShadow")
+              .attr("dx", "0")
+              .attr("dy", "2")
+              .attr("stdDeviation", "3")
+              .attr("flood-color", "#000")
+              .attr("flood-opacity", "0.3");
+      const width = svg.node().clientWidth;
+      const height = svg.node().clientHeight;
+      const container = svg.append("g");
+      let selectedNode = null;
+
+
+      const nodeMap = new Map(nodes.map(n => [n.node_id, n]));
+      links.forEach(link => {
+          link.source = nodeMap.get(link.source?.node_id || link.source);
+          link.target = nodeMap.get(link.target?.node_id || link.target);
+      });
+      const linkGroup = container.append("g").attr("class", "links");
+      const nodeGroup = container.append("g").attr("class", "nodes");
+
+      let linkElems = linkGroup.selectAll("line.link")
+              .data(links, d => `${d.source.node_id || d.source}->${d.target.node_id || d.target}`);
+
+      linkElems.exit().remove();
+
+      linkElems = linkElems.enter()
+              .append("line")
+              .attr("class", "link")
+              .attr("stroke-width",2)
+              .attr("stroke", "#000")
+              .attr("marker-end", d => d.direction === "DIRECTED" ? "url(#main_arrow)" : null)
+              .merge(linkElems);
+      let hitArea = linkGroup.selectAll("line.link-hit")
+              .data(links, d => `${d.source.node_id || d.source}->${d.target.node_id || d.target}`);
+
+      hitArea.exit().remove();
+      let newHitArea = hitArea.enter()
+              .append("line")
+              .attr("class", "link-hit")
+              .attr("stroke-width", 10)
+              .attr("stroke", "transparent")
+              .style("cursor", "pointer")
+              .on("click", (event, d) => {
+                  selectedEdge = d;
+                  window.GraphMain.selectEdge(d);
+              });
+
+      hitArea = newHitArea.merge(hitArea);
+
+        // Create groups for nodes
+        const nodeElems = nodeGroup.selectAll("g.node")
+        .data(nodes)
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .on("click", (event, d) => {
+                selectedNode = d;
+                window.GraphMain.selectNode(d);
+                updateNodeStyles(d);
+        });
+
+        // Append rectangle to each group
+nodeElems.append("rect")
+    .attr("x", -75) // half width
+    .attr("y", d => -(20 + Object.keys(d.attributes || {}).length * 10)) // half height
+    .attr("width", 150)
+    .attr("height", d => 40 + Object.keys(d.attributes || {}).length * 20)
+    .attr("fill", "#4a90e2")
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 2);
+
+        // Store height calculation for reuse
+        nodeElems.each(function(d) {
+        d.height = 40 + Object.keys(d.attributes || {}).length * 20;
+        });
+
+        // Node ID text - FIXED
+        nodeElems.append("text")
+        .attr("y", d => - (d.height / 2) + 15) // Position from top of rectangle
+        .attr("text-anchor", "middle")
+        .style("font", "14px 'Segoe UI', sans-serif")
+        .style("fill", "#fff")
+        .text(d => `ID: ${d.node_id}`);
+
+        // Divider line - FIXED
+        nodeElems.append("line")
+        .attr("x1", -65)
+        .attr("x2", 65)
+        .attr("y1", d => - (d.height / 2) + 25) // Below the ID text
+        .attr("y2", d => - (d.height / 2) + 25)
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1);
+
+        // Attributes - FIXED
+        nodeElems.each(function(d) {
+        const group = d3.select(this);
+        const startY = - (d.height / 2) + 40; // Start below the divider
+        
+        Object.entries(d.attributes || {}).forEach(([key, value], i) => {
+                group.append("text")
+                .attr("x", 0) // Center aligned (since text-anchor is middle)
+                .attr("y", startY + (i * 15)) // Increment Y position for each attribute
+                .attr("text-anchor", "middle") // Center the text horizontally
+                .style("font", "12px 'Segoe UI', sans-serif")
+                .style("fill", "#fff")
+                .text(`${key}: ${value}`);
+        });
+        });
+
+
+       const textElems = nodeGroup.selectAll("text")
+              .data(nodes)
+              .enter()
+              .style("font", "16px 'Segoe UI', sans-serif")
+              .style("fill", "#fff")
+              .style("pointer-events", "none");;
+
+      function updateNodeStyles(node) {
+        // Update rectangle fill colors
+        nodeGroup.selectAll("g.node rect")
+                .attr("fill", d => {
+                return d.node_id === node?.node_id ? "#f39c12" : "#4a90e2";
+        });
+}
+
+      function updateEdgeStyles(edge) {
+          const selection = d3.select("#main-view g.links").selectAll("line.link");
+
+          selection
+                  .attr("stroke", d =>
+                          d.source.node_id === edge.source.node_id &&
+                          d.target.node_id === edge.target.node_id
+                                  ? "#f39c12"
+                                  : "#000"
+                  )
+                  .attr("marker-end", d => {
+                      if (d.direction === 'UNDIRECTED')
+                          return null
+                      else {
+                          return d.source.node_id === edge.source.node_id
+                          && d.target.node_id === edge.target.node_id
+                                  ? "url(#main_arrow_highlight)"
+                                  :
+                                  "url(#main_arrow)"
+
+                      }
+                  });
+      }
+      function intersectRect(source, target, nodeWidth, nodeHeight) {
+        const dx = target.x - source.x;
+        const dy = target.y - source.y;
+
+        const halfW = nodeWidth / 2;
+        const halfH = nodeHeight / 2;
+
+        // Avoid division by zero
+        if (dx === 0 && dy === 0) return { x: source.x, y: source.y };
+
+        // Scale factors for intersection with vertical and horizontal sides
+        const scaleX = halfW / Math.abs(dx);
+        const scaleY = halfH / Math.abs(dy);
+
+        let scale = Math.min(scaleX, scaleY);
+
+        return {
+                x: source.x + dx * scale,
+                y: source.y + dy * scale
+        };
+        }
+
+
+
+      const nodeCount = nodes.length;
+
+      const cappedScale = (nodeCount, scaleFactor, maxValue) => {
+          return Math.min(maxValue, scaleFactor * Math.log(nodeCount + 1));
+      }
+
+      const simulation = d3.forceSimulation(nodes)
+              .force("charge", d3.forceManyBody()
+                      .strength(() => -cappedScale(nodeCount, 500, 3000))
+                      .distanceMin(30 + cappedScale(nodeCount, 10, 300))
+                      .distanceMax(250 + cappedScale(nodeCount, 25, 800))
+              )
+              .force("center", d3.forceCenter(width / 2, height / 2))
+              .force("collision", d3.forceCollide()
+                      .radius(d => (Math.max(d.width || 100, d.height || 60) / 2) + 10 + cappedScale(nodeCount, 1, 50))
+              )
+              .alphaDecay(0.03)
+              .velocityDecay(0.6)
+              .on("tick", ticked);
+      function ticked() {
+    [linkElems, hitArea].forEach(selection => {
+        selection
+            .attr("x1", d => {
+                const src = intersectRect(d.source, d.target, 150, 40 + Object.keys(d.source.attributes || {}).length * 20);
+                return src.x;
+            })
+            .attr("y1", d => {
+                const src = intersectRect(d.source, d.target, 150, 40 + Object.keys(d.source.attributes || {}).length * 20);
+                return src.y;
+            })
+            .attr("x2", d => {
+                const tgt = intersectRect(d.target, d.source, 150, 40 + Object.keys(d.target.attributes || {}).length * 20);
+                return tgt.x;
+            })
+            .attr("y2", d => {
+                const tgt = intersectRect(d.target, d.source, 150, 40 + Object.keys(d.target.attributes || {}).length * 20);
+                return tgt.y;
+            });
+    });
+
+    nodeElems.attr("transform", d => `translate(${d.x},${d.y})`);
+
+    textElems
+        .attr("x", d => d.x)
+        .attr("y", d => d.y);
+}
+
+
+      window.GraphMain = {simulation, updateNodeStyles,updateEdgeStyles};
+      setTimeout(() => document.dispatchEvent(new Event("GraphReady")), 100)
+  }());
+</script>
