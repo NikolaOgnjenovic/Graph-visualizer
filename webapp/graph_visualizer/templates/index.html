@@ -65,7 +65,61 @@
         </div>
     </div>
 
+    <!-- Add Search Modal -->
+    <div id="add-search-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddSearch()">&times;</span>
+            <h3>Add Search</h3>
+            <input type="text" id="search-query" placeholder="Enter search text..." class="modal-input">
+            <div class="modal-actions">
+                <button onclick="addSearch()" class="btn-primary">Add Search</button>
+                <button onclick="closeAddSearch()" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Filter Modal -->
+    <div id="add-filter-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddFilter()">&times;</span>
+            <h3>Add Filter</h3>
+            <div class="filter-inputs">
+                <input type="text" id="filter-attribute" placeholder="Attribute name" class="modal-input">
+                <select id="filter-operator" class="modal-input">
+                    <option value="==">== (equals)</option>
+                    <option value="!=">!= (not equals)</option>
+                    <option value=">">> (greater than)</option>
+                    <option value="<">< (less than)</option>
+                    <option value=">=">>= (greater or equal)</option>
+                    <option value="<="><= (less or equal)</option>
+                </select>
+                <input type="text" id="filter-value" placeholder="Value" class="modal-input">
+            </div>
+            <div class="modal-actions">
+                <button onclick="addFilter()" class="btn-primary">Add Filter</button>
+                <button onclick="closeAddFilter()" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <main class="content">
+              <!-- Error Display Section -->
+        {% if errors %}
+        <div class="error-notification">
+            <div class="error-header">
+                <h4>⚠️ Filter Application Errors</h4>
+                <button class="error-close" onclick="closeErrorNotification()">×</button>
+            </div>
+            <div class="error-list">
+                {% for error in errors %}
+                <div class="error-item">
+                    <span class="error-icon">❌</span>
+                    <span class="error-text">{{ error }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <div style="position: relative; width: 100%; height: 100%;">
             <svg id="main-view" style="width: 100%;height: 100%"></svg>
 
@@ -84,6 +138,48 @@
             </div>
         </div>
 
+        <!-- Search and Filter Panel -->
+        <div class="search-filter-panel">
+            <div class="search-filter-header">
+                <h4>Search & Filters</h4>
+            </div>
+            
+            <!-- Search List -->
+            <div class="condition-list">
+                <div class="condition-header">
+                    <span>Searches</span>
+                    <button class="btn-add-condition" onclick="showAddSearch()">+ Search</button>
+                </div>
+                <div id="search-list">
+                    {% for search in current_workspace.searches %}
+                    <div class="condition-item">
+                        <span class="condition-text">Search: "{{ search.query }}"</span>
+                        <button class="condition-remove" onclick="removeSearch('{{ forloop.counter0 }}')">×</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Filter List -->
+            <div class="condition-list">
+                <div class="condition-header">
+                    <span>Filters</span>
+                    <button class="btn-add-condition" onclick="showAddFilter()">+ Filter</button>
+                </div>
+                <div id="filter-list">
+                    {% for filter in current_workspace.filters %}
+                    <div class="condition-item">
+                        <span class="condition-text">Filter: {{ filter.attribute }} {{ filter.operator }} {{ filter.value }}</span>
+                        <button class="condition-remove" onclick="removeFilter('{{ forloop.counter0 }}')">×</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn-apply" onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </div>
         {% if main_graph_view %}
             {{ main_graph_view|safe }}
         <aside class="fixed-minimap-sidebar">
@@ -138,7 +234,6 @@
         
         function finishRenaming(workspaceId, newName) {
             if (newName.trim()) {
-                // AJAX call to rename workspace
                 fetch(`/workspace/${workspaceId}/rename/`, {
                     method: 'POST',
                     headers: {
@@ -154,7 +249,6 @@
                       }
                   });
             } else {
-                // Reload to get original name
                 location.reload();
             }
         }
@@ -165,6 +259,104 @@
         
         function changeDatasource(datasourceId) {
             window.location.href = `/datasource-plugin/${datasourceId}/`;
+        }
+        
+        // Search and Filter Functions
+        function showAddSearch() {
+            document.getElementById('add-search-modal').style.display = 'block';
+            document.getElementById('search-query').value = '';
+            document.getElementById('search-query').focus();
+        }
+        
+        function closeAddSearch() {
+            document.getElementById('add-search-modal').style.display = 'none';
+        }
+        
+        function showAddFilter() {
+            document.getElementById('add-filter-modal').style.display = 'block';
+            document.getElementById('filter-attribute').value = '';
+            document.getElementById('filter-value').value = '';
+            document.getElementById('filter-attribute').focus();
+        }
+        
+        function closeAddFilter() {
+            document.getElementById('add-filter-modal').style.display = 'none';
+        }
+        
+        function addSearch() {
+            const query = document.getElementById('search-query').value.trim();
+            if (query) {
+                fetch('/workspace/add_search/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `query=${encodeURIComponent(query)}`
+                }).then(response => {
+                    if (response.ok) {
+                        closeAddSearch();
+                        applyFilters(); // Apply immediately after adding
+                    }
+                });
+            }
+        }
+        
+        function addFilter() {
+            const attribute = document.getElementById('filter-attribute').value.trim();
+            const operator = document.getElementById('filter-operator').value;
+            const value = document.getElementById('filter-value').value.trim();
+            
+            if (attribute && value) {
+                fetch('/workspace/add_filter/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `attribute=${encodeURIComponent(attribute)}&operator=${encodeURIComponent(operator)}&value=${encodeURIComponent(value)}`
+                }).then(response => {
+                    if (response.ok) {
+                        closeAddFilter();
+                        applyFilters(); // Apply immediately after adding
+                    }
+                });
+            }
+        }
+        
+        function removeSearch(index) {
+            fetch('/workspace/remove_search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `index=${index}`
+            }).then(response => {
+                if (response.ok) {
+                    applyFilters(); // Apply immediately after removal
+                }
+            });
+        }
+        
+        function removeFilter(index) {
+            fetch('/workspace/remove_filter/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `index=${index}`
+            }).then(response => {
+                if (response.ok) {
+                    applyFilters(); // Apply immediately after removal
+                }
+            });
+        }
+        
+        function applyFilters() {
+            // This will trigger a page reload with filters applied
+            window.location.reload();
         }
         
         function getCookie(name) {
@@ -180,6 +372,19 @@
                 }
             }
             return cookieValue;
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const searchModal = document.getElementById('add-search-modal');
+            const filterModal = document.getElementById('add-filter-modal');
+            
+            if (event.target === searchModal) {
+                closeAddSearch();
+            }
+            if (event.target === filterModal) {
+                closeAddFilter();
+            }
         }
     </script>
 </body>
