@@ -12,9 +12,57 @@
         <span class="header-title">Graph Visualizer</span>
         <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'visualize' %}">
             {% csrf_token %}
-                <input type="file" name="graph_file" accept=".json, .xml" />
-                <button type="submit" class="btn btn-primary">Load File</button>
+            <input type="file" name="graph_file" accept=".json, .xml" />
+            <button type="submit" class="btn btn-primary">Load File</button>
         </form>
+    </div>
+
+    <!-- Workspace Tabs -->
+    <div class="workspace-tabs">
+        {% for workspace in all_workspaces %}
+            <div class="tab {% if workspace.workspace_id == current_workspace_id %}active{% endif %}" 
+                 onclick="switchWorkspace('{{ workspace.workspace_id }}')">
+                <span class="tab-name" 
+                      id="tab-name-{{ workspace.workspace_id }}">
+                    {{ workspace.name }}
+                </span>                      
+                <button class="tab-rename" 
+                        onclick="event.stopPropagation(); startRenaming('{{ workspace.workspace_id }}', '{{ workspace.name }}')">
+                    ✎
+                </button>
+                <button class="tab-close" 
+                        onclick="event.stopPropagation(); closeWorkspace('{{ workspace.workspace_id }}')">
+                    ×
+                </button>
+            </div>
+        {% endfor %}
+                
+        <!-- Plugin Selectors -->
+        <div class="plugin-selectors">
+            <div class="plugin-selector">
+                <label for="visualizer-select">Visualizer:</label>
+                <select id="visualizer-select" onchange="changeVisualizer(this.value)">
+                    {% for plugin in visualizer_plugins %}
+                        <option value="{{ plugin.identifier }}" 
+                                {% if current_workspace and current_workspace.visualizer_plugin.identifier == plugin.identifier %}selected{% endif %}>
+                            {{ plugin.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="plugin-selector">
+                <label for="datasource-select">Available Data Sources:</label>
+                <select id="datasource-select">
+                    {% for plugin in datasource_plugins %}
+                        <option value="{{ plugin.identifier }}" 
+                                {% if current_workspace and current_workspace.datasource_plugin.identifier == plugin.identifier %}selected{% endif %}>
+                            {{ plugin.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
     </div>
 
     <main class="content">
@@ -30,46 +78,9 @@
                 align-items: flex-end;
                 gap: 10px;
                 z-index: 20;">
-                <button id="zoom-in" style="
-                    width: 40px;
-                    height: 40px;
-                    background: #357ABD;
-                    color: white;
-                    font-size: 24px;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    user-select: none;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                    transition: background-color 0.2s ease;">+
-                </button>
-                <button id="zoom-out" style="
-                    width: 40px;
-                    height: 40px;
-                    background: #357ABD;
-                    color: white;
-                    font-size: 24px;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    user-select: none;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                    transition: background-color 0.2s ease;">−
-                </button>
-                <div id="tooltip" style="
-                    top:120px;
-                    right: 20px;
-                    padding: 8px 14px;
-                    background: rgba(0,0,0,0.85);
-                    color: white;
-                    border-radius: 6px;
-                    font-size: 14px;
-                    pointer-events: none;
-                    visibility: hidden;
-                    white-space: nowrap;
-                    z-index: 100;
-                    min-width: 120px;
-                    max-width: 280px;"></div>
+                <button id="zoom-in">+</button>
+                <button id="zoom-out">−</button>
+                <div id="tooltip"></div>
             </div>
         </div>
 
@@ -77,7 +88,6 @@
             {{ main_graph_view|safe }}
         <aside class="fixed-minimap-sidebar">
           <div class="sidebar-content">
-            <!-- Tree View -->
             <div class="view-box tree-box" id="tree-container">
               {% if tree_view %}
                 {{ tree_view|safe }}
@@ -86,7 +96,6 @@
               {% endif %}
             </div>
 
-            <!-- Bird View -->
             <div class="view-box bird-box">
               <div class="minimap-container">
                 <svg id="miniMapSvg"></svg>
@@ -104,5 +113,74 @@
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}
     </main>
+
+    <script>
+        function closeWorkspace(workspaceId) {
+            if (confirm('Are you sure you want to close this workspace?')) {
+                window.location.href = `/workspace/${workspaceId}/close/`;
+            }
+        }
+        
+        function switchWorkspace(workspaceId) {
+            window.location.href = `/workspace/${workspaceId}/switch/`;
+        }
+        
+        function startRenaming(workspaceId, currentName) {
+            const tabName = document.getElementById(`tab-name-${workspaceId}`);
+            tabName.innerHTML = `
+                <input type="text" value="${currentName}" 
+                       onblur="finishRenaming('${workspaceId}', this.value)"
+                       onkeypress="if(event.keyCode===13) this.blur()"
+                       style="width: 120px; padding: 2px;" autofocus>
+            `;
+            tabName.querySelector('input').select();
+        }
+        
+        function finishRenaming(workspaceId, newName) {
+            if (newName.trim()) {
+                // AJAX call to rename workspace
+                fetch(`/workspace/${workspaceId}/rename/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `name=${encodeURIComponent(newName)}`
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          document.getElementById(`tab-name-${workspaceId}`).textContent = newName;
+                      }
+                  });
+            } else {
+                // Reload to get original name
+                location.reload();
+            }
+        }
+        
+        function changeVisualizer(visualizerId) {
+            window.location.href = `/visualizer-plugin/${visualizerId}/`;
+        }
+        
+        function changeDatasource(datasourceId) {
+            window.location.href = `/datasource-plugin/${datasourceId}/`;
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
 </body>
 </html>
