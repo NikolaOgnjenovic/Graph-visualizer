@@ -45,7 +45,6 @@ class WorkspaceService:
     def get_workspace(self, workspace_id: str) -> Optional[Workspace]:
         return self._workspaces.get(workspace_id)
     
-    
     def delete_workspace(self, workspace_id: str):
         if workspace_id in self._workspaces:
             del self._workspaces[workspace_id]
@@ -57,6 +56,27 @@ class WorkspaceService:
         """Rename a workspace"""
         if workspace_id in self._workspaces and new_name.strip():
             self._workspaces[workspace_id].name = new_name.strip()
+
+    def add_search_to_workspace(self, workspace_id: str, query: str):
+        if workspace_id in self._workspaces:
+            self._workspaces[workspace_id].add_search(query)
+    
+    def add_filter_to_workspace(self, workspace_id: str, attribute: str, operator: str, value: str):
+        if workspace_id in self._workspaces:
+            self._workspaces[workspace_id].add_filter(attribute, operator, value)
+    
+    def remove_search_from_workspace(self, workspace_id: str, index: int):
+        if workspace_id in self._workspaces:
+            self._workspaces[workspace_id].remove_search(index)
+    
+    def remove_filter_from_workspace(self, workspace_id: str, index: int):
+        if workspace_id in self._workspaces:
+            self._workspaces[workspace_id].remove_filter(index)
+    
+    def apply_filters_to_workspace(self, workspace_id: str) -> Optional[tuple[Graph, list[str]]]:
+        if workspace_id in self._workspaces:
+            return self._workspaces[workspace_id].apply_filters()
+        return None
 
 
 workspace_service = WorkspaceService()

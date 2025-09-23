@@ -99,6 +99,61 @@ def switch_workspace(request, workspace_id):
     
     return redirect('visualize')
 
+def add_search(request):
+    """Add a search condition to current workspace"""
+    workspace_id = request.session.get("current_workspace_id")
+    if workspace_id and request.method == 'POST':
+        query = request.POST.get('query', '').strip()
+        if query:
+            config = apps.get_app_config("graph_visualizer")
+            workspace_service = config.workspace_service
+            workspace_service.add_search_to_workspace(workspace_id, query)
+            return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+def add_filter(request):
+    """Add a filter condition to current workspace"""
+    workspace_id = request.session.get("current_workspace_id")
+    if workspace_id and request.method == 'POST':
+        attribute = request.POST.get('attribute', '').strip()
+        operator = request.POST.get('operator', '').strip()
+        value = request.POST.get('value', '').strip()
+        
+        if attribute and operator and value:
+            config = apps.get_app_config("graph_visualizer")
+            workspace_service = config.workspace_service
+            workspace_service.add_filter_to_workspace(workspace_id, attribute, operator, value)
+            return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+def remove_search(request):
+    """Remove a search condition from current workspace"""
+    workspace_id = request.session.get("current_workspace_id")
+    if workspace_id and request.method == 'POST':
+        try:
+            index = int(request.POST.get('index', -1))
+            config = apps.get_app_config("graph_visualizer")
+            workspace_service = config.workspace_service
+            workspace_service.remove_search_from_workspace(workspace_id, index)
+            return JsonResponse({'success': True})
+        except ValueError:
+            pass
+    return JsonResponse({'success': False})
+
+def remove_filter(request):
+    """Remove a filter condition from current workspace"""
+    workspace_id = request.session.get("current_workspace_id")
+    if workspace_id and request.method == 'POST':
+        try:
+            index = int(request.POST.get('index', -1))
+            config = apps.get_app_config("graph_visualizer")
+            workspace_service = config.workspace_service
+            workspace_service.remove_filter_from_workspace(workspace_id, index)
+            return JsonResponse({'success': True})
+        except ValueError:
+            pass
+    return JsonResponse({'success': False})
+
 
 def visualize(request):
     """
@@ -187,7 +242,8 @@ def visualize(request):
         return render(request, 'index.html', page_data)
 
     # Get graph from current workspace
-    graph = current_workspace.graph
+    filtered_graph, errors = workspace_service.apply_filters_to_workspace(current_workspace.workspace_id)
+    graph = filtered_graph if filtered_graph else current_workspace.graph
 
     # Render views with current visualizer
     main_graph_view = MainView.render(graph, visualizer_to_use)
@@ -203,5 +259,6 @@ def visualize(request):
         'tree_view': tree_view,
         'all_workspaces': workspace_service.get_all_workspaces(),
         'current_workspace': current_workspace,
-        'current_workspace_id': current_workspace.workspace_id if current_workspace else None
+        'current_workspace_id': current_workspace.workspace_id if current_workspace else None,
+        'errors' : errors
     })
