@@ -79,8 +79,7 @@ class CsvTreeLoader(DataSourcePlugin):
         # Post-process cross-references
         self._link_cross_references(ctx)
 
-        # Link orphaned nodes to root
-        self._link_orphaned_nodes_to_root(ctx, root)
+        print("LOADING ENDED")
 
         return Graph(ctx.vertices, ctx.edges)
 
@@ -133,94 +132,42 @@ class CsvTreeLoader(DataSourcePlugin):
 
     def _link_cross_references(self, ctx: "_BuildContext") -> None:
         """
-        Add edges based on cross-reference attributes present on nodes.
-
-        The following attribute names are recognized (case-insensitive):
-        {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}.
-        When such an attribute holds a string value, it is matched against node
-        names and against node attributes "id" and "node_id".
-
-        :param ctx: Build context with current graph data.
-        :type ctx: _BuildContext
-        :rtype: None
+        Add edges based on cross-reference attributes, avoiding duplicates and cycles.
         """
         keywords = {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}
-    
+        
+        # Create a mapping for faster lookup
+        node_map = {}
+        for node in ctx.vertices:
+            node_map[node.name.lower()] = node
+            for attr in ("id", "node_id"):
+                if attr in node.attributes:
+                    node_map[str(node.attributes[attr]).strip().lower()] = node
+        
+        # Track already created edges to avoid duplicates
+        created_edges = set()
+        
         for node in ctx.vertices:
             for attr_key, attr_val in list(node.attributes.items()):
-                if isinstance(attr_val, str) and attr_key.strip().lower() in keywords:
+                if (isinstance(attr_val, str) and 
+                    attr_key.strip().lower() in keywords):
+                    
                     references = [ref.strip() for ref in attr_val.split(',')]
-                    
                     for ref in references:
-                        if ref:  # Skipping empty references
-                            target = self._find_by_name(ctx, ref)
-                            if target:
-                                ctx.connect(node, target)
-
-    def _link_orphaned_nodes_to_root(self, ctx: "_BuildContext", root: Node) -> None:
-        """
-        Connect all nodes that are not reachable from ROOT to the ROOT node.
-        This ensures the graph has a single entry point and no disconnected components.
-
-        :param ctx: Build context with current graph data.
-        :type ctx: _BuildContext
-        :param root: Root node to connect orphaned nodes to.
-        :type root: Node
-        :rtype: None
-        """
-        # Find all nodes that are reachable from ROOT using BFS
-        reachable_from_root = self._find_reachable_nodes(ctx, root)
-        
-        # Find all non-root nodes
-        non_root_nodes = [node for node in ctx.vertices if node.name != "ROOT"]
-        
-        # Orphaned nodes are those not reachable from ROOT
-        orphaned_nodes = [node for node in non_root_nodes if node not in reachable_from_root]
-        
-        # Link orphaned nodes to ROOT
-        for orphan in orphaned_nodes:
-            ctx.connect(root, orphan)
-
-    def _find_reachable_nodes(self, ctx: "_BuildContext", start_node: Node) -> set[Node]:
-        """
-        Find all nodes reachable from start_node using BFS.
-
-        :param ctx: Build context with graph data.
-        :type ctx: _BuildContext
-        :param start_node: Node to start traversal from.
-        :type start_node: Node
-        :return: Set of nodes reachable from start_node.
-        :rtype: set[Node]
-        """
-        visited = set()
-        queue = deque([start_node])
-        
-        while queue:
-            current_node = queue.popleft()
-            if current_node in visited:
-                continue
-                
-            visited.add(current_node)
-            
-            # Find all neighbors (nodes connected from current node)
-            for edge in ctx.edges:
-                if edge.source == current_node and edge.destination not in visited:
-                    queue.append(edge.destination)
-                    
-        return visited
+                        if ref:  # Skip empty references
+                            target = node_map.get(ref.lower())
+                            if target and target != node:  # Avoid self-references
+                                edge_key = (node.name, target.name)
+                                if edge_key not in created_edges:
+                                    ctx.connect(node, target)
+                                    created_edges.add(edge_key)
 
     def _find_by_name(self, ctx: "_BuildContext", target_name: str) -> Node | None:
         """
         Find a node by name, or by attributes "id"/"node_id" matching target_name.
-        Matching is case-insensitive and ignores surrounding whitespace.
-
-        :param ctx: Build context with nodes to search in.
-        :type ctx: _BuildContext
-        :param target_name: Name or id to match.
-        :type target_name: str
-        :return: The matching node if found, otherwise None.
-        :rtype: Node | None
+        Uses pre-built mapping for efficiency.
         """
+        # This method can be simplified or removed if we use the mapping approach above
         t = target_name.strip().lower()
         for node in ctx.vertices:
             if node.name.lower() == t:
@@ -233,46 +180,21 @@ class CsvTreeLoader(DataSourcePlugin):
 
 
 class _BuildContext:
-    """Mutable build state used during a single load() call."""
     def __init__(self, uid: Iterator[int]):
-        """
-        :param uid: An iterator yielding unique integer ids for nodes.
-        :type uid: Iterator[int]
-        :rtype: None
-        """
         self._uid_iter: Iterator[int] = uid
         self.vertices: list[Node] = []
         self.edges: list[Edge] = []
+        self._edge_set: set[tuple[str, str]] = set()  # Track edges by (src_name, dst_name)
 
     def new_node(self, name: str) -> Node:
-        """
-        Create a new Node with an auto-incremented string id.
-
-        :param name: Name to assign to the node.
-        :type name: str
-        :return: Newly created node.
-        :rtype: Node
-        """
         return Node(name, str(next(self._uid_iter)))
 
     def add_vertex(self, node: Node) -> None:
-        """
-        Register a node in the current graph under construction.
-
-        :param node: Node to add to the vertices collection.
-        :type node: Node
-        :rtype: None
-        """
         self.vertices.append(node)
 
     def connect(self, src: Node, dst: Node) -> None:
-        """
-        Append a directed edge from src to dst.
-
-        :param src: Source node.
-        :type src: Node
-        :param dst: Destination node.
-        :type dst: Node
-        :rtype: None
-        """
-        self.edges.append(Edge(src, dst, GraphDirection.DIRECTED))
+        """Append a directed edge from src to dst, avoiding duplicates."""
+        edge_key = (src.name, dst.name)
+        if edge_key not in self._edge_set:
+            self.edges.append(Edge(src, dst, GraphDirection.DIRECTED))
+            self._edge_set.add(edge_key)

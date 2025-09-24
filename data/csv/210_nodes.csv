@@ -207,5 +207,5 @@ id,name,refs,type,value
 206,Person_206,"202,203",Database Admin,94
 207,Person_207,"204,205",API Developer,89
 208,Person_208,"206,207",Cloud Engineer,93
-209,Person_209,"208,209",Docker Expert,91
-210,Person_210,"210,1",IoT Developer,87
+209,Person_209,"208,210",Docker Expert,91
+210,Person_210,"1",IoT Developer,87
