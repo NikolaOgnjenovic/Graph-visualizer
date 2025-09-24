@@ -136,7 +136,8 @@ class CommandParser:
         node = Node(name, node_id)
         
         for key, value in properties.items():
-            node.add_attribute(key, value)
+            converted_value = self._convert_property_value(value)
+            node.add_attribute(key, converted_value)
                 
         return node
 
@@ -175,10 +176,29 @@ class CommandParser:
         node = self._find_node(node_id)
         
         for key, value in properties.items():
-            node.add_attribute(key, value)
+            converted_value = self._convert_property_value(value)
+            node.add_attribute(key, converted_value)
             
         for removal in removals:
             node.remove_attribute(removal)
+
+    def _convert_property_value(self, value: str) -> any:
+        """Convert property value to appropriate type when creating nodes."""
+        
+        try:
+            return int(value)
+        except ValueError:
+            pass
+        
+        try:
+            return float(value)
+        except ValueError:
+            pass
+        
+        if value.lower() in ('true', 'false'):
+            return value.lower() == 'true'
+        
+        return value
 
     def _edit_edge_from_args(self, args: list[str]):
         params = self._parse_arguments(args)
@@ -267,30 +287,40 @@ class CommandParser:
         return result
 
     def _parse_filter_expression(self, expr: str) -> list[FilterCondition]:
+        """Parse filter expressions with support for && operator"""
+        conditions = []
+        supported_ops = ['==', '!=', '<=', '>=', '<', '>', '=']
         
-        # Poboljšani regex koji jasno razdvaja operatore i vrednosti
-        pattern = r'(\w+)\s*(==|!=|<=|>=|<|>|=)\s*("[^"]+"|\'[^\']+\'|\S+)'
-        matches = re.findall(pattern, expr)
+        and_parts = [part.strip() for part in expr.split('&&')]
         
-        if not matches:
-            raise ValueError(f"Invalid filter expression: {expr}")
-        
-        filters = []
-        for match in matches:
-            attr, op, value = match
+        for condition_str in and_parts:
+            if not condition_str:
+                continue
+                
+            found_op = None
+            for op in sorted(supported_ops, key=len, reverse=True):
+                if op in condition_str:
+                    found_op = op
+                    break
             
-            # Ukloni navodnike ako postoje
+            if not found_op:
+                raise ValueError(f"No valid operator found in: {condition_str}")
+            
+            attr, op_part, value_part = condition_str.partition(found_op)
+            attr = attr.strip()
+            value = value_part.strip()
+            
             if (value.startswith('"') and value.endswith('"')) or \
             (value.startswith("'") and value.endswith("'")):
                 value = value[1:-1]
             
-            # Normalizacija operatora
-            if op == '=':
-                op = '=='
-                
-            filters.append(FilterCondition(attr, value, op))
+            if found_op == '=':
+                found_op = '=='
+            
+            filter_cond = FilterCondition(attr, found_op, value)
+            conditions.append(filter_cond)
         
-        return filters
+        return conditions
 
     def _find_node(self, node_id: str) -> Node:
         for node in self.graph.nodes:
