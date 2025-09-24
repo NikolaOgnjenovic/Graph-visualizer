@@ -1,0 +1,6791 @@
+{
+  "id": "proj_root",
+  "project": "MegaProject",
+  "metadata": {
+    "owner": {
+      "id": "u1",
+      "name": "Alice"
+    },
+    "tags": [
+      "v2",
+      "experimental",
+      "distributed"
+    ],
+    "links": [
+      {
+        "reference": "srv-210"
+      },
+      {
+        "reference": "srv-138"
+      },
+      {
+        "reference": "srv-125"
+      },
+      {
+        "reference": "srv-162"
+      },
+      {
+        "reference": "srv-13"
+      }
+    ]
+  },
+  "services": [
+    {
+      "id": "srv-1",
+      "name": "Service 1",
+      "endpoints": [
+        {
+          "id": "ep-1-1",
+          "path": "/v1/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-1-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-1-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-2",
+      "name": "Service 2",
+      "endpoints": [
+        {
+          "id": "ep-2-1",
+          "path": "/v2/endpoint1"
+        },
+        {
+          "id": "ep-2-2",
+          "path": "/v2/endpoint2"
+        },
+        {
+          "id": "ep-2-3",
+          "path": "/v2/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-2-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-2-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-2-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-3",
+      "name": "Service 3",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-3-1",
+          "path": "/v3/endpoint1"
+        },
+        {
+          "id": "ep-3-2",
+          "path": "/v3/endpoint2"
+        },
+        {
+          "id": "ep-3-3",
+          "path": "/v3/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-3-rep1"
+        },
+        {
+          "id": "srv-3-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-3-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-3-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-3-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-4",
+      "name": "Service 4",
+      "depends_on": [
+        {
+          "ref": "srv-3"
+        },
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-4-1",
+          "path": "/v4/endpoint1"
+        },
+        {
+          "id": "ep-4-2",
+          "path": "/v4/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-4-rep1"
+        },
+        {
+          "id": "srv-4-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-4-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-4-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-4-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-5",
+      "name": "Service 5",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-5-1",
+          "path": "/v5/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-6",
+      "name": "Service 6",
+      "endpoints": [
+        {
+          "id": "ep-6-1",
+          "path": "/v6/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-6-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-6-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-6-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-6-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-7",
+      "name": "Service 7",
+      "depends_on": [
+        {
+          "ref": "srv-1"
+        },
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-7-1",
+          "path": "/v7/endpoint1"
+        },
+        {
+          "id": "ep-7-2",
+          "path": "/v7/endpoint2"
+        },
+        {
+          "id": "ep-7-3",
+          "path": "/v7/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-7-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-8",
+      "name": "Service 8",
+      "depends_on": [
+        {
+          "ref": "srv-3"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-8-1",
+          "path": "/v8/endpoint1"
+        },
+        {
+          "id": "ep-8-2",
+          "path": "/v8/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-8-rep1"
+        },
+        {
+          "id": "srv-8-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-8-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-8-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-9",
+      "name": "Service 9",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-9-1",
+          "path": "/v9/endpoint1"
+        },
+        {
+          "id": "ep-9-2",
+          "path": "/v9/endpoint2"
+        },
+        {
+          "id": "ep-9-3",
+          "path": "/v9/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-9-rep1"
+        },
+        {
+          "id": "srv-9-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-10",
+      "name": "Service 10",
+      "depends_on": [
+        {
+          "ref": "srv-6"
+        },
+        {
+          "ref": "srv-3"
+        },
+        {
+          "ref": "srv-7"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-10-1",
+          "path": "/v10/endpoint1"
+        },
+        {
+          "id": "ep-10-2",
+          "path": "/v10/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-10-rep1"
+        },
+        {
+          "id": "srv-10-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-10-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-11",
+      "name": "Service 11",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-1"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-11-1",
+          "path": "/v11/endpoint1"
+        },
+        {
+          "id": "ep-11-2",
+          "path": "/v11/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-11-rep1"
+        },
+        {
+          "id": "srv-11-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-12",
+      "name": "Service 12",
+      "depends_on": [
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-2"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-12-1",
+          "path": "/v12/endpoint1"
+        },
+        {
+          "id": "ep-12-2",
+          "path": "/v12/endpoint2"
+        },
+        {
+          "id": "ep-12-3",
+          "path": "/v12/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-13",
+      "name": "Service 13",
+      "depends_on": [
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-10"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-13-1",
+          "path": "/v13/endpoint1"
+        },
+        {
+          "id": "ep-13-2",
+          "path": "/v13/endpoint2"
+        },
+        {
+          "id": "ep-13-3",
+          "path": "/v13/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-13-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-14",
+      "name": "Service 14",
+      "depends_on": [
+        {
+          "ref": "srv-13"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-14-1",
+          "path": "/v14/endpoint1"
+        },
+        {
+          "id": "ep-14-2",
+          "path": "/v14/endpoint2"
+        },
+        {
+          "id": "ep-14-3",
+          "path": "/v14/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-14-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-14-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-15",
+      "name": "Service 15",
+      "depends_on": [
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-15-1",
+          "path": "/v15/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-15-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-15-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-16",
+      "name": "Service 16",
+      "depends_on": [
+        {
+          "ref": "srv-8"
+        },
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-12"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-16-1",
+          "path": "/v16/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-16-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-16-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-16-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-17",
+      "name": "Service 17",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-1"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-17-1",
+          "path": "/v17/endpoint1"
+        },
+        {
+          "id": "ep-17-2",
+          "path": "/v17/endpoint2"
+        },
+        {
+          "id": "ep-17-3",
+          "path": "/v17/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-17-rep1"
+        },
+        {
+          "id": "srv-17-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-17-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-18",
+      "name": "Service 18",
+      "depends_on": [
+        {
+          "ref": "srv-13"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-18-1",
+          "path": "/v18/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-18-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-18-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-18-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-19",
+      "name": "Service 19",
+      "endpoints": [
+        {
+          "id": "ep-19-1",
+          "path": "/v19/endpoint1"
+        },
+        {
+          "id": "ep-19-2",
+          "path": "/v19/endpoint2"
+        },
+        {
+          "id": "ep-19-3",
+          "path": "/v19/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-19-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-19-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-19-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-20",
+      "name": "Service 20",
+      "depends_on": [
+        {
+          "ref": "srv-4"
+        },
+        {
+          "ref": "srv-7"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-20-1",
+          "path": "/v20/endpoint1"
+        },
+        {
+          "id": "ep-20-2",
+          "path": "/v20/endpoint2"
+        },
+        {
+          "id": "ep-20-3",
+          "path": "/v20/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-20-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-20-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-21",
+      "name": "Service 21",
+      "depends_on": [
+        {
+          "ref": "srv-9"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-21-1",
+          "path": "/v21/endpoint1"
+        },
+        {
+          "id": "ep-21-2",
+          "path": "/v21/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-21-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-22",
+      "name": "Service 22",
+      "endpoints": [
+        {
+          "id": "ep-22-1",
+          "path": "/v22/endpoint1"
+        },
+        {
+          "id": "ep-22-2",
+          "path": "/v22/endpoint2"
+        },
+        {
+          "id": "ep-22-3",
+          "path": "/v22/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-22-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-22-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-22-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-23",
+      "name": "Service 23",
+      "depends_on": [
+        {
+          "ref": "srv-14"
+        },
+        {
+          "ref": "srv-11"
+        },
+        {
+          "ref": "srv-21"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-23-1",
+          "path": "/v23/endpoint1"
+        },
+        {
+          "id": "ep-23-2",
+          "path": "/v23/endpoint2"
+        },
+        {
+          "id": "ep-23-3",
+          "path": "/v23/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-23-rep1"
+        },
+        {
+          "id": "srv-23-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-24",
+      "name": "Service 24",
+      "depends_on": [
+        {
+          "ref": "srv-10"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-24-1",
+          "path": "/v24/endpoint1"
+        },
+        {
+          "id": "ep-24-2",
+          "path": "/v24/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-25",
+      "name": "Service 25",
+      "depends_on": [
+        {
+          "ref": "srv-12"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-25-1",
+          "path": "/v25/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-26",
+      "name": "Service 26",
+      "endpoints": [
+        {
+          "id": "ep-26-1",
+          "path": "/v26/endpoint1"
+        },
+        {
+          "id": "ep-26-2",
+          "path": "/v26/endpoint2"
+        },
+        {
+          "id": "ep-26-3",
+          "path": "/v26/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-26-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-27",
+      "name": "Service 27",
+      "depends_on": [
+        {
+          "ref": "srv-9"
+        },
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-27-1",
+          "path": "/v27/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-28",
+      "name": "Service 28",
+      "endpoints": [
+        {
+          "id": "ep-28-1",
+          "path": "/v28/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-28-rep1"
+        },
+        {
+          "id": "srv-28-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-28-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-28-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-28-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-29",
+      "name": "Service 29",
+      "depends_on": [
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-5"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-29-1",
+          "path": "/v29/endpoint1"
+        },
+        {
+          "id": "ep-29-2",
+          "path": "/v29/endpoint2"
+        },
+        {
+          "id": "ep-29-3",
+          "path": "/v29/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-29-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-29-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-30",
+      "name": "Service 30",
+      "endpoints": [
+        {
+          "id": "ep-30-1",
+          "path": "/v30/endpoint1"
+        },
+        {
+          "id": "ep-30-2",
+          "path": "/v30/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-30-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-30-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-30-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-31",
+      "name": "Service 31",
+      "depends_on": [
+        {
+          "ref": "srv-23"
+        },
+        {
+          "ref": "srv-3"
+        },
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-31-1",
+          "path": "/v31/endpoint1"
+        },
+        {
+          "id": "ep-31-2",
+          "path": "/v31/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-32",
+      "name": "Service 32",
+      "depends_on": [
+        {
+          "ref": "srv-4"
+        },
+        {
+          "ref": "srv-26"
+        },
+        {
+          "ref": "srv-31"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-32-1",
+          "path": "/v32/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-32-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-32-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-33",
+      "name": "Service 33",
+      "depends_on": [
+        {
+          "ref": "srv-8"
+        },
+        {
+          "ref": "srv-27"
+        },
+        {
+          "ref": "srv-15"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-33-1",
+          "path": "/v33/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-33-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-33-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-34",
+      "name": "Service 34",
+      "endpoints": [
+        {
+          "id": "ep-34-1",
+          "path": "/v34/endpoint1"
+        },
+        {
+          "id": "ep-34-2",
+          "path": "/v34/endpoint2"
+        },
+        {
+          "id": "ep-34-3",
+          "path": "/v34/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-34-rep1"
+        },
+        {
+          "id": "srv-34-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-34-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-35",
+      "name": "Service 35",
+      "depends_on": [
+        {
+          "ref": "srv-30"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-35-1",
+          "path": "/v35/endpoint1"
+        },
+        {
+          "id": "ep-35-2",
+          "path": "/v35/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-35-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-35-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-36",
+      "name": "Service 36",
+      "depends_on": [
+        {
+          "ref": "srv-27"
+        },
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-15"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-36-1",
+          "path": "/v36/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-36-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-36-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-37",
+      "name": "Service 37",
+      "depends_on": [
+        {
+          "ref": "srv-23"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-37-1",
+          "path": "/v37/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-37-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-37-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-37-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-37-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-38",
+      "name": "Service 38",
+      "endpoints": [
+        {
+          "id": "ep-38-1",
+          "path": "/v38/endpoint1"
+        },
+        {
+          "id": "ep-38-2",
+          "path": "/v38/endpoint2"
+        },
+        {
+          "id": "ep-38-3",
+          "path": "/v38/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-39",
+      "name": "Service 39",
+      "depends_on": [
+        {
+          "ref": "srv-26"
+        },
+        {
+          "ref": "srv-36"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-39-1",
+          "path": "/v39/endpoint1"
+        },
+        {
+          "id": "ep-39-2",
+          "path": "/v39/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-39-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-39-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-39-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-40",
+      "name": "Service 40",
+      "depends_on": [
+        {
+          "ref": "srv-37"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-40-1",
+          "path": "/v40/endpoint1"
+        },
+        {
+          "id": "ep-40-2",
+          "path": "/v40/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-40-rep1"
+        },
+        {
+          "id": "srv-40-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-40-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-40-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-40-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-41",
+      "name": "Service 41",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-37"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-41-1",
+          "path": "/v41/endpoint1"
+        },
+        {
+          "id": "ep-41-2",
+          "path": "/v41/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-41-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-41-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-41-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-42",
+      "name": "Service 42",
+      "depends_on": [
+        {
+          "ref": "srv-21"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-42-1",
+          "path": "/v42/endpoint1"
+        },
+        {
+          "id": "ep-42-2",
+          "path": "/v42/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-42-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-43",
+      "name": "Service 43",
+      "depends_on": [
+        {
+          "ref": "srv-26"
+        },
+        {
+          "ref": "srv-13"
+        },
+        {
+          "ref": "srv-28"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-43-1",
+          "path": "/v43/endpoint1"
+        },
+        {
+          "id": "ep-43-2",
+          "path": "/v43/endpoint2"
+        },
+        {
+          "id": "ep-43-3",
+          "path": "/v43/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-44",
+      "name": "Service 44",
+      "depends_on": [
+        {
+          "ref": "srv-9"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-44-1",
+          "path": "/v44/endpoint1"
+        },
+        {
+          "id": "ep-44-2",
+          "path": "/v44/endpoint2"
+        },
+        {
+          "id": "ep-44-3",
+          "path": "/v44/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-45",
+      "name": "Service 45",
+      "depends_on": [
+        {
+          "ref": "srv-33"
+        },
+        {
+          "ref": "srv-28"
+        },
+        {
+          "ref": "srv-10"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-45-1",
+          "path": "/v45/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-45-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-45-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-45-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-46",
+      "name": "Service 46",
+      "depends_on": [
+        {
+          "ref": "srv-1"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-46-1",
+          "path": "/v46/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-46-rep1"
+        },
+        {
+          "id": "srv-46-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-46-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-46-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-46-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-47",
+      "name": "Service 47",
+      "depends_on": [
+        {
+          "ref": "srv-32"
+        },
+        {
+          "ref": "srv-9"
+        },
+        {
+          "ref": "srv-26"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-47-1",
+          "path": "/v47/endpoint1"
+        },
+        {
+          "id": "ep-47-2",
+          "path": "/v47/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-47-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-47-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-48",
+      "name": "Service 48",
+      "depends_on": [
+        {
+          "ref": "srv-23"
+        },
+        {
+          "ref": "srv-16"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-48-1",
+          "path": "/v48/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-48-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-48-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-48-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-49",
+      "name": "Service 49",
+      "depends_on": [
+        {
+          "ref": "srv-34"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-49-1",
+          "path": "/v49/endpoint1"
+        },
+        {
+          "id": "ep-49-2",
+          "path": "/v49/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-49-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-49-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-49-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-49-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-50",
+      "name": "Service 50",
+      "depends_on": [
+        {
+          "ref": "srv-46"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-50-1",
+          "path": "/v50/endpoint1"
+        },
+        {
+          "id": "ep-50-2",
+          "path": "/v50/endpoint2"
+        },
+        {
+          "id": "ep-50-3",
+          "path": "/v50/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-50-rep1"
+        },
+        {
+          "id": "srv-50-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-51",
+      "name": "Service 51",
+      "depends_on": [
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-28"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-51-1",
+          "path": "/v51/endpoint1"
+        },
+        {
+          "id": "ep-51-2",
+          "path": "/v51/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-51-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-52",
+      "name": "Service 52",
+      "endpoints": [
+        {
+          "id": "ep-52-1",
+          "path": "/v52/endpoint1"
+        },
+        {
+          "id": "ep-52-2",
+          "path": "/v52/endpoint2"
+        },
+        {
+          "id": "ep-52-3",
+          "path": "/v52/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-52-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-52-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-52-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-53",
+      "name": "Service 53",
+      "depends_on": [
+        {
+          "ref": "srv-26"
+        },
+        {
+          "ref": "srv-14"
+        },
+        {
+          "ref": "srv-15"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-53-1",
+          "path": "/v53/endpoint1"
+        },
+        {
+          "id": "ep-53-2",
+          "path": "/v53/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-53-rep1"
+        },
+        {
+          "id": "srv-53-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-53-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-53-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-54",
+      "name": "Service 54",
+      "depends_on": [
+        {
+          "ref": "srv-29"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-54-1",
+          "path": "/v54/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-54-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-54-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-55",
+      "name": "Service 55",
+      "depends_on": [
+        {
+          "ref": "srv-29"
+        },
+        {
+          "ref": "srv-21"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-55-1",
+          "path": "/v55/endpoint1"
+        },
+        {
+          "id": "ep-55-2",
+          "path": "/v55/endpoint2"
+        },
+        {
+          "id": "ep-55-3",
+          "path": "/v55/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-55-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-55-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-56",
+      "name": "Service 56",
+      "depends_on": [
+        {
+          "ref": "srv-49"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-56-1",
+          "path": "/v56/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-56-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-56-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-57",
+      "name": "Service 57",
+      "depends_on": [
+        {
+          "ref": "srv-40"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-57-1",
+          "path": "/v57/endpoint1"
+        },
+        {
+          "id": "ep-57-2",
+          "path": "/v57/endpoint2"
+        },
+        {
+          "id": "ep-57-3",
+          "path": "/v57/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-57-rep1"
+        },
+        {
+          "id": "srv-57-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-57-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-57-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-58",
+      "name": "Service 58",
+      "depends_on": [
+        {
+          "ref": "srv-20"
+        },
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-4"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-58-1",
+          "path": "/v58/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-58-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-58-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-58-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-58-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-59",
+      "name": "Service 59",
+      "depends_on": [
+        {
+          "ref": "srv-25"
+        },
+        {
+          "ref": "srv-1"
+        },
+        {
+          "ref": "srv-46"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-59-1",
+          "path": "/v59/endpoint1"
+        },
+        {
+          "id": "ep-59-2",
+          "path": "/v59/endpoint2"
+        },
+        {
+          "id": "ep-59-3",
+          "path": "/v59/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-60",
+      "name": "Service 60",
+      "depends_on": [
+        {
+          "ref": "srv-5"
+        },
+        {
+          "ref": "srv-44"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-60-1",
+          "path": "/v60/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-61",
+      "name": "Service 61",
+      "depends_on": [
+        {
+          "ref": "srv-4"
+        },
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-15"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-61-1",
+          "path": "/v61/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-61-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-61-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-61-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-61-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-62",
+      "name": "Service 62",
+      "depends_on": [
+        {
+          "ref": "srv-24"
+        },
+        {
+          "ref": "srv-59"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-62-1",
+          "path": "/v62/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-62-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-62-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-63",
+      "name": "Service 63",
+      "depends_on": [
+        {
+          "ref": "srv-30"
+        },
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-59"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-63-1",
+          "path": "/v63/endpoint1"
+        },
+        {
+          "id": "ep-63-2",
+          "path": "/v63/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-63-rep1"
+        },
+        {
+          "id": "srv-63-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-64",
+      "name": "Service 64",
+      "depends_on": [
+        {
+          "ref": "srv-2"
+        },
+        {
+          "ref": "srv-45"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-64-1",
+          "path": "/v64/endpoint1"
+        },
+        {
+          "id": "ep-64-2",
+          "path": "/v64/endpoint2"
+        },
+        {
+          "id": "ep-64-3",
+          "path": "/v64/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-65",
+      "name": "Service 65",
+      "endpoints": [
+        {
+          "id": "ep-65-1",
+          "path": "/v65/endpoint1"
+        },
+        {
+          "id": "ep-65-2",
+          "path": "/v65/endpoint2"
+        },
+        {
+          "id": "ep-65-3",
+          "path": "/v65/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-66",
+      "name": "Service 66",
+      "endpoints": [
+        {
+          "id": "ep-66-1",
+          "path": "/v66/endpoint1"
+        },
+        {
+          "id": "ep-66-2",
+          "path": "/v66/endpoint2"
+        },
+        {
+          "id": "ep-66-3",
+          "path": "/v66/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-66-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-67",
+      "name": "Service 67",
+      "endpoints": [
+        {
+          "id": "ep-67-1",
+          "path": "/v67/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-67-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-67-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-68",
+      "name": "Service 68",
+      "depends_on": [
+        {
+          "ref": "srv-9"
+        },
+        {
+          "ref": "srv-28"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-68-1",
+          "path": "/v68/endpoint1"
+        },
+        {
+          "id": "ep-68-2",
+          "path": "/v68/endpoint2"
+        },
+        {
+          "id": "ep-68-3",
+          "path": "/v68/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-68-rep1"
+        },
+        {
+          "id": "srv-68-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-68-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-69",
+      "name": "Service 69",
+      "depends_on": [
+        {
+          "ref": "srv-58"
+        },
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-38"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-69-1",
+          "path": "/v69/endpoint1"
+        },
+        {
+          "id": "ep-69-2",
+          "path": "/v69/endpoint2"
+        },
+        {
+          "id": "ep-69-3",
+          "path": "/v69/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-69-rep1"
+        },
+        {
+          "id": "srv-69-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-70",
+      "name": "Service 70",
+      "endpoints": [
+        {
+          "id": "ep-70-1",
+          "path": "/v70/endpoint1"
+        },
+        {
+          "id": "ep-70-2",
+          "path": "/v70/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-70-rep1"
+        },
+        {
+          "id": "srv-70-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-71",
+      "name": "Service 71",
+      "depends_on": [
+        {
+          "ref": "srv-45"
+        },
+        {
+          "ref": "srv-8"
+        },
+        {
+          "ref": "srv-50"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-71-1",
+          "path": "/v71/endpoint1"
+        },
+        {
+          "id": "ep-71-2",
+          "path": "/v71/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-71-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-71-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-72",
+      "name": "Service 72",
+      "depends_on": [
+        {
+          "ref": "srv-40"
+        },
+        {
+          "ref": "srv-32"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-72-1",
+          "path": "/v72/endpoint1"
+        },
+        {
+          "id": "ep-72-2",
+          "path": "/v72/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-72-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-72-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-72-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-73",
+      "name": "Service 73",
+      "depends_on": [
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-67"
+        },
+        {
+          "ref": "srv-14"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-73-1",
+          "path": "/v73/endpoint1"
+        },
+        {
+          "id": "ep-73-2",
+          "path": "/v73/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-73-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-73-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-74",
+      "name": "Service 74",
+      "depends_on": [
+        {
+          "ref": "srv-66"
+        },
+        {
+          "ref": "srv-69"
+        },
+        {
+          "ref": "srv-54"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-74-1",
+          "path": "/v74/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-74-rep1"
+        },
+        {
+          "id": "srv-74-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-74-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-74-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-75",
+      "name": "Service 75",
+      "depends_on": [
+        {
+          "ref": "srv-38"
+        },
+        {
+          "ref": "srv-50"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-75-1",
+          "path": "/v75/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-75-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-76",
+      "name": "Service 76",
+      "depends_on": [
+        {
+          "ref": "srv-53"
+        },
+        {
+          "ref": "srv-30"
+        },
+        {
+          "ref": "srv-37"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-76-1",
+          "path": "/v76/endpoint1"
+        },
+        {
+          "id": "ep-76-2",
+          "path": "/v76/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-76-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-76-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-76-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-76-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-77",
+      "name": "Service 77",
+      "depends_on": [
+        {
+          "ref": "srv-74"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-77-1",
+          "path": "/v77/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-77-rep1"
+        },
+        {
+          "id": "srv-77-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-77-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-78",
+      "name": "Service 78",
+      "depends_on": [
+        {
+          "ref": "srv-48"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-78-1",
+          "path": "/v78/endpoint1"
+        },
+        {
+          "id": "ep-78-2",
+          "path": "/v78/endpoint2"
+        },
+        {
+          "id": "ep-78-3",
+          "path": "/v78/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-79",
+      "name": "Service 79",
+      "depends_on": [
+        {
+          "ref": "srv-75"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-79-1",
+          "path": "/v79/endpoint1"
+        },
+        {
+          "id": "ep-79-2",
+          "path": "/v79/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-79-rep1"
+        },
+        {
+          "id": "srv-79-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-79-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-79-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-80",
+      "name": "Service 80",
+      "depends_on": [
+        {
+          "ref": "srv-55"
+        },
+        {
+          "ref": "srv-67"
+        },
+        {
+          "ref": "srv-23"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-80-1",
+          "path": "/v80/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-80-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-80-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-81",
+      "name": "Service 81",
+      "depends_on": [
+        {
+          "ref": "srv-65"
+        },
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-78"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-81-1",
+          "path": "/v81/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-81-rep1"
+        },
+        {
+          "id": "srv-81-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-82",
+      "name": "Service 82",
+      "depends_on": [
+        {
+          "ref": "srv-20"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-82-1",
+          "path": "/v82/endpoint1"
+        },
+        {
+          "id": "ep-82-2",
+          "path": "/v82/endpoint2"
+        },
+        {
+          "id": "ep-82-3",
+          "path": "/v82/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-82-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-83",
+      "name": "Service 83",
+      "endpoints": [
+        {
+          "id": "ep-83-1",
+          "path": "/v83/endpoint1"
+        },
+        {
+          "id": "ep-83-2",
+          "path": "/v83/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-84",
+      "name": "Service 84",
+      "depends_on": [
+        {
+          "ref": "srv-61"
+        },
+        {
+          "ref": "srv-6"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-84-1",
+          "path": "/v84/endpoint1"
+        },
+        {
+          "id": "ep-84-2",
+          "path": "/v84/endpoint2"
+        },
+        {
+          "id": "ep-84-3",
+          "path": "/v84/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-84-rep1"
+        },
+        {
+          "id": "srv-84-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-84-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-84-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-84-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-85",
+      "name": "Service 85",
+      "endpoints": [
+        {
+          "id": "ep-85-1",
+          "path": "/v85/endpoint1"
+        },
+        {
+          "id": "ep-85-2",
+          "path": "/v85/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-85-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-85-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-85-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-85-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-86",
+      "name": "Service 86",
+      "endpoints": [
+        {
+          "id": "ep-86-1",
+          "path": "/v86/endpoint1"
+        },
+        {
+          "id": "ep-86-2",
+          "path": "/v86/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-86-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-86-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-86-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-87",
+      "name": "Service 87",
+      "endpoints": [
+        {
+          "id": "ep-87-1",
+          "path": "/v87/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-87-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-87-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-87-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-87-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-88",
+      "name": "Service 88",
+      "depends_on": [
+        {
+          "ref": "srv-29"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-88-1",
+          "path": "/v88/endpoint1"
+        },
+        {
+          "id": "ep-88-2",
+          "path": "/v88/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-88-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-88-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-88-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-88-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-89",
+      "name": "Service 89",
+      "depends_on": [
+        {
+          "ref": "srv-72"
+        },
+        {
+          "ref": "srv-55"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-89-1",
+          "path": "/v89/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-89-rep1"
+        },
+        {
+          "id": "srv-89-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-89-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-90",
+      "name": "Service 90",
+      "depends_on": [
+        {
+          "ref": "srv-58"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-90-1",
+          "path": "/v90/endpoint1"
+        },
+        {
+          "id": "ep-90-2",
+          "path": "/v90/endpoint2"
+        },
+        {
+          "id": "ep-90-3",
+          "path": "/v90/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-90-rep1"
+        },
+        {
+          "id": "srv-90-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-90-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-90-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-90-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-91",
+      "name": "Service 91",
+      "depends_on": [
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-77"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-91-1",
+          "path": "/v91/endpoint1"
+        },
+        {
+          "id": "ep-91-2",
+          "path": "/v91/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-91-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-92",
+      "name": "Service 92",
+      "depends_on": [
+        {
+          "ref": "srv-70"
+        },
+        {
+          "ref": "srv-77"
+        },
+        {
+          "ref": "srv-72"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-92-1",
+          "path": "/v92/endpoint1"
+        },
+        {
+          "id": "ep-92-2",
+          "path": "/v92/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-92-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-92-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-92-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-93",
+      "name": "Service 93",
+      "depends_on": [
+        {
+          "ref": "srv-19"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-93-1",
+          "path": "/v93/endpoint1"
+        },
+        {
+          "id": "ep-93-2",
+          "path": "/v93/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-93-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-93-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-94",
+      "name": "Service 94",
+      "endpoints": [
+        {
+          "id": "ep-94-1",
+          "path": "/v94/endpoint1"
+        },
+        {
+          "id": "ep-94-2",
+          "path": "/v94/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-94-rep1"
+        },
+        {
+          "id": "srv-94-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-94-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-94-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-94-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-95",
+      "name": "Service 95",
+      "depends_on": [
+        {
+          "ref": "srv-39"
+        },
+        {
+          "ref": "srv-6"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-95-1",
+          "path": "/v95/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-96",
+      "name": "Service 96",
+      "depends_on": [
+        {
+          "ref": "srv-39"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-96-1",
+          "path": "/v96/endpoint1"
+        },
+        {
+          "id": "ep-96-2",
+          "path": "/v96/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-96-rep1"
+        },
+        {
+          "id": "srv-96-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-96-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-96-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-96-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-97",
+      "name": "Service 97",
+      "endpoints": [
+        {
+          "id": "ep-97-1",
+          "path": "/v97/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-97-rep1"
+        },
+        {
+          "id": "srv-97-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-97-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-98",
+      "name": "Service 98",
+      "depends_on": [
+        {
+          "ref": "srv-75"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-98-1",
+          "path": "/v98/endpoint1"
+        },
+        {
+          "id": "ep-98-2",
+          "path": "/v98/endpoint2"
+        },
+        {
+          "id": "ep-98-3",
+          "path": "/v98/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-98-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-98-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-99",
+      "name": "Service 99",
+      "endpoints": [
+        {
+          "id": "ep-99-1",
+          "path": "/v99/endpoint1"
+        },
+        {
+          "id": "ep-99-2",
+          "path": "/v99/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-99-rep1"
+        },
+        {
+          "id": "srv-99-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-99-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-100",
+      "name": "Service 100",
+      "endpoints": [
+        {
+          "id": "ep-100-1",
+          "path": "/v100/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-100-rep1"
+        },
+        {
+          "id": "srv-100-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-100-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-100-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-101",
+      "name": "Service 101",
+      "depends_on": [
+        {
+          "ref": "srv-64"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-101-1",
+          "path": "/v101/endpoint1"
+        },
+        {
+          "id": "ep-101-2",
+          "path": "/v101/endpoint2"
+        },
+        {
+          "id": "ep-101-3",
+          "path": "/v101/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-101-rep1"
+        },
+        {
+          "id": "srv-101-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-102",
+      "name": "Service 102",
+      "depends_on": [
+        {
+          "ref": "srv-93"
+        },
+        {
+          "ref": "srv-17"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-102-1",
+          "path": "/v102/endpoint1"
+        },
+        {
+          "id": "ep-102-2",
+          "path": "/v102/endpoint2"
+        },
+        {
+          "id": "ep-102-3",
+          "path": "/v102/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-102-rep1"
+        },
+        {
+          "id": "srv-102-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-102-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-102-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-102-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-103",
+      "name": "Service 103",
+      "depends_on": [
+        {
+          "ref": "srv-98"
+        },
+        {
+          "ref": "srv-63"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-103-1",
+          "path": "/v103/endpoint1"
+        },
+        {
+          "id": "ep-103-2",
+          "path": "/v103/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-103-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-104",
+      "name": "Service 104",
+      "depends_on": [
+        {
+          "ref": "srv-68"
+        },
+        {
+          "ref": "srv-81"
+        },
+        {
+          "ref": "srv-99"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-104-1",
+          "path": "/v104/endpoint1"
+        },
+        {
+          "id": "ep-104-2",
+          "path": "/v104/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-104-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-105",
+      "name": "Service 105",
+      "depends_on": [
+        {
+          "ref": "srv-18"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-105-1",
+          "path": "/v105/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-105-rep1"
+        },
+        {
+          "id": "srv-105-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-105-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-106",
+      "name": "Service 106",
+      "endpoints": [
+        {
+          "id": "ep-106-1",
+          "path": "/v106/endpoint1"
+        },
+        {
+          "id": "ep-106-2",
+          "path": "/v106/endpoint2"
+        },
+        {
+          "id": "ep-106-3",
+          "path": "/v106/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-106-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-106-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-106-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-107",
+      "name": "Service 107",
+      "depends_on": [
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-107-1",
+          "path": "/v107/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-107-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-107-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-108",
+      "name": "Service 108",
+      "depends_on": [
+        {
+          "ref": "srv-35"
+        },
+        {
+          "ref": "srv-19"
+        },
+        {
+          "ref": "srv-55"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-108-1",
+          "path": "/v108/endpoint1"
+        },
+        {
+          "id": "ep-108-2",
+          "path": "/v108/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-108-rep1"
+        },
+        {
+          "id": "srv-108-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-108-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-109",
+      "name": "Service 109",
+      "depends_on": [
+        {
+          "ref": "srv-47"
+        },
+        {
+          "ref": "srv-62"
+        },
+        {
+          "ref": "srv-53"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-109-1",
+          "path": "/v109/endpoint1"
+        },
+        {
+          "id": "ep-109-2",
+          "path": "/v109/endpoint2"
+        },
+        {
+          "id": "ep-109-3",
+          "path": "/v109/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-109-rep1"
+        },
+        {
+          "id": "srv-109-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-109-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-109-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-109-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-110",
+      "name": "Service 110",
+      "depends_on": [
+        {
+          "ref": "srv-44"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-110-1",
+          "path": "/v110/endpoint1"
+        },
+        {
+          "id": "ep-110-2",
+          "path": "/v110/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-110-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-110-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-110-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-111",
+      "name": "Service 111",
+      "depends_on": [
+        {
+          "ref": "srv-104"
+        },
+        {
+          "ref": "srv-93"
+        },
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-111-1",
+          "path": "/v111/endpoint1"
+        },
+        {
+          "id": "ep-111-2",
+          "path": "/v111/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-111-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-111-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-111-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-112",
+      "name": "Service 112",
+      "depends_on": [
+        {
+          "ref": "srv-110"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-112-1",
+          "path": "/v112/endpoint1"
+        },
+        {
+          "id": "ep-112-2",
+          "path": "/v112/endpoint2"
+        },
+        {
+          "id": "ep-112-3",
+          "path": "/v112/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-112-rep1"
+        },
+        {
+          "id": "srv-112-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-112-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-112-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-112-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-113",
+      "name": "Service 113",
+      "depends_on": [
+        {
+          "ref": "srv-103"
+        },
+        {
+          "ref": "srv-107"
+        },
+        {
+          "ref": "srv-64"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-113-1",
+          "path": "/v113/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-113-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-114",
+      "name": "Service 114",
+      "depends_on": [
+        {
+          "ref": "srv-3"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-114-1",
+          "path": "/v114/endpoint1"
+        },
+        {
+          "id": "ep-114-2",
+          "path": "/v114/endpoint2"
+        },
+        {
+          "id": "ep-114-3",
+          "path": "/v114/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-114-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-114-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-114-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-115",
+      "name": "Service 115",
+      "depends_on": [
+        {
+          "ref": "srv-76"
+        },
+        {
+          "ref": "srv-6"
+        },
+        {
+          "ref": "srv-98"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-115-1",
+          "path": "/v115/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-115-rep1"
+        },
+        {
+          "id": "srv-115-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-115-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-115-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-116",
+      "name": "Service 116",
+      "endpoints": [
+        {
+          "id": "ep-116-1",
+          "path": "/v116/endpoint1"
+        },
+        {
+          "id": "ep-116-2",
+          "path": "/v116/endpoint2"
+        },
+        {
+          "id": "ep-116-3",
+          "path": "/v116/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-116-rep1"
+        },
+        {
+          "id": "srv-116-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-116-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-117",
+      "name": "Service 117",
+      "depends_on": [
+        {
+          "ref": "srv-29"
+        },
+        {
+          "ref": "srv-104"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-117-1",
+          "path": "/v117/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-117-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-117-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-117-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-118",
+      "name": "Service 118",
+      "depends_on": [
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-31"
+        },
+        {
+          "ref": "srv-68"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-118-1",
+          "path": "/v118/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-118-rep1"
+        },
+        {
+          "id": "srv-118-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-118-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-119",
+      "name": "Service 119",
+      "depends_on": [
+        {
+          "ref": "srv-40"
+        },
+        {
+          "ref": "srv-111"
+        },
+        {
+          "ref": "srv-101"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-119-1",
+          "path": "/v119/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-119-rep1"
+        },
+        {
+          "id": "srv-119-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-119-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-119-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-120",
+      "name": "Service 120",
+      "endpoints": [
+        {
+          "id": "ep-120-1",
+          "path": "/v120/endpoint1"
+        },
+        {
+          "id": "ep-120-2",
+          "path": "/v120/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-120-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-120-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-121",
+      "name": "Service 121",
+      "endpoints": [
+        {
+          "id": "ep-121-1",
+          "path": "/v121/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-121-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-121-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-121-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-122",
+      "name": "Service 122",
+      "endpoints": [
+        {
+          "id": "ep-122-1",
+          "path": "/v122/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-122-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-122-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-123",
+      "name": "Service 123",
+      "depends_on": [
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-105"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-123-1",
+          "path": "/v123/endpoint1"
+        },
+        {
+          "id": "ep-123-2",
+          "path": "/v123/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-123-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-123-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-123-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-124",
+      "name": "Service 124",
+      "depends_on": [
+        {
+          "ref": "srv-4"
+        },
+        {
+          "ref": "srv-27"
+        },
+        {
+          "ref": "srv-111"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-124-1",
+          "path": "/v124/endpoint1"
+        },
+        {
+          "id": "ep-124-2",
+          "path": "/v124/endpoint2"
+        },
+        {
+          "id": "ep-124-3",
+          "path": "/v124/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-124-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-125",
+      "name": "Service 125",
+      "depends_on": [
+        {
+          "ref": "srv-110"
+        },
+        {
+          "ref": "srv-90"
+        },
+        {
+          "ref": "srv-39"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-125-1",
+          "path": "/v125/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-126",
+      "name": "Service 126",
+      "depends_on": [
+        {
+          "ref": "srv-94"
+        },
+        {
+          "ref": "srv-25"
+        },
+        {
+          "ref": "srv-48"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-126-1",
+          "path": "/v126/endpoint1"
+        },
+        {
+          "id": "ep-126-2",
+          "path": "/v126/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-126-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-127",
+      "name": "Service 127",
+      "depends_on": [
+        {
+          "ref": "srv-35"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-127-1",
+          "path": "/v127/endpoint1"
+        },
+        {
+          "id": "ep-127-2",
+          "path": "/v127/endpoint2"
+        },
+        {
+          "id": "ep-127-3",
+          "path": "/v127/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-127-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-127-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-127-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-128",
+      "name": "Service 128",
+      "depends_on": [
+        {
+          "ref": "srv-110"
+        },
+        {
+          "ref": "srv-39"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-128-1",
+          "path": "/v128/endpoint1"
+        },
+        {
+          "id": "ep-128-2",
+          "path": "/v128/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-128-rep1"
+        },
+        {
+          "id": "srv-128-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-128-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-128-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-129",
+      "name": "Service 129",
+      "depends_on": [
+        {
+          "ref": "srv-66"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-129-1",
+          "path": "/v129/endpoint1"
+        },
+        {
+          "id": "ep-129-2",
+          "path": "/v129/endpoint2"
+        },
+        {
+          "id": "ep-129-3",
+          "path": "/v129/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-129-rep1"
+        },
+        {
+          "id": "srv-129-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-129-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-130",
+      "name": "Service 130",
+      "endpoints": [
+        {
+          "id": "ep-130-1",
+          "path": "/v130/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-130-rep1"
+        },
+        {
+          "id": "srv-130-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-130-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-131",
+      "name": "Service 131",
+      "endpoints": [
+        {
+          "id": "ep-131-1",
+          "path": "/v131/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-131-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-131-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-132",
+      "name": "Service 132",
+      "endpoints": [
+        {
+          "id": "ep-132-1",
+          "path": "/v132/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-132-rep1"
+        },
+        {
+          "id": "srv-132-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-132-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-133",
+      "name": "Service 133",
+      "depends_on": [
+        {
+          "ref": "srv-106"
+        },
+        {
+          "ref": "srv-66"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-133-1",
+          "path": "/v133/endpoint1"
+        },
+        {
+          "id": "ep-133-2",
+          "path": "/v133/endpoint2"
+        },
+        {
+          "id": "ep-133-3",
+          "path": "/v133/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-133-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-134",
+      "name": "Service 134",
+      "endpoints": [
+        {
+          "id": "ep-134-1",
+          "path": "/v134/endpoint1"
+        },
+        {
+          "id": "ep-134-2",
+          "path": "/v134/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-134-rep1"
+        },
+        {
+          "id": "srv-134-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-134-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-134-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-134-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-135",
+      "name": "Service 135",
+      "depends_on": [
+        {
+          "ref": "srv-124"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-135-1",
+          "path": "/v135/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-136",
+      "name": "Service 136",
+      "depends_on": [
+        {
+          "ref": "srv-76"
+        },
+        {
+          "ref": "srv-86"
+        },
+        {
+          "ref": "srv-8"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-136-1",
+          "path": "/v136/endpoint1"
+        },
+        {
+          "id": "ep-136-2",
+          "path": "/v136/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-136-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-137",
+      "name": "Service 137",
+      "endpoints": [
+        {
+          "id": "ep-137-1",
+          "path": "/v137/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-137-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-138",
+      "name": "Service 138",
+      "depends_on": [
+        {
+          "ref": "srv-48"
+        },
+        {
+          "ref": "srv-44"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-138-1",
+          "path": "/v138/endpoint1"
+        },
+        {
+          "id": "ep-138-2",
+          "path": "/v138/endpoint2"
+        },
+        {
+          "id": "ep-138-3",
+          "path": "/v138/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-138-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-138-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-138-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-139",
+      "name": "Service 139",
+      "endpoints": [
+        {
+          "id": "ep-139-1",
+          "path": "/v139/endpoint1"
+        },
+        {
+          "id": "ep-139-2",
+          "path": "/v139/endpoint2"
+        },
+        {
+          "id": "ep-139-3",
+          "path": "/v139/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-139-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-140",
+      "name": "Service 140",
+      "depends_on": [
+        {
+          "ref": "srv-88"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-140-1",
+          "path": "/v140/endpoint1"
+        },
+        {
+          "id": "ep-140-2",
+          "path": "/v140/endpoint2"
+        },
+        {
+          "id": "ep-140-3",
+          "path": "/v140/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-140-rep1"
+        },
+        {
+          "id": "srv-140-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-140-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-140-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-140-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-141",
+      "name": "Service 141",
+      "depends_on": [
+        {
+          "ref": "srv-55"
+        },
+        {
+          "ref": "srv-35"
+        },
+        {
+          "ref": "srv-32"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-141-1",
+          "path": "/v141/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-141-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-141-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-141-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-142",
+      "name": "Service 142",
+      "endpoints": [
+        {
+          "id": "ep-142-1",
+          "path": "/v142/endpoint1"
+        },
+        {
+          "id": "ep-142-2",
+          "path": "/v142/endpoint2"
+        },
+        {
+          "id": "ep-142-3",
+          "path": "/v142/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-143",
+      "name": "Service 143",
+      "depends_on": [
+        {
+          "ref": "srv-129"
+        },
+        {
+          "ref": "srv-15"
+        },
+        {
+          "ref": "srv-63"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-143-1",
+          "path": "/v143/endpoint1"
+        },
+        {
+          "id": "ep-143-2",
+          "path": "/v143/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-143-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-143-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-143-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-144",
+      "name": "Service 144",
+      "depends_on": [
+        {
+          "ref": "srv-97"
+        },
+        {
+          "ref": "srv-93"
+        },
+        {
+          "ref": "srv-111"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-144-1",
+          "path": "/v144/endpoint1"
+        },
+        {
+          "id": "ep-144-2",
+          "path": "/v144/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-144-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-144-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-144-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-145",
+      "name": "Service 145",
+      "endpoints": [
+        {
+          "id": "ep-145-1",
+          "path": "/v145/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-145-rep1"
+        },
+        {
+          "id": "srv-145-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-145-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-145-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-145-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-146",
+      "name": "Service 146",
+      "endpoints": [
+        {
+          "id": "ep-146-1",
+          "path": "/v146/endpoint1"
+        },
+        {
+          "id": "ep-146-2",
+          "path": "/v146/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-146-rep1"
+        },
+        {
+          "id": "srv-146-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-146-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-146-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-147",
+      "name": "Service 147",
+      "endpoints": [
+        {
+          "id": "ep-147-1",
+          "path": "/v147/endpoint1"
+        },
+        {
+          "id": "ep-147-2",
+          "path": "/v147/endpoint2"
+        },
+        {
+          "id": "ep-147-3",
+          "path": "/v147/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-147-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-147-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-147-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-148",
+      "name": "Service 148",
+      "depends_on": [
+        {
+          "ref": "srv-63"
+        },
+        {
+          "ref": "srv-44"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-148-1",
+          "path": "/v148/endpoint1"
+        },
+        {
+          "id": "ep-148-2",
+          "path": "/v148/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-148-rep1"
+        },
+        {
+          "id": "srv-148-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-148-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-148-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-149",
+      "name": "Service 149",
+      "depends_on": [
+        {
+          "ref": "srv-3"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-149-1",
+          "path": "/v149/endpoint1"
+        },
+        {
+          "id": "ep-149-2",
+          "path": "/v149/endpoint2"
+        },
+        {
+          "id": "ep-149-3",
+          "path": "/v149/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-150",
+      "name": "Service 150",
+      "depends_on": [
+        {
+          "ref": "srv-93"
+        },
+        {
+          "ref": "srv-112"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-150-1",
+          "path": "/v150/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-150-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-150-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-150-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-151",
+      "name": "Service 151",
+      "depends_on": [
+        {
+          "ref": "srv-96"
+        },
+        {
+          "ref": "srv-88"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-151-1",
+          "path": "/v151/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-152",
+      "name": "Service 152",
+      "depends_on": [
+        {
+          "ref": "srv-108"
+        },
+        {
+          "ref": "srv-82"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-152-1",
+          "path": "/v152/endpoint1"
+        },
+        {
+          "id": "ep-152-2",
+          "path": "/v152/endpoint2"
+        },
+        {
+          "id": "ep-152-3",
+          "path": "/v152/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-152-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-153",
+      "name": "Service 153",
+      "depends_on": [
+        {
+          "ref": "srv-43"
+        },
+        {
+          "ref": "srv-40"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-153-1",
+          "path": "/v153/endpoint1"
+        },
+        {
+          "id": "ep-153-2",
+          "path": "/v153/endpoint2"
+        },
+        {
+          "id": "ep-153-3",
+          "path": "/v153/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-153-rep1"
+        },
+        {
+          "id": "srv-153-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-153-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-153-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-153-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-154",
+      "name": "Service 154",
+      "depends_on": [
+        {
+          "ref": "srv-71"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-154-1",
+          "path": "/v154/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-154-rep1"
+        },
+        {
+          "id": "srv-154-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-155",
+      "name": "Service 155",
+      "depends_on": [
+        {
+          "ref": "srv-150"
+        },
+        {
+          "ref": "srv-29"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-155-1",
+          "path": "/v155/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-155-rep1"
+        },
+        {
+          "id": "srv-155-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-155-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-155-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-156",
+      "name": "Service 156",
+      "depends_on": [
+        {
+          "ref": "srv-36"
+        },
+        {
+          "ref": "srv-50"
+        },
+        {
+          "ref": "srv-118"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-156-1",
+          "path": "/v156/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-156-rep1"
+        },
+        {
+          "id": "srv-156-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-156-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-156-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-157",
+      "name": "Service 157",
+      "depends_on": [
+        {
+          "ref": "srv-62"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-157-1",
+          "path": "/v157/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-157-rep1"
+        },
+        {
+          "id": "srv-157-rep2"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-158",
+      "name": "Service 158",
+      "depends_on": [
+        {
+          "ref": "srv-107"
+        },
+        {
+          "ref": "srv-7"
+        },
+        {
+          "ref": "srv-37"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-158-1",
+          "path": "/v158/endpoint1"
+        },
+        {
+          "id": "ep-158-2",
+          "path": "/v158/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-158-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-158-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-158-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-159",
+      "name": "Service 159",
+      "depends_on": [
+        {
+          "ref": "srv-48"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-159-1",
+          "path": "/v159/endpoint1"
+        },
+        {
+          "id": "ep-159-2",
+          "path": "/v159/endpoint2"
+        },
+        {
+          "id": "ep-159-3",
+          "path": "/v159/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-159-node1",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-160",
+      "name": "Service 160",
+      "endpoints": [
+        {
+          "id": "ep-160-1",
+          "path": "/v160/endpoint1"
+        },
+        {
+          "id": "ep-160-2",
+          "path": "/v160/endpoint2"
+        },
+        {
+          "id": "ep-160-3",
+          "path": "/v160/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-160-rep1"
+        },
+        {
+          "id": "srv-160-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-160-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-160-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-160-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-161",
+      "name": "Service 161",
+      "endpoints": [
+        {
+          "id": "ep-161-1",
+          "path": "/v161/endpoint1"
+        },
+        {
+          "id": "ep-161-2",
+          "path": "/v161/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-161-rep1"
+        },
+        {
+          "id": "srv-161-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-161-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-161-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-162",
+      "name": "Service 162",
+      "depends_on": [
+        {
+          "ref": "srv-77"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-162-1",
+          "path": "/v162/endpoint1"
+        },
+        {
+          "id": "ep-162-2",
+          "path": "/v162/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-162-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-162-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-162-node2",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-163",
+      "name": "Service 163",
+      "depends_on": [
+        {
+          "ref": "srv-10"
+        },
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-79"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-163-1",
+          "path": "/v163/endpoint1"
+        },
+        {
+          "id": "ep-163-2",
+          "path": "/v163/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-163-rep1"
+        },
+        {
+          "id": "srv-163-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-163-node1",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-164",
+      "name": "Service 164",
+      "depends_on": [
+        {
+          "ref": "srv-42"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-164-1",
+          "path": "/v164/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-164-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-164-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-164-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-165",
+      "name": "Service 165",
+      "depends_on": [
+        {
+          "ref": "srv-80"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-165-1",
+          "path": "/v165/endpoint1"
+        },
+        {
+          "id": "ep-165-2",
+          "path": "/v165/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-165-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-165-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-165-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-166",
+      "name": "Service 166",
+      "depends_on": [
+        {
+          "ref": "srv-163"
+        },
+        {
+          "ref": "srv-75"
+        },
+        {
+          "ref": "srv-89"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-166-1",
+          "path": "/v166/endpoint1"
+        },
+        {
+          "id": "ep-166-2",
+          "path": "/v166/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-166-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-166-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-166-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-167",
+      "name": "Service 167",
+      "endpoints": [
+        {
+          "id": "ep-167-1",
+          "path": "/v167/endpoint1"
+        },
+        {
+          "id": "ep-167-2",
+          "path": "/v167/endpoint2"
+        },
+        {
+          "id": "ep-167-3",
+          "path": "/v167/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-167-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-167-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-168",
+      "name": "Service 168",
+      "depends_on": [
+        {
+          "ref": "srv-153"
+        },
+        {
+          "ref": "srv-22"
+        },
+        {
+          "ref": "srv-90"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-168-1",
+          "path": "/v168/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-168-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-168-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-168-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-168-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-169",
+      "name": "Service 169",
+      "depends_on": [
+        {
+          "ref": "srv-38"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-169-1",
+          "path": "/v169/endpoint1"
+        },
+        {
+          "id": "ep-169-2",
+          "path": "/v169/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-169-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-169-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-169-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-170",
+      "name": "Service 170",
+      "endpoints": [
+        {
+          "id": "ep-170-1",
+          "path": "/v170/endpoint1"
+        },
+        {
+          "id": "ep-170-2",
+          "path": "/v170/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-170-rep1"
+        },
+        {
+          "id": "srv-170-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-170-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-171",
+      "name": "Service 171",
+      "depends_on": [
+        {
+          "ref": "srv-162"
+        },
+        {
+          "ref": "srv-144"
+        },
+        {
+          "ref": "srv-27"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-171-1",
+          "path": "/v171/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-172",
+      "name": "Service 172",
+      "depends_on": [
+        {
+          "ref": "srv-134"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-172-1",
+          "path": "/v172/endpoint1"
+        },
+        {
+          "id": "ep-172-2",
+          "path": "/v172/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-172-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-172-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-172-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-172-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-173",
+      "name": "Service 173",
+      "depends_on": [
+        {
+          "ref": "srv-117"
+        },
+        {
+          "ref": "srv-57"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-173-1",
+          "path": "/v173/endpoint1"
+        },
+        {
+          "id": "ep-173-2",
+          "path": "/v173/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-173-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-173-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-173-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-173-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-174",
+      "name": "Service 174",
+      "depends_on": [
+        {
+          "ref": "srv-79"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-174-1",
+          "path": "/v174/endpoint1"
+        },
+        {
+          "id": "ep-174-2",
+          "path": "/v174/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-175",
+      "name": "Service 175",
+      "depends_on": [
+        {
+          "ref": "srv-122"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-175-1",
+          "path": "/v175/endpoint1"
+        },
+        {
+          "id": "ep-175-2",
+          "path": "/v175/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-175-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-175-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-176",
+      "name": "Service 176",
+      "depends_on": [
+        {
+          "ref": "srv-64"
+        },
+        {
+          "ref": "srv-110"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-176-1",
+          "path": "/v176/endpoint1"
+        },
+        {
+          "id": "ep-176-2",
+          "path": "/v176/endpoint2"
+        },
+        {
+          "id": "ep-176-3",
+          "path": "/v176/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-176-rep1"
+        },
+        {
+          "id": "srv-176-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-176-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-176-node2",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-177",
+      "name": "Service 177",
+      "depends_on": [
+        {
+          "ref": "srv-25"
+        },
+        {
+          "ref": "srv-10"
+        },
+        {
+          "ref": "srv-36"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-177-1",
+          "path": "/v177/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-177-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-178",
+      "name": "Service 178",
+      "depends_on": [
+        {
+          "ref": "srv-73"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-178-1",
+          "path": "/v178/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-179",
+      "name": "Service 179",
+      "endpoints": [
+        {
+          "id": "ep-179-1",
+          "path": "/v179/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-179-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-179-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-180",
+      "name": "Service 180",
+      "depends_on": [
+        {
+          "ref": "srv-83"
+        },
+        {
+          "ref": "srv-179"
+        },
+        {
+          "ref": "srv-39"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-180-1",
+          "path": "/v180/endpoint1"
+        },
+        {
+          "id": "ep-180-2",
+          "path": "/v180/endpoint2"
+        },
+        {
+          "id": "ep-180-3",
+          "path": "/v180/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-180-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-181",
+      "name": "Service 181",
+      "depends_on": [
+        {
+          "ref": "srv-93"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-181-1",
+          "path": "/v181/endpoint1"
+        },
+        {
+          "id": "ep-181-2",
+          "path": "/v181/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-182",
+      "name": "Service 182",
+      "depends_on": [
+        {
+          "ref": "srv-136"
+        },
+        {
+          "ref": "srv-156"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-182-1",
+          "path": "/v182/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-182-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-182-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-182-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-182-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-183",
+      "name": "Service 183",
+      "depends_on": [
+        {
+          "ref": "srv-111"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-183-1",
+          "path": "/v183/endpoint1"
+        },
+        {
+          "id": "ep-183-2",
+          "path": "/v183/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-184",
+      "name": "Service 184",
+      "depends_on": [
+        {
+          "ref": "srv-133"
+        },
+        {
+          "ref": "srv-106"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-184-1",
+          "path": "/v184/endpoint1"
+        },
+        {
+          "id": "ep-184-2",
+          "path": "/v184/endpoint2"
+        },
+        {
+          "id": "ep-184-3",
+          "path": "/v184/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-185",
+      "name": "Service 185",
+      "depends_on": [
+        {
+          "ref": "srv-135"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-185-1",
+          "path": "/v185/endpoint1"
+        },
+        {
+          "id": "ep-185-2",
+          "path": "/v185/endpoint2"
+        },
+        {
+          "id": "ep-185-3",
+          "path": "/v185/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-185-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-185-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-186",
+      "name": "Service 186",
+      "depends_on": [
+        {
+          "ref": "srv-6"
+        },
+        {
+          "ref": "srv-58"
+        },
+        {
+          "ref": "srv-99"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-186-1",
+          "path": "/v186/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-186-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-186-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-186-node2",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-187",
+      "name": "Service 187",
+      "depends_on": [
+        {
+          "ref": "srv-83"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-187-1",
+          "path": "/v187/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-188",
+      "name": "Service 188",
+      "depends_on": [
+        {
+          "ref": "srv-91"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-188-1",
+          "path": "/v188/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-188-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-188-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-188-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-188-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-189",
+      "name": "Service 189",
+      "depends_on": [
+        {
+          "ref": "srv-23"
+        },
+        {
+          "ref": "srv-12"
+        },
+        {
+          "ref": "srv-69"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-189-1",
+          "path": "/v189/endpoint1"
+        },
+        {
+          "id": "ep-189-2",
+          "path": "/v189/endpoint2"
+        },
+        {
+          "id": "ep-189-3",
+          "path": "/v189/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-189-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-190",
+      "name": "Service 190",
+      "depends_on": [
+        {
+          "ref": "srv-66"
+        },
+        {
+          "ref": "srv-48"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-190-1",
+          "path": "/v190/endpoint1"
+        },
+        {
+          "id": "ep-190-2",
+          "path": "/v190/endpoint2"
+        },
+        {
+          "id": "ep-190-3",
+          "path": "/v190/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-190-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-190-node2",
+          "zone": "A"
+        },
+        {
+          "id": "srv-190-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-191",
+      "name": "Service 191",
+      "depends_on": [
+        {
+          "ref": "srv-181"
+        },
+        {
+          "ref": "srv-59"
+        },
+        {
+          "ref": "srv-134"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-191-1",
+          "path": "/v191/endpoint1"
+        },
+        {
+          "id": "ep-191-2",
+          "path": "/v191/endpoint2"
+        },
+        {
+          "id": "ep-191-3",
+          "path": "/v191/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-191-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-191-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-191-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-192",
+      "name": "Service 192",
+      "depends_on": [
+        {
+          "ref": "srv-168"
+        },
+        {
+          "ref": "srv-103"
+        },
+        {
+          "ref": "srv-73"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-192-1",
+          "path": "/v192/endpoint1"
+        },
+        {
+          "id": "ep-192-2",
+          "path": "/v192/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-192-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-192-node1",
+          "zone": "C"
+        },
+        {
+          "id": "srv-192-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-193",
+      "name": "Service 193",
+      "depends_on": [
+        {
+          "ref": "srv-7"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-193-1",
+          "path": "/v193/endpoint1"
+        },
+        {
+          "id": "ep-193-2",
+          "path": "/v193/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-193-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-194",
+      "name": "Service 194",
+      "depends_on": [
+        {
+          "ref": "srv-181"
+        },
+        {
+          "ref": "srv-73"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-194-1",
+          "path": "/v194/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-194-rep1"
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "srv-195",
+      "name": "Service 195",
+      "depends_on": [
+        {
+          "ref": "srv-184"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-195-1",
+          "path": "/v195/endpoint1"
+        },
+        {
+          "id": "ep-195-2",
+          "path": "/v195/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-195-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-196",
+      "name": "Service 196",
+      "endpoints": [
+        {
+          "id": "ep-196-1",
+          "path": "/v196/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-196-rep1"
+        },
+        {
+          "id": "srv-196-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-196-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-197",
+      "name": "Service 197",
+      "depends_on": [
+        {
+          "ref": "srv-32"
+        },
+        {
+          "ref": "srv-129"
+        },
+        {
+          "ref": "srv-143"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-197-1",
+          "path": "/v197/endpoint1"
+        },
+        {
+          "id": "ep-197-2",
+          "path": "/v197/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-198",
+      "name": "Service 198",
+      "depends_on": [
+        {
+          "ref": "srv-89"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-198-1",
+          "path": "/v198/endpoint1"
+        },
+        {
+          "id": "ep-198-2",
+          "path": "/v198/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-198-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-198-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-198-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-199",
+      "name": "Service 199",
+      "depends_on": [
+        {
+          "ref": "srv-134"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-199-1",
+          "path": "/v199/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-199-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-199-node1",
+          "zone": "A"
+        },
+        {
+          "id": "srv-199-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-199-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-200",
+      "name": "Service 200",
+      "depends_on": [
+        {
+          "ref": "srv-45"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-200-1",
+          "path": "/v200/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-200-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-201",
+      "name": "Service 201",
+      "depends_on": [
+        {
+          "ref": "srv-60"
+        },
+        {
+          "ref": "srv-130"
+        },
+        {
+          "ref": "srv-158"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-201-1",
+          "path": "/v201/endpoint1"
+        },
+        {
+          "id": "ep-201-2",
+          "path": "/v201/endpoint2"
+        },
+        {
+          "id": "ep-201-3",
+          "path": "/v201/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-201-rep1"
+        },
+        {
+          "id": "srv-201-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-201-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-201-node2",
+          "zone": "B"
+        },
+        {
+          "id": "srv-201-node3",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-202",
+      "name": "Service 202",
+      "depends_on": [
+        {
+          "ref": "srv-126"
+        },
+        {
+          "ref": "srv-73"
+        },
+        {
+          "ref": "srv-68"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-202-1",
+          "path": "/v202/endpoint1"
+        },
+        {
+          "id": "ep-202-2",
+          "path": "/v202/endpoint2"
+        },
+        {
+          "id": "ep-202-3",
+          "path": "/v202/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-203",
+      "name": "Service 203",
+      "depends_on": [
+        {
+          "ref": "srv-27"
+        },
+        {
+          "ref": "srv-74"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-203-1",
+          "path": "/v203/endpoint1"
+        },
+        {
+          "id": "ep-203-2",
+          "path": "/v203/endpoint2"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-203-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-203-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-203-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-203-node3",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-204",
+      "name": "Service 204",
+      "endpoints": [
+        {
+          "id": "ep-204-1",
+          "path": "/v204/endpoint1"
+        },
+        {
+          "id": "ep-204-2",
+          "path": "/v204/endpoint2"
+        },
+        {
+          "id": "ep-204-3",
+          "path": "/v204/endpoint3"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-204-rep1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-204-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-204-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-204-node3",
+          "zone": "B"
+        }
+      ]
+    },
+    {
+      "id": "srv-205",
+      "name": "Service 205",
+      "depends_on": [
+        {
+          "ref": "srv-29"
+        },
+        {
+          "ref": "srv-123"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-205-1",
+          "path": "/v205/endpoint1"
+        },
+        {
+          "id": "ep-205-2",
+          "path": "/v205/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-205-node1",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-206",
+      "name": "Service 206",
+      "depends_on": [
+        {
+          "ref": "srv-134"
+        },
+        {
+          "ref": "srv-79"
+        },
+        {
+          "ref": "srv-148"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-206-1",
+          "path": "/v206/endpoint1"
+        },
+        {
+          "id": "ep-206-2",
+          "path": "/v206/endpoint2"
+        },
+        {
+          "id": "ep-206-3",
+          "path": "/v206/endpoint3"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-206-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-206-node2",
+          "zone": "C"
+        }
+      ]
+    },
+    {
+      "id": "srv-207",
+      "name": "Service 207",
+      "depends_on": [
+        {
+          "ref": "srv-31"
+        },
+        {
+          "ref": "srv-17"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-207-1",
+          "path": "/v207/endpoint1"
+        },
+        {
+          "id": "ep-207-2",
+          "path": "/v207/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-207-node1",
+          "zone": "B"
+        },
+        {
+          "id": "srv-207-node2",
+          "zone": "D"
+        },
+        {
+          "id": "srv-207-node3",
+          "zone": "D"
+        }
+      ]
+    },
+    {
+      "id": "srv-208",
+      "name": "Service 208",
+      "depends_on": [
+        {
+          "ref": "srv-162"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-208-1",
+          "path": "/v208/endpoint1"
+        },
+        {
+          "id": "ep-208-2",
+          "path": "/v208/endpoint2"
+        }
+      ],
+      "replicas": [],
+      "nodes": []
+    },
+    {
+      "id": "srv-209",
+      "name": "Service 209",
+      "depends_on": [
+        {
+          "ref": "srv-64"
+        },
+        {
+          "ref": "srv-207"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-209-1",
+          "path": "/v209/endpoint1"
+        }
+      ],
+      "replicas": [],
+      "nodes": [
+        {
+          "id": "srv-209-node1",
+          "zone": "A"
+        }
+      ]
+    },
+    {
+      "id": "srv-210",
+      "name": "Service 210",
+      "depends_on": [
+        {
+          "ref": "srv-44"
+        },
+        {
+          "ref": "srv-95"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "ep-210-1",
+          "path": "/v210/endpoint1"
+        }
+      ],
+      "replicas": [
+        {
+          "id": "srv-210-rep1"
+        },
+        {
+          "id": "srv-210-rep2"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "srv-210-node1",
+          "zone": "D"
+        },
+        {
+          "id": "srv-210-node2",
+          "zone": "C"
+        },
+        {
+          "id": "srv-210-node3",
+          "zone": "C"
+        }
+      ]
+    }
+  ]
+}

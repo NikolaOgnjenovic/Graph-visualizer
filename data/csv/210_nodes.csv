@@ -1,211 +1,211 @@
 id,name,refs,type,value
-1,Person_1,"2,3",Team Lead,87
-2,Person_2,"4,5",Frontend Lead,92
-3,Person_3,"6,7",Backend Lead,95
-4,Person_4,"8,9",DevOps Lead,89
-5,Person_5,"10,11",Security Analyst,91
-6,Person_6,"12,13",Database Admin,88
-7,Person_7,"14,15",API Developer,94
-8,Person_8,"16,17",Cloud Engineer,90
-9,Person_9,"18,19",Docker Expert,86
-10,Person_10,"20,21",IoT Developer,93
-11,Person_11,"22,23",Blockchain Dev,87
-12,Person_12,"24,25",Data Analyst,95
-13,Person_13,"26,27",Monitoring Specialist,89
-14,Person_14,"28,29",Logging Expert,92
-15,Person_15,"30,31",Cache Manager,88
-16,Person_16,"32,33",Queue Specialist,91
-17,Person_17,"34,35",Load Balancer,94
-18,Person_18,"36,37",Firewall Admin,87
-19,Person_19,"38,39",Gateway Manager,93
-20,Person_20,"40,41",Proxy Specialist,89
-21,Person_21,"42,43",Router Expert,95
-22,Person_22,"44,45",Switch Admin,88
-23,Person_23,"46,47",Server Manager,92
-24,Person_24,"48,49",Client App,90
-25,Person_25,"50,51",Service Mesh,86
-26,Person_26,"52,53",Microservice,94
-27,Person_27,"54,55",Container Orch,89
-28,Person_28,"56,57",Platform Lead,93
-29,Person_29,"58,59",Software Engineer,91
-30,Person_30,"60,61",Systems Architect,87
-31,Person_31,"62,63",Data Scientist,95
-32,Person_32,"64,65",ML Engineer,88
-33,Person_33,"66,67",Product Owner,92
-34,Person_34,"68,69",Scrum Master,90
-35,Person_35,"70,71",QA Tester,86
-36,Person_36,"72,73",UX Designer,94
-37,Person_37,"74,75",UI Designer,89
-38,Person_38,"76,77",Mobile Dev,93
-39,Person_39,"78,79",Embedded Dev,91
-40,Person_40,"80,81",Game Dev,87
-41,Person_41,"82,83",Team Lead,95
-42,Person_42,"84,85",Frontend Lead,88
-43,Person_43,"86,87",Backend Lead,92
-44,Person_44,"88,89",DevOps Lead,90
-45,Person_45,"90,91",Security Analyst,86
-46,Person_46,"92,93",Database Admin,94
-47,Person_47,"94,95",API Developer,89
-48,Person_48,"96,97",Cloud Engineer,93
-49,Person_49,"98,99",Docker Expert,91
-50,Person_50,"100,101",IoT Developer,87
-51,Person_51,"102,103",Blockchain Dev,95
-52,Person_52,"104,105",Data Analyst,88
-53,Person_53,"106,107",Monitoring Specialist,92
-54,Person_54,"108,109",Logging Expert,90
-55,Person_55,"110,111",Cache Manager,86
-56,Person_56,"112,113",Queue Specialist,94
-57,Person_57,"114,115",Load Balancer,89
-58,Person_58,"116,117",Firewall Admin,93
-59,Person_59,"118,119",Gateway Manager,91
-60,Person_60,"120,121",Proxy Specialist,87
-61,Person_61,"122,123",Router Expert,95
-62,Person_62,"124,125",Switch Admin,88
-63,Person_63,"126,127",Server Manager,92
-64,Person_64,"128,129",Client App,90
-65,Person_65,"130,131",Service Mesh,86
-66,Person_66,"132,133",Microservice,94
-67,Person_67,"134,135",Container Orch,89
-68,Person_68,"136,137",Platform Lead,93
-69,Person_69,"138,139",Software Engineer,91
-70,Person_70,"140,141",Systems Architect,87
-71,Person_71,"142,143",Data Scientist,95
-72,Person_72,"144,145",ML Engineer,88
-73,Person_73,"146,147",Product Owner,92
-74,Person_74,"148,149",Scrum Master,90
-75,Person_75,"150,151",QA Tester,86
-76,Person_76,"152,153",UX Designer,94
-77,Person_77,"154,155",UI Designer,89
-78,Person_78,"156,157",Mobile Dev,93
-79,Person_79,"158,159",Embedded Dev,91
-80,Person_80,"160,161",Game Dev,87
-81,Person_81,"162,163",Team Lead,95
-82,Person_82,"164,165",Frontend Lead,88
-83,Person_83,"166,167",Backend Lead,92
-84,Person_84,"168,169",DevOps Lead,90
-85,Person_85,"170,171",Security Analyst,86
-86,Person_86,"172,173",Database Admin,94
-87,Person_87,"174,175",API Developer,89
-88,Person_88,"176,177",Cloud Engineer,93
-89,Person_89,"178,179",Docker Expert,91
-90,Person_90,"180,181",IoT Developer,87
-91,Person_91,"182,183",Blockchain Dev,95
-92,Person_92,"184,185",Data Analyst,88
-93,Person_93,"186,187",Monitoring Specialist,92
-94,Person_94,"188,189",Logging Expert,90
-95,Person_95,"190,191",Cache Manager,86
-96,Person_96,"192,193",Queue Specialist,94
-97,Person_97,"194,195",Load Balancer,89
-98,Person_98,"196,197",Firewall Admin,93
-99,Person_99,"198,199",Gateway Manager,91
-100,Person_100,"200,201",Proxy Specialist,87
-101,Person_101,"202,203",Router Expert,95
-102,Person_102,"204,205",Switch Admin,88
-103,Person_103,"206,207",Server Manager,92
-104,Person_104,"208,209",Client App,90
-105,Person_105,"210,1",Service Mesh,86
-106,Person_106,"2,3",Microservice,94
-107,Person_107,"4,5",Container Orch,89
-108,Person_108,"6,7",Platform Lead,93
-109,Person_109,"8,9",Software Engineer,91
-110,Person_110,"10,11",Systems Architect,87
-111,Person_111,"12,13",Data Scientist,95
-112,Person_112,"14,15",ML Engineer,88
-113,Person_113,"16,17",Product Owner,92
-114,Person_114,"18,19",Scrum Master,90
-115,Person_115,"20,21",QA Tester,86
-116,Person_116,"22,23",UX Designer,94
-117,Person_117,"24,25",UI Designer,89
-118,Person_118,"26,27",Mobile Dev,93
-119,Person_119,"28,29",Embedded Dev,91
-120,Person_120,"30,31",Game Dev,87
-121,Person_121,"32,33",Team Lead,95
-122,Person_122,"34,35",Frontend Lead,88
-123,Person_123,"36,37",Backend Lead,92
-124,Person_124,"38,39",DevOps Lead,90
-125,Person_125,"40,41",Security Analyst,86
-126,Person_126,"42,43",Database Admin,94
-127,Person_127,"44,45",API Developer,89
-128,Person_128,"46,47",Cloud Engineer,93
-129,Person_129,"48,49",Docker Expert,91
-130,Person_130,"50,51",IoT Developer,87
-131,Person_131,"52,53",Blockchain Dev,95
-132,Person_132,"54,55",Data Analyst,88
-133,Person_133,"56,57",Monitoring Specialist,92
-134,Person_134,"58,59",Logging Expert,90
-135,Person_135,"60,61",Cache Manager,86
-136,Person_136,"62,63",Queue Specialist,94
-137,Person_137,"64,65",Load Balancer,89
-138,Person_138,"66,67",Firewall Admin,93
-139,Person_139,"68,69",Gateway Manager,91
-140,Person_140,"70,71",Proxy Specialist,87
-141,Person_141,"72,73",Router Expert,95
-142,Person_142,"74,75",Switch Admin,88
-143,Person_143,"76,77",Server Manager,92
-144,Person_144,"78,79",Client App,90
-145,Person_145,"80,81",Service Mesh,86
-146,Person_146,"82,83",Microservice,94
-147,Person_147,"84,85",Container Orch,89
-148,Person_148,"86,87",Platform Lead,93
-149,Person_149,"88,89",Software Engineer,91
-150,Person_150,"90,91",Systems Architect,87
-151,Person_151,"92,93",Data Scientist,95
-152,Person_152,"94,95",ML Engineer,88
-153,Person_153,"96,97",Product Owner,92
-154,Person_154,"98,99",Scrum Master,90
-155,Person_155,"100,101",QA Tester,86
-156,Person_156,"102,103",UX Designer,94
-157,Person_157,"104,105",UI Designer,89
-158,Person_158,"106,107",Mobile Dev,93
-159,Person_159,"108,109",Embedded Dev,91
-160,Person_160,"110,111",Game Dev,87
-161,Person_161,"112,113",Team Lead,95
-162,Person_162,"114,115",Frontend Lead,88
-163,Person_163,"116,117",Backend Lead,92
-164,Person_164,"118,119",DevOps Lead,90
-165,Person_165,"120,121",Security Analyst,86
-166,Person_166,"122,123",Database Admin,94
-167,Person_167,"124,125",API Developer,89
-168,Person_168,"126,127",Cloud Engineer,93
-169,Person_169,"128,129",Docker Expert,91
-170,Person_170,"130,131",IoT Developer,87
-171,Person_171,"132,133",Blockchain Dev,95
-172,Person_172,"134,135",Data Analyst,88
-173,Person_173,"136,137",Monitoring Specialist,92
-174,Person_174,"138,139",Logging Expert,90
-175,Person_175,"140,141",Cache Manager,86
-176,Person_176,"142,143",Queue Specialist,94
-177,Person_177,"144,145",Load Balancer,89
-178,Person_178,"146,147",Firewall Admin,93
-179,Person_179,"148,149",Gateway Manager,91
-180,Person_180,"150,151",Proxy Specialist,87
-181,Person_181,"152,153",Router Expert,95
-182,Person_182,"154,155",Switch Admin,88
-183,Person_183,"156,157",Server Manager,92
-184,Person_184,"158,159",Client App,90
-185,Person_185,"160,161",Service Mesh,86
-186,Person_186,"162,163",Microservice,94
-187,Person_187,"164,165",Container Orch,89
-188,Person_188,"166,167",Platform Lead,93
-189,Person_189,"168,169",Software Engineer,91
-190,Person_190,"170,171",Systems Architect,87
-191,Person_191,"172,173",Data Scientist,95
-192,Person_192,"174,175",ML Engineer,88
-193,Person_193,"176,177",Product Owner,92
-194,Person_194,"178,179",Scrum Master,90
-195,Person_195,"180,181",QA Tester,86
-196,Person_196,"182,183",UX Designer,94
-197,Person_197,"184,185",UI Designer,89
-198,Person_198,"186,187",Mobile Dev,93
-199,Person_199,"188,189",Embedded Dev,91
-200,Person_200,"190,191",Game Dev,87
-201,Person_201,"192,193",Team Lead,95
-202,Person_202,"194,195",Frontend Lead,88
-203,Person_203,"196,197",Backend Lead,92
-204,Person_204,"198,199",DevOps Lead,90
-205,Person_205,"200,201",Security Analyst,86
-206,Person_206,"202,203",Database Admin,94
-207,Person_207,"204,205",API Developer,89
-208,Person_208,"206,207",Cloud Engineer,93
-209,Person_209,"208,210",Docker Expert,91
-210,Person_210,"1",IoT Developer,87
+1,Node_1,"2,3",Type_A,10
+2,Node_2,"4,5",Type_B,20
+3,Node_3,"6,7",Type_C,30
+4,Node_4,"8,9",Type_A,40
+5,Node_5,"10,11",Type_B,50
+6,Node_6,"12,13",Type_C,60
+7,Node_7,"14,15",Type_A,70
+8,Node_8,"16,17",Type_B,80
+9,Node_9,"18,19",Type_C,90
+10,Node_10,"20,1",Type_A,100
+11,Node_11,"12,13",Type_B,15
+12,Node_12,"14,15",Type_C,25
+13,Node_13,"16,17",Type_A,35
+14,Node_14,"18,19",Type_B,45
+15,Node_15,"20,1",Type_C,55
+16,Node_16,"2,3",Type_A,65
+17,Node_17,"4,5",Type_B,75
+18,Node_18,"6,7",Type_C,85
+19,Node_19,"8,9",Type_A,95
+20,Node_20,"10,11",Type_B,105
+21,Node_21,"12,13",Type_C,12
+22,Node_22,"14,15",Type_A,22
+23,Node_23,"16,17",Type_B,32
+24,Node_24,"18,19",Type_C,42
+25,Node_25,"20,1",Type_A,52
+26,Node_26,"2,3",Type_B,62
+27,Node_27,"4,5",Type_C,72
+28,Node_28,"6,7",Type_A,82
+29,Node_29,"8,9",Type_B,92
+30,Node_30,"10,11",Type_C,102
+31,Node_31,"12,13",Type_A,14
+32,Node_32,"14,15",Type_B,24
+33,Node_33,"16,17",Type_C,34
+34,Node_34,"18,19",Type_A,44
+35,Node_35,"20,1",Type_B,54
+36,Node_36,"2,3",Type_C,64
+37,Node_37,"4,5",Type_A,74
+38,Node_38,"6,7",Type_B,84
+39,Node_39,"8,9",Type_C,94
+40,Node_40,"10,11",Type_A,104
+41,Node_41,"12,13",Type_B,16
+42,Node_42,"14,15",Type_C,26
+43,Node_43,"16,17",Type_A,36
+44,Node_44,"18,19",Type_B,46
+45,Node_45,"20,1",Type_C,56
+46,Node_46,"2,3",Type_A,66
+47,Node_47,"4,5",Type_B,76
+48,Node_48,"6,7",Type_C,86
+49,Node_49,"8,9",Type_A,96
+50,Node_50,"10,11",Type_B,106
+51,Node_51,"12,13",Type_C,18
+52,Node_52,"14,15",Type_A,28
+53,Node_53,"16,17",Type_B,38
+54,Node_54,"18,19",Type_C,48
+55,Node_55,"20,1",Type_A,58
+56,Node_56,"2,3",Type_B,68
+57,Node_57,"4,5",Type_C,78
+58,Node_58,"6,7",Type_A,88
+59,Node_59,"8,9",Type_B,98
+60,Node_60,"10,11",Type_C,108
+61,Node_61,"12,13",Type_A,20
+62,Node_62,"14,15",Type_B,30
+63,Node_63,"16,17",Type_C,40
+64,Node_64,"18,19",Type_A,50
+65,Node_65,"20,1",Type_B,60
+66,Node_66,"2,3",Type_C,70
+67,Node_67,"4,5",Type_A,80
+68,Node_68,"6,7",Type_B,90
+69,Node_69,"8,9",Type_C,100
+70,Node_70,"10,11",Type_A,110
+71,Node_71,"12,13",Type_B,22
+72,Node_72,"14,15",Type_C,32
+73,Node_73,"16,17",Type_A,42
+74,Node_74,"18,19",Type_B,52
+75,Node_75,"20,1",Type_C,62
+76,Node_76,"2,3",Type_A,72
+77,Node_77,"4,5",Type_B,82
+78,Node_78,"6,7",Type_C,92
+79,Node_79,"8,9",Type_A,102
+80,Node_80,"10,11",Type_B,112
+81,Node_81,"12,13",Type_C,24
+82,Node_82,"14,15",Type_A,34
+83,Node_83,"16,17",Type_B,44
+84,Node_84,"18,19",Type_C,54
+85,Node_85,"20,1",Type_A,64
+86,Node_86,"2,3",Type_B,74
+87,Node_87,"4,5",Type_C,84
+88,Node_88,"6,7",Type_A,94
+89,Node_89,"8,9",Type_B,104
+90,Node_90,"10,11",Type_C,114
+91,Node_91,"12,13",Type_A,26
+92,Node_92,"14,15",Type_B,36
+93,Node_93,"16,17",Type_C,46
+94,Node_94,"18,19",Type_A,56
+95,Node_95,"20,1",Type_B,66
+96,Node_96,"2,3",Type_C,76
+97,Node_97,"4,5",Type_A,86
+98,Node_98,"6,7",Type_B,96
+99,Node_99,"8,9",Type_C,106
+100,Node_100,"10,11",Type_A,116
+101,Node_101,"12,13",Type_B,28
+102,Node_102,"14,15",Type_C,38
+103,Node_103,"16,17",Type_A,48
+104,Node_104,"18,19",Type_B,58
+105,Node_105,"20,1",Type_C,68
+106,Node_106,"2,3",Type_A,78
+107,Node_107,"4,5",Type_B,88
+108,Node_108,"6,7",Type_C,98
+109,Node_109,"8,9",Type_A,108
+110,Node_110,"10,11",Type_B,118
+111,Node_111,"12,13",Type_C,30
+112,Node_112,"14,15",Type_A,40
+113,Node_113,"16,17",Type_B,50
+114,Node_114,"18,19",Type_C,60
+115,Node_115,"20,1",Type_A,70
+116,Node_116,"2,3",Type_B,80
+117,Node_117,"4,5",Type_C,90
+118,Node_118,"6,7",Type_A,100
+119,Node_119,"8,9",Type_B,110
+120,Node_120,"10,11",Type_C,120
+121,Node_121,"12,13",Type_A,32
+122,Node_122,"14,15",Type_B,42
+123,Node_123,"16,17",Type_C,52
+124,Node_124,"18,19",Type_A,62
+125,Node_125,"20,1",Type_B,72
+126,Node_126,"2,3",Type_C,82
+127,Node_127,"4,5",Type_A,92
+128,Node_128,"6,7",Type_B,102
+129,Node_129,"8,9",Type_C,112
+130,Node_130,"10,11",Type_A,122
+131,Node_131,"12,13",Type_B,34
+132,Node_132,"14,15",Type_C,44
+133,Node_133,"16,17",Type_A,54
+134,Node_134,"18,19",Type_B,64
+135,Node_135,"20,1",Type_C,74
+136,Node_136,"2,3",Type_A,84
+137,Node_137,"4,5",Type_B,94
+138,Node_138,"6,7",Type_C,104
+139,Node_139,"8,9",Type_A,114
+140,Node_140,"10,11",Type_B,124
+141,Node_141,"12,13",Type_C,36
+142,Node_142,"14,15",Type_A,46
+143,Node_143,"16,17",Type_B,56
+144,Node_144,"18,19",Type_C,66
+145,Node_145,"20,1",Type_A,76
+146,Node_146,"2,3",Type_B,86
+147,Node_147,"4,5",Type_C,96
+148,Node_148,"6,7",Type_A,106
+149,Node_149,"8,9",Type_B,116
+150,Node_150,"10,11",Type_C,126
+151,Node_151,"12,13",Type_A,38
+152,Node_152,"14,15",Type_B,48
+153,Node_153,"16,17",Type_C,58
+154,Node_154,"18,19",Type_A,68
+155,Node_155,"20,1",Type_B,78
+156,Node_156,"2,3",Type_C,88
+157,Node_157,"4,5",Type_A,98
+158,Node_158,"6,7",Type_B,108
+159,Node_159,"8,9",Type_C,118
+160,Node_160,"10,11",Type_A,128
+161,Node_161,"12,13",Type_B,40
+162,Node_162,"14,15",Type_C,50
+163,Node_163,"16,17",Type_A,60
+164,Node_164,"18,19",Type_B,70
+165,Node_165,"20,1",Type_C,80
+166,Node_166,"2,3",Type_A,90
+167,Node_167,"4,5",Type_B,100
+168,Node_168,"6,7",Type_C,110
+169,Node_169,"8,9",Type_A,120
+170,Node_170,"10,11",Type_B,130
+171,Node_171,"12,13",Type_C,42
+172,Node_172,"14,15",Type_A,52
+173,Node_173,"16,17",Type_B,62
+174,Node_174,"18,19",Type_C,72
+175,Node_175,"20,1",Type_A,82
+176,Node_176,"2,3",Type_B,92
+177,Node_177,"4,5",Type_C,102
+178,Node_178,"6,7",Type_A,112
+179,Node_179,"8,9",Type_B,122
+180,Node_180,"10,11",Type_C,132
+181,Node_181,"12,13",Type_A,44
+182,Node_182,"14,15",Type_B,54
+183,Node_183,"16,17",Type_C,64
+184,Node_184,"18,19",Type_A,74
+185,Node_185,"20,1",Type_B,84
+186,Node_186,"2,3",Type_C,94
+187,Node_187,"4,5",Type_A,104
+188,Node_188,"6,7",Type_B,114
+189,Node_189,"8,9",Type_C,124
+190,Node_190,"10,11",Type_A,134
+191,Node_191,"12,13",Type_B,46
+192,Node_192,"14,15",Type_C,56
+193,Node_193,"16,17",Type_A,66
+194,Node_194,"18,19",Type_B,76
+195,Node_195,"20,1",Type_C,86
+196,Node_196,"2,3",Type_A,96
+197,Node_197,"4,5",Type_B,106
+198,Node_198,"6,7",Type_C,116
+199,Node_199,"8,9",Type_A,126
+200,Node_200,"10,11",Type_B,136
+201,Node_201,"12,13",Type_C,48
+202,Node_202,"14,15",Type_A,58
+203,Node_203,"16,17",Type_B,68
+204,Node_204,"18,19",Type_C,78
+205,Node_205,"20,1",Type_A,88
+206,Node_206,"2,3",Type_B,98
+207,Node_207,"4,5",Type_C,108
+208,Node_208,"6,7",Type_A,118
+209,Node_209,"8,9",Type_B,128
+210,Node_210,"10,11",Type_C,138
