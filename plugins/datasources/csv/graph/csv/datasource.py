@@ -4,6 +4,7 @@ from typing import Any, Iterator
 import itertools
 import csv
 from io import StringIO
+from collections import deque
 
 
 class CsvTreeLoader(DataSourcePlugin):
@@ -158,8 +159,8 @@ class CsvTreeLoader(DataSourcePlugin):
 
     def _link_orphaned_nodes_to_root(self, ctx: "_BuildContext", root: Node) -> None:
         """
-        Connect all nodes that have no incoming edges (except from ROOT) to the ROOT node.
-        This ensures the graph has a single entry point and no disconnected nodes.
+        Connect all nodes that are not reachable from ROOT to the ROOT node.
+        This ensures the graph has a single entry point and no disconnected components.
 
         :param ctx: Build context with current graph data.
         :type ctx: _BuildContext
@@ -167,24 +168,46 @@ class CsvTreeLoader(DataSourcePlugin):
         :type root: Node
         :rtype: None
         """
-        # Find all nodes that are not ROOT
+        # Find all nodes that are reachable from ROOT using BFS
+        reachable_from_root = self._find_reachable_nodes(ctx, root)
+        
+        # Find all non-root nodes
         non_root_nodes = [node for node in ctx.vertices if node.name != "ROOT"]
         
-        if not non_root_nodes:
-            return
-        
-        # Set of nodes that have incoming edges
-        nodes_with_incoming_edges = set()
-        for edge in ctx.edges:
-            if edge.destination != root:  # Ignore incoming edges from ROOT
-                nodes_with_incoming_edges.add(edge.destination)
-        
-        # Find orphaned nodes
-        orphaned_nodes = [node for node in non_root_nodes if node not in nodes_with_incoming_edges]
+        # Orphaned nodes are those not reachable from ROOT
+        orphaned_nodes = [node for node in non_root_nodes if node not in reachable_from_root]
         
         # Link orphaned nodes to ROOT
         for orphan in orphaned_nodes:
             ctx.connect(root, orphan)
+
+    def _find_reachable_nodes(self, ctx: "_BuildContext", start_node: Node) -> set[Node]:
+        """
+        Find all nodes reachable from start_node using BFS.
+
+        :param ctx: Build context with graph data.
+        :type ctx: _BuildContext
+        :param start_node: Node to start traversal from.
+        :type start_node: Node
+        :return: Set of nodes reachable from start_node.
+        :rtype: set[Node]
+        """
+        visited = set()
+        queue = deque([start_node])
+        
+        while queue:
+            current_node = queue.popleft()
+            if current_node in visited:
+                continue
+                
+            visited.add(current_node)
+            
+            # Find all neighbors (nodes connected from current node)
+            for edge in ctx.edges:
+                if edge.source == current_node and edge.destination not in visited:
+                    queue.append(edge.destination)
+                    
+        return visited
 
     def _find_by_name(self, ctx: "_BuildContext", target_name: str) -> Node | None:
         """

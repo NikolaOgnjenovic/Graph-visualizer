@@ -1,0 +1,6 @@
+<node id="n1" name="Node1" ref="n2">
+  <children>
+    <node id="n2" name="Node2" ref="n3" />
+    <node id="n3" name="Node3" ref="n1" />
+  </children>
+</node>
