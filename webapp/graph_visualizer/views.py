@@ -269,28 +269,25 @@ def visualize(request):
 def execute_command(request):
     """Process CLI commands for the current workspace"""
     if request.method != "POST":
-        return HttpResponseRedirect(reverse('index'))
+        return redirect('visualize')
     
-    # Get command from form
+    # Get command and workspace ID
     command_text = request.POST.get('cli_command', '').strip()
-    if not command_text:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    workspace_id = request.session.get("current_workspace_id")
     
-    # Get current workspace
-    workspace_id_str = request.session.get("current_workspace_id")
-    if not workspace_id_str:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    if not command_text or not workspace_id:
+        return redirect('visualize')
     
-    try:
-        workspace_id = uuid.UUID(workspace_id_str)
-    except (ValueError, TypeError):
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    
-    # Process command through workspace service
+    # Process command
     config = apps.get_app_config("graph_visualizer")
     workspace_service: WorkspaceService = config.workspace_service
     
-    workspace_service.execute_command(command_text, workspace_id)
+    success = workspace_service.execute_command(command_text, workspace_id)
     
-    # Redirect back to the same page
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('visualize')))
+    # Handle errors
+    if not success:
+        request.session['cli_error'] = workspace_service.get_command_error()
+    elif 'cli_error' in request.session:
+        del request.session['cli_error']
+    
+    return redirect('visualize')

@@ -541,6 +541,7 @@ body {
     background: #1e1e1e;
     color: #cccccc;
     transition: height 0.3s ease;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
 }
 
 .cli-terminal-header {
@@ -583,7 +584,27 @@ body {
     overflow-y: auto;
     font-size: 13px;
     line-height: 1.4;
-    max-height: calc(100% - 40px);
+}
+
+.content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 240px; /* leave room for fixed minimap sidebar */
+}
+
+.cli-terminal.collapsed {
+    height: 40px;
+}
+
+.cli-terminal {
+    transform: translateY(0);
+    transition: height 0.3s ease, transform 0.3s ease;
+}
+
+.cli-terminal.collapsed {
+    transform: translateY(calc(100% - 40px));
 }
 
 .cli-output-line {
@@ -654,83 +675,6 @@ body {
     margin-bottom: 8px;
 }
 
-/* Scrollbar styling for CLI */
-.cli-output::-webkit-scrollbar {
-    width: 8px;
-}
-
-.cli-output::-webkit-scrollbar-track {
-    background: #2d2d30;
-}
-
-.cli-output::-webkit-scrollbar-thumb {
-    background: #424245;
-    border-radius: 4px;
-}
-
-.cli-output::-webkit-scrollbar-thumb:hover {
-    background: #4a4a4e;
-}
-
-/* Ensure main content adjusts for CLI height */
-.content {
-    padding-bottom: 300px; /* Space for expanded CLI */
-    transition: padding-bottom 0.3s ease;
-}
-
-/* When CLI is collapsed */
-.cli-terminal.collapsed {
-    height: 40px;
-}
-
-.cli-terminal.collapsed + .content {
-    padding-bottom: 40px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .cli-terminal {
-        height: 250px;
-    }
-    
-    .content {
-        padding-bottom: 250px;
-    }
-    
-    .cli-terminal.collapsed + .content {
-        padding-bottom: 40px;
-    }
-    
-    .cli-terminal-header {
-        padding: 6px 12px;
-        font-size: 13px;
-    }
-    
-    .cli-output {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-    
-    .cli-input-line {
-        padding: 6px 12px;
-    }
-}
-
-/* Animation for smooth transitions */
-.cli-terminal-content {
-    transition: opacity 0.2s ease;
-}
-
-.cli-terminal.collapsed .cli-terminal-content {
-    opacity: 0;
-    display: none;
-}
-
-/* Focus states for accessibility */
-.cli-input:focus {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.cli-toggle-btn:focus {
-    outline: 1px solid #569cd6;
+.hidden {
+    display: none !important;
 }

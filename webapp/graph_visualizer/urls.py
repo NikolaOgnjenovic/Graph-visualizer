@@ -14,5 +14,5 @@ urlpatterns = [
     path('workspace/add_filter/', views.add_filter, name='add_filter'),
     path('workspace/remove_search/', views.remove_search, name='remove_search'),
     path('workspace/remove_filter/', views.remove_filter, name='remove_filter'),
-    path('process_command/', views.execute_command, name='execute_command'),
+    path('execute_command/', views.execute_command, name='execute_command'),
 ]

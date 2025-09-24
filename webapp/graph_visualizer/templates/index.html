@@ -235,6 +235,20 @@
         {% csrf_token %}
         <input type="hidden" name="cli_command" id="cli-command-input">
     </form>
+
+    <div id="cli-error-notification" class="error-notification {% if not request.session.cli_error %}hidden{% endif %}">
+        <div class="error-header">
+            <h4>⚠️ CLI Command Error</h4>
+            <button class="error-close" onclick="closeCLIErrorNotification()">×</button>
+        </div>
+        <div class="error-list">
+            <div class="error-item">
+                <span class="error-icon">❌</span>
+                <span class="error-text">{{ request.session.cli_error }}</span>
+            </div>
+        </div>
+    </div>
+
     </main>
 
     <script>
@@ -504,6 +518,13 @@
 
         function scrollCLIToBottom() {
             cliOutput.scrollTop = cliOutput.scrollHeight;
+        }
+
+        function closeCLIErrorNotification() {
+            const cliErrorNotification = document.getElementById('cli-error-notification');
+            if (cliErrorNotification) {
+                cliErrorNotification.style.display = 'none';
+            }
         }
     </script>
 </body>
