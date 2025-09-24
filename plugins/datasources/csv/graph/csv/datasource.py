@@ -22,6 +22,7 @@ class CsvTreeLoader(DataSourcePlugin):
       node has attributes named in {ref, refs, parent_ref, child_ref, link,
       reference}. The referenced value is matched against the target node name, or
       against attributes "id" or "node_id" of nodes.
+    - Orphaned nodes (whitout incoming edges) are connected to ROOT
     """
 
     def __init__(self):
@@ -72,20 +73,27 @@ class CsvTreeLoader(DataSourcePlugin):
         ctx.add_vertex(root)
 
         # Build tree from CSV rows
-        self._build_tree_from_csv(ctx, root, rows[1:], headers)
+        self._build_tree_from_csv_rows(ctx, root, rows[1:], headers)
 
         # Post-process cross-references
         self._link_cross_references(ctx)
 
+        # Link orphaned nodes to root
+        self._link_orphaned_nodes_to_root(ctx, root)
+
         return Graph(ctx.vertices, ctx.edges)
 
-    def _build_tree_from_csv(self, ctx: "_BuildContext", parent: Node, data_rows: list, headers: list) -> None:
+    def _build_tree_from_csv_rows(self, ctx: "_BuildContext", parent: Node, data_rows: list, headers: list) -> None:
         """
-        Recursively convert CSV rows into nodes and attributes.
+        Convert CSV rows into nodes and connect them to parent node.
+
+        Each row becomes a node with attributes from column values.
+        Only the first node is connected directly to parent; other nodes
+        rely on cross-references for connections.
 
         :param ctx: Build context holding vertices/edges and UID generator.
         :type ctx: _BuildContext
-        :param parent: Node to attach newly created nodes to.
+        :param parent: Node to attach the first newly created node to.
         :type parent: Node
         :param data_rows: CSV data rows (excluding header).
         :type data_rows: list
@@ -93,6 +101,9 @@ class CsvTreeLoader(DataSourcePlugin):
         :type headers: list
         :rtype: None
         """
+
+        first_node = None
+
         for row_index, row in enumerate(data_rows, start=1):
             if not row:  # Skip empty rows
                 continue
@@ -108,9 +119,16 @@ class CsvTreeLoader(DataSourcePlugin):
             
             # Add row index as attribute
             row_node.add_attribute("row_index", row_index)
+
+            # Store first node for ROOT connection
+            if row_index == 1:
+                first_node = row_node
             
-            ctx.connect(parent, row_node)
             ctx.add_vertex(row_node)
+        
+        # Connect ROOT only to the first node
+        if first_node:
+            ctx.connect(parent, first_node)
 
     def _link_cross_references(self, ctx: "_BuildContext") -> None:
         """
@@ -126,12 +144,47 @@ class CsvTreeLoader(DataSourcePlugin):
         :rtype: None
         """
         keywords = {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}
+    
         for node in ctx.vertices:
             for attr_key, attr_val in list(node.attributes.items()):
                 if isinstance(attr_val, str) and attr_key.strip().lower() in keywords:
-                    target = self._find_by_name(ctx, attr_val)
-                    if target:
-                        ctx.connect(node, target)
+                    references = [ref.strip() for ref in attr_val.split(',')]
+                    
+                    for ref in references:
+                        if ref:  # Skipping empty references
+                            target = self._find_by_name(ctx, ref)
+                            if target:
+                                ctx.connect(node, target)
+
+    def _link_orphaned_nodes_to_root(self, ctx: "_BuildContext", root: Node) -> None:
+        """
+        Connect all nodes that have no incoming edges (except from ROOT) to the ROOT node.
+        This ensures the graph has a single entry point and no disconnected nodes.
+
+        :param ctx: Build context with current graph data.
+        :type ctx: _BuildContext
+        :param root: Root node to connect orphaned nodes to.
+        :type root: Node
+        :rtype: None
+        """
+        # Find all nodes that are not ROOT
+        non_root_nodes = [node for node in ctx.vertices if node.name != "ROOT"]
+        
+        if not non_root_nodes:
+            return
+        
+        # Set of nodes that have incoming edges
+        nodes_with_incoming_edges = set()
+        for edge in ctx.edges:
+            if edge.destination != root:  # Ignore incoming edges from ROOT
+                nodes_with_incoming_edges.add(edge.destination)
+        
+        # Find orphaned nodes
+        orphaned_nodes = [node for node in non_root_nodes if node not in nodes_with_incoming_edges]
+        
+        # Link orphaned nodes to ROOT
+        for orphan in orphaned_nodes:
+            ctx.connect(root, orphan)
 
     def _find_by_name(self, ctx: "_BuildContext", target_name: str) -> Node | None:
         """
