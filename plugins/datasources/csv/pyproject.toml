@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-datasource-csv"
+version = "0.1"
+description = "This is a plugin which loads graph data from CSV files."
+dependencies = [
+    "graph-api==0.1",
+    "Django>=5.1"
+]
+
+[project.entry-points."graph.datasource"]
+datasource_db = "graph.csv.datasource:CsvTreeLoader"
+
+[tool.setuptools]
+provides = ["graph.csv.datasource"]

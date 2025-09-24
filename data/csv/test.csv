@@ -1,0 +1,7 @@
+id,name,refs,role,department
+1,Alice,"2,3,4",Team Lead,Engineering
+2,Bob,"1,5",Senior Developer,Backend
+3,Charlie,"1,6",UI Specialist,Frontend
+4,David,"1,5,6",DevOps Engineer,Operations
+5,Eve,"2,4",Database Admin,Data
+6,Frank,"3,4",QA Engineer,Testing

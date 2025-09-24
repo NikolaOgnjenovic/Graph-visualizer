@@ -33,7 +33,7 @@ To get started on project development, do the following after cloning the reposi
 4. Install requirements
 ```shell
   pip install -r requirements.txt
-  pip install ./API ./visualizer_platform ./plugins/datasources/json ./plugins/datasources/xml ./plugins/visualizers/simple ./plugins/visualizers/block
+  pip install ./API ./visualizer_platform ./plugins/datasources/json ./plugins/datasources/xml ./plugins/datasources/csv ./plugins/visualizers/simple ./plugins/visualizers/block
 ```
 
 5. Run webapp

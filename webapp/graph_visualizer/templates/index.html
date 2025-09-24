@@ -12,7 +12,7 @@
         <span class="header-title">Graph Visualizer</span>
         <form class="upload-form" method="post" enctype="multipart/form-data" action="{% url 'visualize' %}">
             {% csrf_token %}
-            <input type="file" name="graph_file" accept=".json, .xml" />
+            <input type="file" name="graph_file" accept=".json, .xml, .csv" />
             <button type="submit" class="btn btn-primary">Load File</button>
         </form>
     </div>
