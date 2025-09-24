@@ -208,6 +208,48 @@
         {% else %}
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}
+
+    <!-- CLI Terminal -->
+    <div class="cli-terminal-wrapper">
+        <div class="cli-resize-handle"></div>
+        <div class="cli-terminal collapsed" id="cli-terminal">
+            <div class="cli-terminal-header">
+                <span>Graph Visualizer CLI</span>
+                <button class="cli-toggle-btn" onclick="toggleCLI()">+</button>
+            </div>
+            <div class="cli-terminal-content" id="cli-terminal-content" style="display: none;">
+                <div class="cli-output" id="cli-output">
+                    <div class="cli-message">Type 'help' for available commands</div>
+                </div>
+                <div class="cli-input-line">
+                    <span class="cli-prompt">graph_cli&gt;</span>
+                    <input type="text" class="cli-input" id="cli-input" 
+                           placeholder="Enter command..." autocomplete="off"
+                           onkeydown="handleCLICommand(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden form for CLI commands -->
+    <form id="cli-command-form" method="post" action="{% url 'execute_command' %}" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" name="cli_command" id="cli-command-input">
+    </form>
+
+    <div id="cli-error-notification" class="error-notification {% if not request.session.cli_error %}hidden{% endif %}">
+        <div class="error-header">
+            <h4>⚠️ CLI Command Error</h4>
+            <button class="error-close" onclick="closeCLIErrorNotification()">×</button>
+        </div>
+        <div class="error-list">
+            <div class="error-item">
+                <span class="error-icon">❌</span>
+                <span class="error-text">{{ request.session.cli_error }}</span>
+            </div>
+        </div>
+    </div>
+
     </main>
 
     <script>
@@ -385,6 +427,136 @@
             if (event.target === filterModal) {
                 closeAddFilter();
             }
+        }
+
+        // CLI functionality
+        let cliExpanded = false;
+        const cliTerminal = document.getElementById('cli-terminal');
+        const cliContent = document.getElementById('cli-terminal-content');
+        const cliOutput = document.getElementById('cli-output');
+        const cliInput = document.getElementById('cli-input');
+
+        function toggleCLI() {
+            cliExpanded = !cliExpanded;
+            if (cliExpanded) {
+                cliContent.style.display = 'block';
+                cliTerminal.style.height = '300px';
+                cliTerminal.classList.remove('collapsed');
+                document.querySelector('.cli-toggle-btn').textContent = '−';
+            } else {
+                cliContent.style.display = 'none';
+                cliTerminal.style.height = '40px';
+                cliTerminal.classList.add('collapsed');
+                document.querySelector('.cli-toggle-btn').textContent = '+';
+            }
+            scrollCLIToBottom();
+        }
+
+        function handleCLICommand(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const command = cliInput.value.trim();
+                
+                if (!command) return;
+                
+                // Add command to output
+                addCLIOutput(`graph_cli&gt; ${command}`, 'command');
+                
+                // Handle local commands
+                if (command.toLowerCase() === 'clear') {
+                    clearCLI();
+                } else if (command.toLowerCase() === 'help') {
+                    showCLIHelp();
+                } else {
+                    // Send command to server
+                    submitCLICommand(command);
+                }
+                
+                cliInput.value = '';
+                scrollCLIToBottom();
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                // Maybe implementing command history
+            }
+        }
+
+        function addCLIOutput(text, type = 'output') {
+            const outputLine = document.createElement('div');
+            outputLine.className = `cli-output-line ${type}`;
+            outputLine.textContent = text;
+            cliOutput.appendChild(outputLine);
+        }
+
+        function clearCLI() {
+            cliOutput.innerHTML = '';
+            addCLIOutput('Terminal cleared', 'system');
+        }
+
+        function showCLIHelp() {
+            const helpText = [
+                'Available commands:',
+                '  clear - Clear terminal',
+                '  help - Show this help',
+                'Graph commands:',
+                '  create node --id=X --property Name=Value',
+                '  create edge node1 node2 [--property Name=Value]',
+                '  edit node --id=X --property Name=Value',
+                '  edit edge node1 node2 --property Name=Value',
+                '  delete node --id=X',
+                '  delete edge node1 node2',
+                '  filter condition (e.g., Age>30 && Name=John)',
+                '  search query',
+                '  clear graph'
+            ];
+            
+            helpText.forEach(line => addCLIOutput(line, 'help'));
+        }
+
+        function submitCLICommand(command) {
+            const form = document.getElementById('cli-command-form');
+            const input = document.getElementById('cli-command-input');
+            input.value = command;
+            form.submit();
+        }
+
+        function scrollCLIToBottom() {
+            cliOutput.scrollTop = cliOutput.scrollHeight;
+        }
+
+        function closeCLIErrorNotification() {
+            const cliErrorNotification = document.getElementById('cli-error-notification');
+            if (cliErrorNotification) {
+                cliErrorNotification.style.display = 'none';
+            }
+        }
+
+        let isResizing = false;
+
+        resizeHandle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        });
+
+        function handleResize(e) {
+            if (!isResizing) return;
+            
+            const newHeight = window.innerHeight - e.clientY;
+            const minHeight = 100;
+            const maxHeight = window.innerHeight - 100;
+            
+            if (newHeight >= minHeight && newHeight <= maxHeight) {
+                cliTerminal.style.height = newHeight + 'px';
+                cliExpanded = true;
+                cliTerminal.classList.remove('collapsed');
+                document.querySelector('.cli-toggle-btn').textContent = '−';
+            }
+        }
+
+        function stopResize() {
+            isResizing = false;
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
         }
     </script>
 </body>
