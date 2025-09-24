@@ -1,0 +1,6 @@
+id,name,parent_ref,department,role
+1,Alice,3,Engineering,Developer
+2,Bob,3,Marketing,Manager
+3,Charlie,,Management,Director
+4,David,1,Engineering,Senior Developer
+5,Eve,2,Marketing,Analyst

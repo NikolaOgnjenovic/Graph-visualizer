@@ -1,10 +1,29 @@
-import itertools
-from API.graph.services import DataSourcePlugin
 from API.graph.models.graph import Graph, Node, Edge, GraphDirection
+from API.graph.services import DataSourcePlugin
 from typing import Any, Iterator
+import itertools
+import csv
+from io import StringIO
 
 
 class CsvTreeLoader(DataSourcePlugin):
+    """
+    Load a CSV document into a Graph structure.
+
+    The loader treats the input CSV as a tree under a synthetic ROOT node and
+    then adds extra edges for cross-references detected via common reference
+    keys (e.g., "ref", "reference", "parent_ref").
+
+    Behavior summary:
+    - First row is treated as header (column names)
+    - Each subsequent row becomes a child node under ROOT
+    - Column values are stored as attributes on the row nodes using header names
+    - After the tree is built, additional directed edges are created when a
+      node has attributes named in {ref, refs, parent_ref, child_ref, link,
+      reference}. The referenced value is matched against the target node name, or
+      against attributes "id" or "node_id" of nodes.
+    """
+
     def __init__(self):
         self._uid = itertools.count()
 
@@ -27,9 +46,116 @@ class CsvTreeLoader(DataSourcePlugin):
         return "csv_to_graph_loader"
 
     def load(self, csv_string: str) -> Graph:
-       
-        return Graph([],[])
-    
+        """
+        Parse the CSV string and convert it into a Graph.
+
+        :param csv_string: CSV content to parse.
+        :type csv_string: str
+        :return: Graph containing nodes and edges derived from the CSV.
+        :rtype: Graph
+        """
+        # Create a fresh per-call context
+        ctx = _BuildContext(uid=self._uid)
+
+        # Parse CSV
+        csv_reader = csv.reader(StringIO(csv_string.strip()))
+        rows = list(csv_reader)
+        
+        if not rows:
+            return Graph([], [])
+
+        # First row is header
+        headers = [header.strip() for header in rows[0]]
+        
+        # Create root node
+        root = ctx.new_node("ROOT")
+        ctx.add_vertex(root)
+
+        # Build tree from CSV rows
+        self._build_tree_from_csv(ctx, root, rows[1:], headers)
+
+        # Post-process cross-references
+        self._link_cross_references(ctx)
+
+        return Graph(ctx.vertices, ctx.edges)
+
+    def _build_tree_from_csv(self, ctx: "_BuildContext", parent: Node, data_rows: list, headers: list) -> None:
+        """
+        Recursively convert CSV rows into nodes and attributes.
+
+        :param ctx: Build context holding vertices/edges and UID generator.
+        :type ctx: _BuildContext
+        :param parent: Node to attach newly created nodes to.
+        :type parent: Node
+        :param data_rows: CSV data rows (excluding header).
+        :type data_rows: list
+        :param headers: Column headers from first row.
+        :type headers: list
+        :rtype: None
+        """
+        for row_index, row in enumerate(data_rows, start=1):
+            if not row:  # Skip empty rows
+                continue
+                
+            # Create node for this row (use first column value as name or generic name)
+            node_name = row[0] if row and row[0] else f"row_{row_index}"
+            row_node = ctx.new_node(node_name)
+            
+            # Add all columns as attributes
+            for col_index, value in enumerate(row):
+                if col_index < len(headers) and value is not None and value != "":
+                    row_node.add_attribute(headers[col_index], value)
+            
+            # Add row index as attribute
+            row_node.add_attribute("row_index", row_index)
+            
+            ctx.connect(parent, row_node)
+            ctx.add_vertex(row_node)
+
+    def _link_cross_references(self, ctx: "_BuildContext") -> None:
+        """
+        Add edges based on cross-reference attributes present on nodes.
+
+        The following attribute names are recognized (case-insensitive):
+        {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}.
+        When such an attribute holds a string value, it is matched against node
+        names and against node attributes "id" and "node_id".
+
+        :param ctx: Build context with current graph data.
+        :type ctx: _BuildContext
+        :rtype: None
+        """
+        keywords = {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}
+        for node in ctx.vertices:
+            for attr_key, attr_val in list(node.attributes.items()):
+                if isinstance(attr_val, str) and attr_key.strip().lower() in keywords:
+                    target = self._find_by_name(ctx, attr_val)
+                    if target:
+                        ctx.connect(node, target)
+
+    def _find_by_name(self, ctx: "_BuildContext", target_name: str) -> Node | None:
+        """
+        Find a node by name, or by attributes "id"/"node_id" matching target_name.
+        Matching is case-insensitive and ignores surrounding whitespace.
+
+        :param ctx: Build context with nodes to search in.
+        :type ctx: _BuildContext
+        :param target_name: Name or id to match.
+        :type target_name: str
+        :return: The matching node if found, otherwise None.
+        :rtype: Node | None
+        """
+        t = target_name.strip().lower()
+        for node in ctx.vertices:
+            if node.name.lower() == t:
+                return node
+            for attr in ("id", "node_id"):
+                val = str(node.attributes.get(attr, "")).strip().lower()
+                if val == t:
+                    return node
+        return None
+
+
 class _BuildContext:
     """Mutable build state used during a single load() call."""
     def __init__(self, uid: Iterator[int]):
