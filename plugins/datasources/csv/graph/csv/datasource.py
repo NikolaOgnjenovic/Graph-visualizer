@@ -6,16 +6,42 @@ import csv
 from io import StringIO
 
 class CsvTreeLoader(DataSourcePlugin):
+    """
+    Load a CSV document into a Graph structure.
+    
+    The loader treats the CSV as a table where each row becomes a node,
+    and all nodes are connected to a synthetic ROOT node. Additional edges
+    are created for cross-references detected via common reference keywords.
+    """
+
     def __init__(self):
         self._uid = itertools.count()
 
     def name(self) -> str:
+        """
+        Retrieves the name of this datasource plugin.
+
+        :return: Human-readable plugin name.
+        :rtype: str
+        """
         return "CSV to graph loader"
 
     def identifier(self) -> str:
+        """
+        Retrieves a stable identifier for this datasource plugin.
+
+        :return: Unique plugin identifier used by the plugin system.
+        :rtype: str
+        """
         return "csv_to_graph_loader"
 
     def load(self, csv_string: str) -> Graph:
+        """
+        Parse CSV string and convert it into a Graph.
+        
+        :param csv_string: CSV content to parse
+        :return: Graph containing nodes from CSV rows
+        """
         ctx = _BuildContext(uid=self._uid)
 
         # Parse CSV
@@ -47,6 +73,12 @@ class CsvTreeLoader(DataSourcePlugin):
         return Graph(ctx.vertices, ctx.edges)
 
     def _link_cross_references(self, ctx: "_BuildContext") -> None:
+        """
+        Create edges between nodes that reference each other.
+        
+        Looks for attributes with reference-related keywords (ref, refs, link, etc.)
+        and creates edges when target nodes are found.
+        """
         keywords = {"ref", "refs", "parent_ref", "child_ref", "link", "reference"}
 
         # Build lookup map
@@ -71,20 +103,50 @@ class CsvTreeLoader(DataSourcePlugin):
                                 created_edges.add(edge_key)
 
 class _BuildContext:
+    """Mutable build state used during a single load() call."""
     def __init__(self, uid: Iterator[int]):
+        """
+        :param uid: An iterator yielding unique integer ids for nodes.
+        :type uid: Iterator[int]
+        :rtype: None
+        """
         self._uid_iter = uid
         self.vertices = []
         self.edges = []
         self._edge_set = set()
 
     def new_node(self, name: str) -> Node:
+        """
+        Create a new Node with an auto-incremented string id.
+
+        :param name: Name to assign to the node.
+        :type name: str
+        :return: Newly created node.
+        :rtype: Node
+        """
         return Node(name, str(next(self._uid_iter)))
 
     def add_vertex(self, node: Node) -> None:
+        """
+        Register a node in the current graph under construction.
+
+        :param node: Node to add to the vertices collection.
+        :type node: Node
+        :rtype: None
+        """
         self.vertices.append(node)
 
     def connect(self, src: Node, dst: Node) -> None:
+        """
+        Append a directed edge from src to dst.
+
+        :param src: Source node.
+        :type src: Node
+        :param dst: Destination node.
+        :type dst: Node
+        :rtype: None
+        """
         edge_key = (src.name, dst.name)
-        if edge_key not in self._edge_set:
+        if edge_key not in self._edge_set: # Avoid duplicate edges
             self.edges.append(Edge(src, dst, GraphDirection.DIRECTED))
             self._edge_set.add(edge_key)
