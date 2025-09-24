@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Optional, Union
 from API.graph.models.workspace import FilterCondition, SearchCondition
 from API.graph.models.graph import Node, Edge, Graph, GraphDirection
+import re
 
 
 class CommandType(Enum):
@@ -130,16 +131,12 @@ class CommandParser:
         
         if any(node.node_id == node_id for node in self.graph.nodes):
             raise ValueError(f"Node with ID '{node_id}' already exists")
-            
-        if 'name' not in properties and 'Name' not in properties:
-            raise ValueError("Property 'name' is required for a node")
-            
-        name = properties.get('name') or properties.get('Name')
+        
+        name = properties.get('name') or properties.get('Name') or f"Node_{node_id}"
         node = Node(name, node_id)
         
         for key, value in properties.items():
-            if key.lower() != 'name':
-                node.add_attribute(key, value)
+            node.add_attribute(key, value)
                 
         return node
 
@@ -270,29 +267,29 @@ class CommandParser:
         return result
 
     def _parse_filter_expression(self, expr: str) -> list[FilterCondition]:
-        conditions = [cond.strip() for cond in expr.split('&&')]
+        
+        # Poboljšani regex koji jasno razdvaja operatore i vrednosti
+        pattern = r'(\w+)\s*(==|!=|<=|>=|<|>|=)\s*("[^"]+"|\'[^\']+\'|\S+)'
+        matches = re.findall(pattern, expr)
+        
+        if not matches:
+            raise ValueError(f"Invalid filter expression: {expr}")
+        
         filters = []
-        
-        operators = ['<=', '>=', '!=', '==', '<', '>', '=']
-        
-        for condition in conditions:
-            operator_found = None
-            for op in operators:
-                if op in condition:
-                    parts = condition.split(op)
-                    if len(parts) == 2:
-                        attr = parts[0].strip()
-                        value = parts[1].strip()
-                        # Normalizacija operatora
-                        if op == '=':
-                            op = '=='
-                        filters.append(FilterCondition(attr, value, op))
-                        operator_found = True
-                        break
+        for match in matches:
+            attr, op, value = match
             
-            if not operator_found:
-                raise ValueError(f"Invalid filter condition: {condition}")
+            # Ukloni navodnike ako postoje
+            if (value.startswith('"') and value.endswith('"')) or \
+            (value.startswith("'") and value.endswith("'")):
+                value = value[1:-1]
+            
+            # Normalizacija operatora
+            if op == '=':
+                op = '=='
                 
+            filters.append(FilterCondition(attr, value, op))
+        
         return filters
 
     def _find_node(self, node_id: str) -> Node:

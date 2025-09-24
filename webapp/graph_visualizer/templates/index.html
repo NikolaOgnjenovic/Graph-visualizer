@@ -208,7 +208,8 @@
         {% else %}
             <div class="placeholder">Upload a JSON file to visualize the graph.</div>
         {% endif %}
-        <!-- CLI Terminal -->
+
+    <!-- CLI Terminal -->
     <div class="cli-terminal-wrapper">
         <div class="cli-resize-handle"></div>
         <div class="cli-terminal" id="cli-terminal">
@@ -441,12 +442,15 @@
             if (cliExpanded) {
                 cliContent.style.display = 'block';
                 cliTerminal.style.height = '300px';
+                cliTerminal.classList.remove('collapsed');
                 document.querySelector('.cli-toggle-btn').textContent = '−';
             } else {
                 cliContent.style.display = 'none';
                 cliTerminal.style.height = '40px';
+                cliTerminal.classList.add('collapsed');
                 document.querySelector('.cli-toggle-btn').textContent = '+';
             }
+            scrollCLIToBottom();
         }
 
         function handleCLICommand(event) {
@@ -525,6 +529,35 @@
             if (cliErrorNotification) {
                 cliErrorNotification.style.display = 'none';
             }
+        }
+
+        let isResizing = false;
+
+        resizeHandle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        });
+
+        function handleResize(e) {
+            if (!isResizing) return;
+            
+            const newHeight = window.innerHeight - e.clientY;
+            const minHeight = 100;
+            const maxHeight = window.innerHeight - 100;
+            
+            if (newHeight >= minHeight && newHeight <= maxHeight) {
+                cliTerminal.style.height = newHeight + 'px';
+                cliExpanded = true;
+                cliTerminal.classList.remove('collapsed');
+                document.querySelector('.cli-toggle-btn').textContent = '−';
+            }
+        }
+
+        function stopResize() {
+            isResizing = false;
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
         }
     </script>
 </body>
