@@ -7,6 +7,9 @@ from visualizer_platform.graph.use_cases.views.graph_tree_view import TreeView
 from visualizer_platform.graph.services.workspace_service import WorkspaceService
 from django.apps import apps
 from django.http import JsonResponse
+import uuid
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def index(request):
@@ -262,3 +265,32 @@ def visualize(request):
         'current_workspace_id': current_workspace.workspace_id if current_workspace else None,
         'errors' : errors
     })
+ 
+def execute_command(request):
+    """Process CLI commands for the current workspace"""
+    if request.method != "POST":
+        return HttpResponseRedirect(reverse('index'))
+    
+    # Get command from form
+    command_text = request.POST.get('cli_command', '').strip()
+    if not command_text:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    
+    # Get current workspace
+    workspace_id_str = request.session.get("current_workspace_id")
+    if not workspace_id_str:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    
+    try:
+        workspace_id = uuid.UUID(workspace_id_str)
+    except (ValueError, TypeError):
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    
+    # Process command through workspace service
+    config = apps.get_app_config("graph_visualizer")
+    workspace_service: WorkspaceService = config.workspace_service
+    
+    workspace_service.execute_command(command_text, workspace_id)
+    
+    # Redirect back to the same page
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('visualize')))
