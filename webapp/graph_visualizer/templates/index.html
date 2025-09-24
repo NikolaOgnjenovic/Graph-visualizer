@@ -212,12 +212,12 @@
     <!-- CLI Terminal -->
     <div class="cli-terminal-wrapper">
         <div class="cli-resize-handle"></div>
-        <div class="cli-terminal" id="cli-terminal">
+        <div class="cli-terminal collapsed" id="cli-terminal">
             <div class="cli-terminal-header">
                 <span>Graph Visualizer CLI</span>
-                <button class="cli-toggle-btn" onclick="toggleCLI()">−</button>
+                <button class="cli-toggle-btn" onclick="toggleCLI()">+</button>
             </div>
-            <div class="cli-terminal-content" id="cli-terminal-content">
+            <div class="cli-terminal-content" id="cli-terminal-content" style="display: none;">
                 <div class="cli-output" id="cli-output">
                     <div class="cli-message">Type 'help' for available commands</div>
                 </div>
@@ -430,12 +430,11 @@
         }
 
         // CLI functionality
-        let cliExpanded = true;
+        let cliExpanded = false;
         const cliTerminal = document.getElementById('cli-terminal');
         const cliContent = document.getElementById('cli-terminal-content');
         const cliOutput = document.getElementById('cli-output');
         const cliInput = document.getElementById('cli-input');
-        const resizeHandle = document.querySelector('.cli-resize-handle');
 
         function toggleCLI() {
             cliExpanded = !cliExpanded;
