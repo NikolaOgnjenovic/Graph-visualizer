@@ -532,10 +532,16 @@
 
         let isResizing = false;
 
-        resizeHandle.addEventListener('mousedown', function(e) {
-            isResizing = true;
-            document.addEventListener('mousemove', handleResize);
-            document.addEventListener('mouseup', stopResize);
+        document.addEventListener('DOMContentLoaded', function() {
+            const resizeHandle = document.querySelector('.cli-resize-handle');
+            
+            if (resizeHandle) {
+                resizeHandle.addEventListener('mousedown', function(e) {
+                    isResizing = true;
+                    document.addEventListener('mousemove', handleResize);
+                    document.addEventListener('mouseup', stopResize);
+                });
+            }
         });
 
         function handleResize(e) {
