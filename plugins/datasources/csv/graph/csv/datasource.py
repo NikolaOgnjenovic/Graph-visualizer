@@ -62,7 +62,7 @@ class CsvTreeLoader(DataSourcePlugin):
             node = ctx.new_node(node_name)
             for col_index, value in enumerate(row):
                 if col_index < len(headers) and value:
-                    node.add_attribute(headers[col_index], value)
+                    node.add_attribute(headers[col_index], self._convert_property_value(value))
             node.add_attribute("row_index", row_index)
             ctx.add_vertex(node)
             ctx.connect(root, node)  # Attach each node to ROOT by default
@@ -101,6 +101,24 @@ class CsvTreeLoader(DataSourcePlugin):
                             if edge_key not in created_edges:
                                 ctx.connect(node, target)
                                 created_edges.add(edge_key)
+
+    def _convert_property_value(self, value: str) -> any:
+        """Convert property value to appropriate type when creating nodes."""
+        
+        # Try integer conversion
+        try:
+            return int(value)
+        except ValueError:
+            pass
+        
+        # Try float conversion
+        try:
+            return float(value)
+        except ValueError:
+            pass
+        
+        # Return as string if no conversion possible
+        return value
 
 class _BuildContext:
     """Mutable build state used during a single load() call."""
